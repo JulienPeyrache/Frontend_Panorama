@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Panorama",
+  "name": "Panorama, l'outil MACIF qui référencie les services",
   "icons": [
     {
       "src": "favicon.ico",
