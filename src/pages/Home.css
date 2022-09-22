@@ -1,0 +1,20 @@
+div {
+    display: block;
+}
+
+.logo {
+    max-width: 50vw;
+    max-height: 50vw;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #cfda49;
+}
+
+h1 {
+    font-size: 3em;
+}
