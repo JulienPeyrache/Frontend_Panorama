@@ -1,17 +1,18 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function SearchBar() {
+interface FilterBarProps {
+    label: string;
+}
+
+export default function FilterBar(props: FilterBarProps): React.ReactElement {
   return (<div>
       <Autocomplete
-        id="searchbar-autocomplete"
-        style={{backgroundColor: "white", margin: "8%"}}
-        forcePopupIcon={true}
-        popupIcon={<SearchIcon />}
+        id="filterbar-autocomplete"
+        style={{backgroundColor: "white", margin: "2% 8%"}}
         options={top100Films.map((option) => option.title)}
-        renderInput={(params) => <TextField {...params} label="Entrez un service/bâtiment..." />}
+        renderInput={(params) => <TextField {...params} label={props.label} />}
       />
     </div>
     );

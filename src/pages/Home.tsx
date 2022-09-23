@@ -11,7 +11,7 @@ export const Home = () : React.ReactElement => {
         <h2>Bonjour Julie !</h2>
         <SearchBar />
         <div className="advancedsearch">
-            <Button variant='contained'>Recherche avancée</Button>
+            <Button variant='contained' href="advanced-search">Recherche avancée</Button>
         </div>
         </div>
     )
