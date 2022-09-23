@@ -10,7 +10,7 @@ export const Home = () : React.ReactElement => {
         <img className="logo" src={logo} alt="Logo MACIF" />
         <h2>Bonjour Julie !</h2>
         <SearchBar />
-        <div style={{display: "flex", justifyContent: "center"}}>
+        <div className="advancedsearch">
             <Button variant='contained'>Recherche avancée</Button>
         </div>
         </div>

@@ -7,7 +7,6 @@ export default function SearchBar() {
   return (<div style={{fill: "white"}}>
       <Autocomplete
         id="searchbar-autocomplete"
-        freeSolo
         style={{backgroundColor: "white", margin: "8%"}}
         forcePopupIcon={true}
         popupIcon={<SearchIcon />}
