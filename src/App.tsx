@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import "./App.css";
 import { Home } from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -23,6 +24,22 @@ function App(): React.ReactElement {
             </Routes>
         </BrowserRouter>
     );
+=======
+import './App.css';
+import { Home } from './pages/Home';
+import { Building } from './pages/Building';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+function App(): React.ReactElement {
+  return (
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path= "/building_test" element={<Building />} />
+        </Routes>
+    </BrowserRouter>
+  );
+>>>>>>> 4222ff4 (initial building page commit)
 }
 
 export default App;
