@@ -10,21 +10,15 @@ div {
     margin-right: auto;
 }
 
-h1, h2 {
+h1, h2, h3{
     text-align: center;
     color: #cfda49;
 }
 
+p{
+    color: #ffff
+}
+
 h1 {
     font-size: 3em;
-}
-
-.flex-container {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.flex-item {
-    order: 5;
-    flex-wrap: wrap;
 }
