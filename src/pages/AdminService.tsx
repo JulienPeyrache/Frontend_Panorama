@@ -13,7 +13,7 @@ export const AdminService = (): React.ReactElement => {
         <div className="home">
             <h1>Gestion des services</h1>
             <img className="logo" src={logo} alt="Logo MACIF" />
-            <FilterBar label='' />
+
             <Stack className="stack">
                 {elements}
             </Stack>
