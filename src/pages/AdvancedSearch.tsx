@@ -3,7 +3,7 @@ import FilterBar from "../components/FilterBar"
 import { Button } from "@mui/material"
 import logo from "../assets/logo_macif.png"
 import "./AdvancedSearch.css"
-import { listCity, listBuilding, listSite, listService } from "../components/Const"
+import { listChamps, listChampsFilterBar } from "../components/Const"
 
 export const AdvancedSearch = (): React.ReactElement => {
     return (
@@ -11,10 +11,7 @@ export const AdvancedSearch = (): React.ReactElement => {
             <h1>Recherche avancée</h1>
             <img className="logo" src={logo} alt="Logo MACIF" />
             <Stack className="stack">
-                <FilterBar label="Ville" list={listCity} />
-                <FilterBar label="Bâtiment" list={listBuilding} />
-                <FilterBar label="Type de service" list={listService} />
-                <FilterBar label="Service" list={listService} />
+                {listChampsFilterBar}
             </Stack>
             <div className="search">
                 <Button sx={{ marginBottom: '4%' }} variant='contained'>Rechercher</Button>
