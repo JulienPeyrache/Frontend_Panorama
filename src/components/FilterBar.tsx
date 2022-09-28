@@ -3,20 +3,25 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 interface FilterBarProps {
-    label: string;
+  label: string;
+  list: string[];
 }
+
+
 
 export default function FilterBar(props: FilterBarProps): React.ReactElement {
   return (<div>
-      <Autocomplete
-        id="filterbar-autocomplete"
-        style={{backgroundColor: "white", margin: "2% 8%"}}
-        options={top100Films.map((option) => option.title)}
-        renderInput={(params) => <TextField {...params} label={props.label} />}
-      />
-    </div>
-    );
+    <Autocomplete
+      id="filterbar-autocomplete"
+      style={{ backgroundColor: "white", margin: "2% 8%" }}
+      options={props.list.map((option) => option)}
+      renderInput={(params) => <TextField {...params} label={props.label} />}
+    />
+  </div>
+  );
 }
+
+
 
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },

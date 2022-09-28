@@ -5,17 +5,49 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 export default function SearchBar() {
   return (<div>
-      <Autocomplete
-        id="searchbar-autocomplete"
-        style={{backgroundColor: "white", margin: "8%"}}
-        forcePopupIcon={true}
-        popupIcon={<SearchIcon />}
-        options={top100Films.map((option) => option.title)}
-        renderInput={(params) => <TextField {...params} label="Entrez un service/bâtiment..." />}
-      />
-    </div>
-    );
+    <Autocomplete
+      id="searchbar-autocomplete"
+      style={{ backgroundColor: "white", margin: "8%" }}
+      forcePopupIcon={true}
+      popupIcon={<SearchIcon />}
+      options={top100Films.map((option) => option.title)}
+      renderInput={(params) => <TextField {...params} label="Entrez un service/bâtiment..." />}
+    />
+  </div>
+  );
 }
+const listCity = [
+  { ville: 'Paris' },
+  { ville: 'Niort' },
+  { ville: 'Nantes' },
+  { ville: 'Lyon' },
+  { ville: 'Quimper' }
+];
+
+const listBuilding = [
+  { ville: 'Paris' },
+  { ville: 'Niort' },
+  { ville: 'Nantes' },
+  { ville: 'Lyon' },
+  { ville: 'Quimper' }
+];
+
+const listSite = [
+  { ville: 'Paris' },
+  { ville: 'Niort' },
+  { ville: 'Nantes' },
+  { ville: 'Lyon' },
+  { ville: 'Quimper' }
+];
+
+const listService = [
+  { ville: 'Paris' },
+  { ville: 'Niort' },
+  { ville: 'Nantes' },
+  { ville: 'Lyon' },
+  { ville: 'Quimper' }
+];
+
 
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },
