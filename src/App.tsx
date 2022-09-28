@@ -2,7 +2,7 @@ import './App.css';
 import { Home } from './pages/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AdvancedSearch } from './pages/AdvancedSearch';
-import { AdminService } from './pages/AdminService';
+import { AdminHome } from './pages/AdminHome';
 
 function App(): React.ReactElement {
   return (
@@ -10,7 +10,8 @@ function App(): React.ReactElement {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/advanced-search" element={<AdvancedSearch />} />
-        <Route path="/admin-service" element={<AdminService />} />
+        <Route path="/admin" element={<AdminHome />} />
+
       </Routes>
     </BrowserRouter>
   );
