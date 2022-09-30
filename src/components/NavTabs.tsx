@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import { AdminService } from "../pages/AdminService";
+import { AdminEquipment } from "../pages/AdminEquipment";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -102,7 +103,7 @@ export default function NavTabs() {
                 <AdminService />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item One
+                <AdminEquipment />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Item One
