@@ -1,9 +1,9 @@
 // import { Stack } from "@mui/system"
-import FilterBar from "../components/FilterBar"
+import FilterBar from "../components/FilterBar";
 // import { Button } from "@mui/material"
-import "./AdminHome.css"
-import { useState } from "react"
-import NavTabs from "../components/NavTabs"
+import "./AdminHome.css";
+import { useState } from "react";
+import NavTabs from "../components/NavTabs";
 
 export const AdminHome = (): React.ReactElement => {
     return (
@@ -11,5 +11,5 @@ export const AdminHome = (): React.ReactElement => {
             <h1>Gestion des services</h1>
             <NavTabs />
         </div>
-    )
-}
+    );
+};

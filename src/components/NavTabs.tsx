@@ -1,9 +1,9 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import { AdminService } from '../pages/AdminService';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import { AdminService } from "../pages/AdminService";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -34,21 +34,22 @@ function TabPanel(props: TabPanelProps) {
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
+        "aria-controls": `simple-tabpanel-${index}`,
     };
 }
 
 interface LinkTabProps {
     label?: string;
     href?: string;
-    textColor?: string;
 }
 
 function LinkTab(props: LinkTabProps) {
     return (
         <Tab
             component="a"
-            onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+            onClick={(
+                event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+            ) => {
                 event.preventDefault();
             }}
             {...props}
@@ -64,19 +65,37 @@ export default function NavTabs() {
     };
 
     return (
-        <Box sx={{ color: 'white', width: '100%' }}>
-            <Box sx={{ color: 'white', borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ color: "white", width: "100%" }}>
+            <Box
+                sx={{ color: "white", borderBottom: 1, borderColor: "divider" }}
+            >
                 <Tabs
                     value={value}
-                    textColor='secondary'
-                    indicatorColor='secondary'
+                    textColor="secondary"
+                    indicatorColor="secondary"
                     onChange={handleChange}
                     aria-label="Test"
                 >
-                    <LinkTab label="Service" textColor='white' href="/admin-service" {...a11yProps(0)} />
-                    <LinkTab label="Équipement" textColor='white' href="/admin-equipment" {...a11yProps(1)} />
-                    <LinkTab label="Ajouter un service" textColor='white' href="/spam" {...a11yProps(2)} />
-                    <LinkTab label="Gestion Admin" textColor='white' href='./spam' {...a11yProps(3)} />
+                    <LinkTab
+                        label="Service"
+                        href="/admin-service"
+                        {...a11yProps(0)}
+                    />
+                    <LinkTab
+                        label="Équipement"
+                        href="/admin-equipment"
+                        {...a11yProps(1)}
+                    />
+                    <LinkTab
+                        label="Ajouter un service"
+                        href="/admin-add-service"
+                        {...a11yProps(2)}
+                    />
+                    <LinkTab
+                        label="Gestion Admin"
+                        href="/admin"
+                        {...a11yProps(3)}
+                    />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
