@@ -12,30 +12,30 @@ import {
     listChampsFilterBar,
     rowsParcours,
     theme,
+    baseURL
 } from "../components/Const";
 import { ThemeProvider } from "@mui/material";
+import axios from "axios";
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
-    { field: "code", headerName: "Code du parcours", width: 50 },
+    { field: "code_course", headerName: "Code du parcours", width: 50 },
     // { field: "label", headerName: "Libellé du glossaire", width: 150 },
+    { field: "label_course", headerName: "Libellé du parcours", width: 150 },
     { field: "description", headerName: "Description", width: 450 },
 ];
 
 export const MonitorAdmin = (): React.ReactElement => {
-    const [tableData, setTableData] = useState(rowsParcours);
-    // useEffect(() => {
-    //     fetch("https://jsonplaceholder.typicode.com/posts")
-    //         .then((data) => data.json())
-    //         .then((data) => setTableData(data));
-    // }, []);
-    console.log(columns, tableData);
+    const [tableData, setTableData] = useState([]);
 
+    useEffect(() => {
+        axios.get(baseURL+"/api/course")
+            .then((data) => setTableData(data.data));
+    }, []);
     return (
         <ThemeProvider theme={theme}>
             <div className="home">
-                <h1>Mes services</h1>
-                <Stack className="stack">{listChampsFilterBar}</Stack>
+                <h1>Parcours</h1>
                 <div style={{ display: "flex", height: "100%" }}>
                     <div style={{ flexGrow: 1 }}>
                         <DataGrid
