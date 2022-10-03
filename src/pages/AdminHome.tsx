@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 import { useState } from "react";
 import NavTabs from "../components/NavTabs";
 
-export const AdminHome = (): React.ReactElement => {
+export const MonitorHome = (): React.ReactElement => {
     return (
         <div className="admin_home">
             <h1>Gestion des services</h1>

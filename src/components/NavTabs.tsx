@@ -3,8 +3,9 @@ import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
-import { AdminService } from "../pages/AdminService";
-import { AdminEquipment } from "../pages/AdminEquipment";
+import { MonitorService } from "../pages/AdminService";
+import { MonitorEquipment } from "../pages/AdminEquipment";
+import { MonitorAdmin } from "../pages/AdminMonitor";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -94,22 +95,22 @@ export default function NavTabs() {
                     />
                     <LinkTab
                         label="Gestion Admin"
-                        href="/admin"
+                        href="/admin-monitoring"
                         {...a11yProps(3)}
                     />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <AdminService />
+                <MonitorService />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <AdminEquipment />
+                <MonitorEquipment />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Item One
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Item One
+                <MonitorAdmin />
             </TabPanel>
         </Box>
     );

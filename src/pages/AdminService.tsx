@@ -9,7 +9,7 @@ import "./AdminService.css";
 import { useState } from "react";
 import { listChamps, listChampsFilterBar } from "../components/Const";
 
-export const AdminService = (): React.ReactElement => {
+export const MonitorService = (): React.ReactElement => {
     const [liste, setListe] = useState(listChamps);
 
     return (

@@ -2,9 +2,10 @@ import "./App.css";
 import { Home } from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AdvancedSearch } from "./pages/AdvancedSearch";
-import { AdminHome } from "./pages/AdminHome";
-import { AdminService } from "./pages/AdminService";
-import { AdminEquipment } from "./pages/AdminEquipment";
+import { MonitorHome } from "./pages/AdminHome";
+import { MonitorService } from "./pages/AdminService";
+import { MonitorEquipment } from "./pages/AdminEquipment";
+import { MonitorAdmin } from "./pages/AdminMonitor";
 
 function App(): React.ReactElement {
     return (
@@ -12,9 +13,10 @@ function App(): React.ReactElement {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/advanced-search" element={<AdvancedSearch />} />
-                <Route path="/admin" element={<AdminHome />} />
-                <Route path="/admin-service" element={<AdminService />} />
-                <Route path="/admin-equipment" element={<AdminEquipment />} />
+                <Route path="/admin" element={<MonitorHome />} />
+                <Route path="/admin-service" element={<MonitorService />} />
+                <Route path="/admin-equipment" element={<MonitorEquipment />} />
+                <Route path="/admin-monitoring" element={<MonitorAdmin />} />
             </Routes>
         </BrowserRouter>
     );
