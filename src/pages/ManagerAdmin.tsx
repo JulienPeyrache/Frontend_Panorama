@@ -1,15 +1,8 @@
 import { Stack } from "@mui/system";
-// import FilterBar from "../components/FilterBar"
-// import { Button } from "@mui/material"
 import type {} from "@mui/x-data-grid/themeAugmentation";
-// import logo from "../assets/logo_macif.png";
-// import { Grid } from "@mui/material";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import "./ManagerAdmin.css";
-import { useState, useEffect } from "react";
-import { theme, baseURL } from "../components/Const";
-import { ThemeProvider } from "@mui/material";
-import axios from "axios";
+import { NavTabsTables } from "../components/NavTabs";
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
@@ -20,31 +13,5 @@ const columns: GridColDef[] = [
 ];
 
 export const ManagerAdmin = (): React.ReactElement => {
-    const [tableData, setTableData] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get(baseURL + "/api/course")
-            .then((data) => setTableData(data.data));
-    }, []);
-
-    return (
-        <ThemeProvider theme={theme}>
-            <div className="home">
-                <h1>Parcours</h1>
-                <div style={{ display: "flex", height: "100%" }}>
-                    <div style={{ flexGrow: 1 }}>
-                        <DataGrid
-                            columns={columns}
-                            rows={tableData}
-                            autoHeight={true}
-                            checkboxSelection={true}
-                            density="comfortable"
-                            editMode="cell"
-                        ></DataGrid>
-                    </div>
-                </div>
-            </div>
-        </ThemeProvider>
-    );
+    return <NavTabsTables />;
 };
