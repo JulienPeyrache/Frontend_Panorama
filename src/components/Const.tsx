@@ -1,5 +1,6 @@
 import FilterBar from "./FilterBar";
 import { GridRowsProp } from "@mui/x-data-grid";
+import { createTheme } from "@mui/material";
 export const listCity: string[] = [
     "Paris",
     "Niort",
@@ -14,6 +15,17 @@ export const listBuilding: string[] = [
     "Eiffel",
     "Le Phenix",
 ];
+
+export const theme = createTheme({
+    palette: {
+        primary: {
+            // light: will be calculated from palette.primary.main,
+            main: "#cfda49",
+            // dark: will be calculated from palette.primary.main,
+            // contrastText: will be calculated to contrast with palette.primary.main
+        },
+    },
+});
 
 export const listSite: string[] = ["01", "02", "03", "04", "04"];
 

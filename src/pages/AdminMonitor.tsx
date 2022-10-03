@@ -11,10 +11,12 @@ import {
     listChamps,
     listChampsFilterBar,
     rowsParcours,
+    theme,
 } from "../components/Const";
+import { ThemeProvider } from "@mui/material";
 
 const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 50 },
+    { field: "id", headerName: "ID" },
     { field: "code", headerName: "Code du parcours", width: 50 },
     // { field: "label", headerName: "Libellé du glossaire", width: 150 },
     { field: "description", headerName: "Description", width: 450 },
@@ -27,24 +29,26 @@ export const MonitorAdmin = (): React.ReactElement => {
     //         .then((data) => data.json())
     //         .then((data) => setTableData(data));
     // }, []);
+    console.log(columns, tableData);
 
     return (
-        <div className="home">
-            <h1>Mes services</h1>
-            <Stack className="stack">{listChampsFilterBar}</Stack>
-            <div style={{ display: "flex", height: "100%" }}>
-                <div style={{ flexGrow: 1 }}>
-                    <DataGrid
-                        columns={columns}
-                        rows={tableData}
-                        autoHeight={true}
-                        autoPageSize={true}
-                        checkboxSelection={true}
-                        density="comfortable"
-                        editMode="cell"
-                    ></DataGrid>
+        <ThemeProvider theme={theme}>
+            <div className="home">
+                <h1>Mes services</h1>
+                <Stack className="stack">{listChampsFilterBar}</Stack>
+                <div style={{ display: "flex", height: "100%" }}>
+                    <div style={{ flexGrow: 1 }}>
+                        <DataGrid
+                            columns={columns}
+                            rows={tableData}
+                            autoHeight={true}
+                            checkboxSelection={true}
+                            density="comfortable"
+                            editMode="cell"
+                        ></DataGrid>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ThemeProvider>
     );
 };
