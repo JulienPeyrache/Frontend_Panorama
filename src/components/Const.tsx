@@ -98,65 +98,75 @@ export const glossaire: GridRowsProp = [
             "IRP = Instance Représentative du Personnel. Tout projet d'aménagement de déménagement doit être soumis au CSSCT. Le CSSCT est une commission spécifique créée au sein du comité social et économique (CSE) qui traite des questions de santé, de sécurité et des conditions de travail.",
     },
 ];
-export const rowsParcours: GridRowsProp = [
+export const rowsCourse: GridRowsProp = [
     {
         id: 1,
-        code: "DEP",
+        code_course: "DEP",
+        label_course: "Se déplacer",
         description:
-            "Se déplacer. Proposer des infrastructures et des moyens de mobilité pour arriver sur le lieu de travail, se déplacer et réaliser ses missions professionnelles",
+            "Proposer des infrastructures et des moyens de mobilité pour arriver sur le lieu de travail, se déplacer et réaliser ses missions professionnelles",
     },
     {
         id: 2,
-        code: "ACC",
-        description:
-            "Etre accueilli. Accueillir et accompagner le parcours complet d’un occupant ou d’un visiteur",
+        "code_course": "ACC",
+        "label_course": "Etre accueilli",
+        "description":
+            "Accueillir et accompagner le parcours complet d’un occupant ou d’un visiteur"
     },
     {
         id: 3,
-        code: "ENT",
-        description:
-            "Disposer d'un environnement de travail sain et confortable	Assurer l'entretien, l'hygiène et le bon fonctionnement des locaux pour le confort et le bien être des occupants",
+        "code_course": "ENT",
+        "label_course": "Disposer d'un environnement de travail sain et confortable",
+        "description":
+            "Assurer l'entretien, l'hygiène et le bon fonctionnement des locaux pour le confort et le bien être des occupants"
     },
     {
         id: 4,
-        code: "EQS",
-        description:
-            "Disposer d'équipements et services adaptés pour travailler	Offrir des équipements et des services professionnels pour réaliser ses missions de travail",
+        "code_course": "EQS",
+        "label_course": "Disposer d'équipements et services adaptés pour travailler",
+        "description":
+            "Offrir des équipements et des services professionnels pour réaliser ses missions de travail"
     },
     {
         id: 5,
-        code: "COL",
-        description:
-            "Se réunir et collaborer	Mettre à disposition des espaces, ressources et outils digitaux pour favoriser la collaboration professionnelle",
+        "code_course": "COL",
+        "label_course": "Se réunir et collaborer",
+        "description":
+            "Mettre à disposition des espaces, ressources et outils digitaux pour favoriser la collaboration professionnelle"
     },
     {
         id: 6,
-        code: "ODE",
-        description:
-            "Organiser des événements	Organiser des événements clé en main et animer les sites",
+        "code_course": "ODE",
+        "label_course": "Organiser des événements",
+        "description":
+            "Organiser des événements clé en main et animer les sites"
     },
     {
         id: 7,
-        code: "RSD",
-        description:
-            "Se restaurer et se détendre	Disposer d'une offre de restauration et boissons ainsi que des espaces et services pour se détendre",
+        "code_course": "RSD",
+        "label_course": "Se restaurer et se détendre",
+        "description":
+            "Disposer d'une offre de restauration et boissons ainsi que des espaces et services pour se détendre"
     },
     {
         id: 8,
-        code: "SEC",
-        description:
-            "Assurer la santé, la sûreté et la sécurité	Garantir la sécurité, la sûreté et l'accès à des services pour la santé",
+        "code_course": "SEC",
+        "label_course": "Assurer la santé, la sûreté et la sécurité",
+        "description":
+            "Garantir la sécurité, la sûreté et l'accès à des services pour la santé"
     },
     {
         id: 9,
-        code: "PER",
-        description:
-            "Faciliter la vie personnelle au quotidien	Concilier vie personnelle et vie professionnelle",
+        "code_course": "PER",
+        "label_course": "Faciliter la vie personnelle au quotidien",
+        "description":
+            "Concilier vie personnelle et vie professionnelle"
     },
     {
         id: 10,
-        code: "ASS",
-        description:
-            "S'informer, assister et accompagner les utilisateurs	Assister et orienter l'utilisateur dans son parcours",
+        "code_course": "ASS",
+        "label_course": "S'informer, assister et accompagner les utilisateurs",
+        "description":
+            "Assister et orienter l'utilisateur dans son parcours"
     },
 ];

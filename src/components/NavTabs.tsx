@@ -89,14 +89,9 @@ export default function NavTabs() {
                         {...a11yProps(1)}
                     />
                     <LinkTab
-                        label="Ajouter un service"
-                        href="/admin-add-service"
-                        {...a11yProps(2)}
-                    />
-                    <LinkTab
                         label="Gestion Admin"
                         href="/admin-monitoring"
-                        {...a11yProps(3)}
+                        {...a11yProps(2)}
                     />
                 </Tabs>
             </Box>
@@ -107,9 +102,6 @@ export default function NavTabs() {
                 <MonitorEquipment />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item One
-            </TabPanel>
-            <TabPanel value={value} index={3}>
                 <MonitorAdmin />
             </TabPanel>
         </Box>

@@ -15,11 +15,7 @@ export const AdvancedSearch = (): React.ReactElement => {
                 <Button sx={{ marginBottom: "4%" }} variant="contained">
                     Rechercher
                 </Button>
-                <text id="return">
-                    <u>
-                        <a href="/">Retour</a>
-                    </u>
-                </text>
+                <Button href="/">Retour</Button>
             </div>
         </div>
     );

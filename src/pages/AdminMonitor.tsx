@@ -8,9 +8,6 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import "./AdminMonitor.css";
 import { useState, useEffect } from "react";
 import {
-    listChamps,
-    listChampsFilterBar,
-    rowsParcours,
     theme,
     baseURL
 } from "../components/Const";
@@ -21,8 +18,8 @@ const columns: GridColDef[] = [
     { field: "id", headerName: "ID" },
     { field: "code_course", headerName: "Code du parcours", width: 50 },
     // { field: "label", headerName: "Libellé du glossaire", width: 150 },
-    { field: "label_course", headerName: "Libellé du parcours", width: 150 },
-    { field: "description", headerName: "Description", width: 450 },
+    { field: "label_course", headerName: "Libellé du parcours", width: 500 },
+    { field: "description", headerName: "Description", width: 2000 },
 ];
 
 export const MonitorAdmin = (): React.ReactElement => {
@@ -32,6 +29,7 @@ export const MonitorAdmin = (): React.ReactElement => {
         axios.get(baseURL+"/api/course")
             .then((data) => setTableData(data.data));
     }, []);
+
     return (
         <ThemeProvider theme={theme}>
             <div className="home">
