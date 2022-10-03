@@ -6,15 +6,22 @@ import Typography from "@mui/material/Typography";
 import { ManagerService } from "../pages/ManagerService";
 import { ManagerEquipment } from "../pages/ManagerEquipment";
 import { ManagerAdmin } from "../pages/ManagerAdmin";
-import {
-    TabAttachedService,
-    TabBuilding,
-    TabSite,
-    TabItem,
-    TabService,
-    TabEquipment,
-    TabCourse,
-} from "../tabs";
+import { TabAttachedService } from "../tabs/TabAttachedService";
+import { TabBuilding } from "../tabs/TabBuilding";
+import { TabSite } from "../tabs/TabSite";
+import { TabItem } from "../tabs/TabItem";
+import { TabEquipment } from "../tabs/TabEquipment";
+import { TabCourse } from "../tabs/TabCourse";
+import { TabService } from "../tabs/TabService";
+
+//     TabAttachedService,
+//     TabBuilding,
+//     TabSite,
+//     TabItem,
+//     TabService,
+//     TabEquipment,
+//     TabCourse,
+// } from "../tabs";
 
 interface TabPanelProps {
     children?: React.ReactNode;

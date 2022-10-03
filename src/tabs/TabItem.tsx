@@ -18,7 +18,7 @@ const columns: GridColDef[] = [
     { field: "description", headerName: "Description", width: 2000 },
 ];
 
-export const ManagerAdmin = (): React.ReactElement => {
+export const TabItem = (): React.ReactElement => {
     const [tableData, setTableData] = useState([]);
 
     useEffect(() => {
