@@ -4,17 +4,16 @@ import InfoIcon from '@mui/icons-material/Info';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import WifiIcon from '@mui/icons-material/Wifi';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 interface ServiceInfo {
 
-    service: string;
-    service_info: string;
+    type: string;
+    name: string;
+    info: string;
+    
 
-}
-
-interface PaletteColor {
-    main: string;
 }
 
 const theme = createTheme({
@@ -30,15 +29,78 @@ const theme = createTheme({
 
 
 export default function ServiceItem(props:ServiceInfo) {
-    return(
-        <div style={{display:"flex", justifyContent:"space-evenly", flexDirection:"row", alignItems:"center", columnGap:"10px"}}>
+    if (props.type == 'Restaurant')
+    {
+        return(
+            <div style={{display:"flex", justifyContent:"space-evenly", flexDirection:"row", alignItems:"center", columnGap:"10px"}}>
                 <ThemeProvider theme={theme}>
                     <RestaurantIcon color="primary" style={{height:60, width:60}} />
                 </ThemeProvider>
-                <p> {props.service} </p>
-                <p> {props.service_info} </p>
+                <p> {props.name} </p>
+                <p> {props.info} </p>
                 <IconButton aria-label="information" color="info"> <InfoIcon />
                 </IconButton>
-            </div>
-    )
+                </div>
+        )
+    }
+    if (props.type == 'Cafe')
+    {
+        return(
+            <div style={{display:"flex", justifyContent:"space-evenly", flexDirection:"row", alignItems:"center", columnGap:"10px"}}>
+                <ThemeProvider theme={theme}>
+                    <LocalCafeIcon color="primary" style={{height:60, width:60}} />
+                </ThemeProvider>
+                <p> {props.name} </p>
+                <p> {props.info} </p>
+                <IconButton aria-label="information" color="info"> <InfoIcon />
+                </IconButton>
+                </div>
+        )
+    }
+    if (props.type == 'Parking')
+    {
+        return(
+            <div style={{display:"flex", justifyContent:"space-evenly", flexDirection:"row", alignItems:"center", columnGap:"10px"}}>
+                <ThemeProvider theme={theme}>
+                    <LocalParkingIcon color="primary" style={{height:60, width:60}} />
+                </ThemeProvider>
+                <p> {props.name} </p>
+                <p> {props.info} </p>
+                <IconButton aria-label="information" color="info"> <InfoIcon />
+                </IconButton>
+                </div>
+        )
+    }
+    if (props.type == 'Accueil')
+    {
+        return(
+            <div style={{display:"flex", justifyContent:"space-evenly", flexDirection:"row", alignItems:"center", columnGap:"10px"}}>
+                <ThemeProvider theme={theme}>
+                    <InfoIcon color="primary" style={{height:60, width:60}} />
+                </ThemeProvider>
+                <p> {props.name} </p>
+                <p> {props.info} </p>
+                <IconButton aria-label="information" color="info"> <InfoIcon />
+                </IconButton>
+                </div>
+        )
+    }
+    if (props.type == 'WiFi')
+    {
+        return(
+            <div style={{display:"flex", justifyContent:"space-evenly", flexDirection:"row", alignItems:"center", columnGap:"10px"}}>
+                <ThemeProvider theme={theme}>
+                    <WifiIcon color="primary" style={{height:60, width:60}} />
+                </ThemeProvider>
+                <p> {props.name} </p>
+                <p> {props.info} </p>
+                <IconButton aria-label="information" color="info"> <InfoIcon />
+                </IconButton>
+                </div>
+        )
+    }
+    else
+    {
+        return (<div>empty</div>)
+    }
 }

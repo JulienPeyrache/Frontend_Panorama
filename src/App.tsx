@@ -35,7 +35,7 @@ function App(): React.ReactElement {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path= "/building_test" element={<Building />} />
+            <Route path= "/building_test" element={<Building name='Bâtiment Pernet' parcours={['Se déplacer', 'Etre accueili', "Disposer d'un environnement de travail sain et confortable", "Disposer d'équipements et services adaptés pour travailler", "Se réunir et collaborer"]} />} />
         </Routes>
     </BrowserRouter>
   );
