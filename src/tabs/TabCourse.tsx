@@ -1,8 +1,7 @@
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import { theme, baseURL } from "../components/Const";
-import { ThemeProvider } from "@mui/material";
+import { baseURL } from "../components/Const";
 import axios from "axios";
 
 const columns: GridColDef[] = [
@@ -22,21 +21,19 @@ export const TabCourse = (): React.ReactElement => {
     }, []);
 
     return (
-        <ThemeProvider theme={theme}>
-            <div className="home">
-                <div style={{ display: "flex", height: "100%" }}>
-                    <div style={{ flexGrow: 1 }}>
-                        <DataGrid
-                            columns={columns}
-                            rows={tableData}
-                            autoHeight={true}
-                            checkboxSelection={true}
-                            density="comfortable"
-                            editMode="cell"
-                        ></DataGrid>
-                    </div>
+        <div className="home">
+            <div style={{ display: "flex", height: "100%" }}>
+                <div style={{ flexGrow: 1 }}>
+                    <DataGrid
+                        columns={columns}
+                        rows={tableData}
+                        autoHeight={true}
+                        checkboxSelection={true}
+                        density="comfortable"
+                        editMode="cell"
+                    ></DataGrid>
                 </div>
             </div>
-        </ThemeProvider>
+        </div>
     );
 };

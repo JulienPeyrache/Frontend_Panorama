@@ -1,13 +1,7 @@
-import { Stack } from "@mui/system";
-// import FilterBar from "../components/FilterBar"
-// import { Button } from "@mui/material"
 import type {} from "@mui/x-data-grid/themeAugmentation";
-// import logo from "../assets/logo_macif.png";
-// import { Grid } from "@mui/material";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import { theme, baseURL } from "../components/Const";
-import { ThemeProvider } from "@mui/material";
+import { baseURL } from "../components/Const";
 import axios from "axios";
 
 const columns: GridColDef[] = [
@@ -28,9 +22,6 @@ export const TabBuilding = (): React.ReactElement => {
     }, []);
 
     return (
-        <ThemeProvider theme={theme}>
-            <div className="home">
-                <h1>Parcours</h1>
                 <div style={{ display: "flex", height: "100%" }}>
                     <div style={{ flexGrow: 1 }}>
                         <DataGrid
@@ -43,7 +34,5 @@ export const TabBuilding = (): React.ReactElement => {
                         ></DataGrid>
                     </div>
                 </div>
-            </div>
-        </ThemeProvider>
     );
 };
