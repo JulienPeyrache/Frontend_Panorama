@@ -11,6 +11,9 @@ const theme = createTheme({
         main: '#cfda49',
         // dark: will be calculated from palette.primary.main,
         // contrastText: will be calculated to contrast with palette.primary.main
+      },
+      secondary: {
+        main: "#26367a"
       }
     },
   });
@@ -41,7 +44,7 @@ export const Building = ( props:BuildingInfo ) : React.ReactElement => {
             <ThemeProvider theme={theme}>
                 { props.parcours.map( parcours => {
                     return (
-                        <Button variant="contained" color="primary"> { parcours } </Button>
+                        <Button variant="contained" color="secondary"> { parcours } </Button>
                     )
                 }) }
             </ThemeProvider>
