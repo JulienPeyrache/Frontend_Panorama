@@ -3,8 +3,9 @@ import Item from "@mui/material/Unstable_Grid2";
 import { baseURL } from "../components/Const";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import FilterBar from "../components/FilterBar";
+import "./ManagerEquipment.css";
 
 export const ManagerEquipment = (): React.ReactElement => {
 	const [equipments, setEquipments] = useState<any[]>([]);
@@ -15,11 +16,15 @@ export const ManagerEquipment = (): React.ReactElement => {
 		any[]
 	>([]);
 
-	axios
-		.get(baseURL + "/api/equipment")
-		.then((res) => setEquipments(res.data));
+	useEffect(() => {
+		axios
+			.get(baseURL + "/api/equipment")
+			.then((res) => setEquipments(res.data));
 
-	axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
+		axios
+			.get(baseURL + "/api/building")
+			.then((res) => setBuildings(res.data));
+	}, []);
 
 	useEffect(() => {
 		if (chosenBuilding !== null) {
@@ -34,6 +39,8 @@ export const ManagerEquipment = (): React.ReactElement => {
 						)
 						.then((res) => setValuesEquipmentBuilding(res.data))
 				);
+		} else {
+			setValuesEquipmentBuilding([]);
 		}
 	}, [chosenBuilding]);
 
@@ -47,57 +54,82 @@ export const ManagerEquipment = (): React.ReactElement => {
 					setChosenBuilding(newValue);
 				}}
 			/>
-			<h1>{chosenBuilding}</h1>
+			<h2>{chosenBuilding}</h2>
 			<Grid2
 				container
 				spacing={2}
 				sx={{ color: "black", justifyContent: "center" }}
 			>
-				{equipments.map((equipment) => (
-					<Grid2
-						key={equipment.id}
-						xs="auto"
-						sx={{ display: "flex", flexDirection: "row" }}
+				{chosenBuilding !== null
+					? equipments.map((equipment) => (
+							<Grid2
+								key={equipment.id}
+								xs="auto"
+								sx={{ display: "flex", flexDirection: "row" }}
+							>
+								<Item
+									sx={{
+										display: "flex",
+										justifyContent: "center",
+										alignItems: "center",
+									}}
+								>
+									{equipment.label_equipment}
+								</Item>
+								<TextField
+									value={
+										valuesEquipmentBuilding[
+											equipment.id - 1
+										]
+											? valuesEquipmentBuilding[
+													equipment.id - 1
+											  ].description
+											: ""
+									}
+									onChange={(
+										event: React.ChangeEvent<HTMLInputElement>
+									) => {
+										setValuesEquipmentBuilding(
+											valuesEquipmentBuilding.map(
+												(value) =>
+													value.equipmentId ===
+													equipment.id
+														? {
+																...value,
+																description:
+																	event.target
+																		.value,
+														  }
+														: value
+											)
+										);
+									}}
+									sx={{
+										m: 1,
+										width: "10ch",
+										backgroundColor: "white",
+									}}
+								></TextField>
+							</Grid2>
+					  ))
+					: null}
+			</Grid2>
+			<Grid2 container sx={{ justifyContent: "center" }}>
+				{chosenBuilding !== null ? (
+					<Button
+						id="validation-button"
+						variant="contained"
+						onClick={() => {
+							axios.post(
+								baseURL +
+									"/api/value-equipment-building/updateAll",
+								valuesEquipmentBuilding
+							);
+						}}
 					>
-						<Item
-							sx={{
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							{equipment.label_equipment}
-						</Item>
-						<TextField
-							value={
-								valuesEquipmentBuilding[equipment.id - 1]
-									? valuesEquipmentBuilding[equipment.id - 1]
-											.description
-									: ""
-							}
-							onChange={(
-								event: React.ChangeEvent<HTMLInputElement>
-							) => {
-								setValuesEquipmentBuilding(
-									valuesEquipmentBuilding.map((value) =>
-										value.equipmentId === equipment.id
-											? {
-													...value,
-													description:
-														event.target.value,
-											  }
-											: value
-									)
-								);
-							}}
-							sx={{
-								m: 1,
-								width: "10ch",
-								backgroundColor: "white",
-							}}
-						></TextField>
-					</Grid2>
-				))}
+						Valider les modifications
+					</Button>
+				) : null}
 			</Grid2>
 		</>
 	);
