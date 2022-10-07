@@ -16,9 +16,9 @@ function App(): React.ReactElement {
         <Route path="/advanced-search" element={<AdvancedSearch />} />
         <Route path="/manager" element={<ManagerHome />} />
         <Route path="/manager-service" element={<ManagerService />} />
-        <Route path="/building_test" element={<Building id={1} />} />
         <Route path="/manager-equipment" element={<ManagerEquipment />} />
         <Route path="/manager-admin" element={<ManagerAdmin />} />
+        <Route path="/building/:id" element={<Building />} />
       </Routes>
     </BrowserRouter>
   );

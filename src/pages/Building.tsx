@@ -4,6 +4,7 @@ import ServiceItem from "../components/ServiceItem";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import BuildingList from "../pages/BuildingList";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import CourseButtons from "../components/CourseButtons";
 
@@ -33,8 +34,9 @@ interface BuildingData {
   typology_building?: string;
 }
 
-export const Building = (props: BuildingInfo): React.ReactElement => {
-  const url = "http://localhost:3000/api/building/" + props.id;
+export const Building = (): React.ReactElement => {
+  const id = useParams();
+  const url = "http://localhost:3000/api/building/" + id;
   const [data, setData] = useState<BuildingData>();
   const getData = async () => {
     const { data } = await axios.get<BuildingData>(url);
