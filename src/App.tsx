@@ -6,25 +6,22 @@ import { ManagerHome } from "./pages/ManagerHome";
 import { ManagerService } from "./pages/ManagerService";
 import { ManagerEquipment } from "./pages/ManagerEquipment";
 import { ManagerAdmin } from "./pages/ManagerAdmin";
-import { Building } from './pages/Building';
+import { Building } from "./pages/Building";
 
 function App(): React.ReactElement {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/advanced-search" element={<AdvancedSearch />} />
-                <Route path="/manager" element={<ManagerHome />} />
-                <Route path="/manager-service" element={<ManagerService />} />
-                <Route path= "/building_test" element={<Building name="Bâtiment Pernet" parcours={ ["Se déplacer", "Etre accueili", "Se réunir et collaborer"] }/>} />
-                <Route
-                    path="/manager-equipment"
-                    element={<ManagerEquipment />}
-                />
-                <Route path="/manager-admin" element={<ManagerAdmin />} />
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/advanced-search" element={<AdvancedSearch />} />
+        <Route path="/manager" element={<ManagerHome />} />
+        <Route path="/manager-service" element={<ManagerService />} />
+        <Route path="/building_test" element={<Building id={1} />} />
+        <Route path="/manager-equipment" element={<ManagerEquipment />} />
+        <Route path="/manager-admin" element={<ManagerAdmin />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
