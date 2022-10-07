@@ -13,10 +13,7 @@
     margin-bottom: 2em;
 }
 
-#return {
-    color: white;
-}
-
-a {
-    color: white;
+#validation-button {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
