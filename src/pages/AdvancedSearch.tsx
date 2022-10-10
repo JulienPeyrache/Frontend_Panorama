@@ -1,9 +1,8 @@
 import { Stack } from "@mui/system";
-import FilterBar from "../components/FilterBar";
 import { Button } from "@mui/material";
 import logo from "../assets/logo_macif.png";
 import "./AdvancedSearch.css";
-import { listChamps, listChampsFilterBar } from "../components/Const";
+import { listChampsFilterBar } from "../components/Const";
 
 export const AdvancedSearch = (): React.ReactElement => {
     return (
