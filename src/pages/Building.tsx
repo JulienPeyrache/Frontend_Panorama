@@ -7,6 +7,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import CourseButtons from "../components/CourseButtons";
+import { baseURL } from "../components/Const";
+import { setEnvironmentData } from "worker_threads";
 
 const theme = createTheme({
   palette: {
@@ -27,21 +29,29 @@ interface BuildingInfo {
 }
 
 interface BuildingData {
-  id?: number;
-  address?: string;
-  name_building?: string;
-  postal_code?: number;
-  typology_building?: string;
+  id: number;
+  name_building: string;
+  address: string;
+  postal_code: number;
+  city: string;
+  typology_building: string;
 }
 
 export const Building = (): React.ReactElement => {
-  const id = useParams();
-  const url = "http://localhost:3000/api/building/" + id;
-  const [data, setData] = useState<BuildingData>();
-  const getData = async () => {
-    const { data } = await axios.get<BuildingData>(url);
-    setData(data);
+  let { id } = useParams();
+  const url = baseURL + "/api/building/" + id;
+  const [data, setData] = useState<BuildingData>({
+    id: -1,
+    name_building: "Error",
+    address: "Error",
+    postal_code: -1,
+    city: "Error",
+    typology_building: "Error",
+  });
+  const getData = () => {
+    axios.get<BuildingData>(url).then((data) => setData(data.data));
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -49,7 +59,7 @@ export const Building = (): React.ReactElement => {
   return (
     <div className="building">
       <h1>Recherche</h1>
-      <h2> {data?.name_building} </h2>
+      <h2> {data.name_building} </h2>
       <p> Description du bâtiment (horaires) </p>
       <h3>Services Disponibles:</h3>
       <div
@@ -85,7 +95,7 @@ export const Building = (): React.ReactElement => {
           columnGap: "20px",
         }}
       >
-        <CourseButtons />
+        <CourseButtons id_building={data.id} />
       </div>
       <Box textAlign="center">
         <Button href="/">Retour</Button>
