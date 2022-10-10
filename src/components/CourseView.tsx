@@ -75,24 +75,25 @@ export default function CourseView(props: CourseProps): React.ReactElement {
     });
   }, [dataItem]);
 
-  const items: any[] = [];
-  const site_ids: number[] = [];
+  let items: any[] = [];
+  let site_ids: number[] = [];
 
   dataSite.forEach((site) => {
     site_ids.push(site.id);
   });
 
   dataValueItemSite.forEach((item) => {
-    if (!site_ids.includes(item.siteId)) {
-      items.push(item);
+    if (site_ids.includes(item.siteId)) {
+      items = items.concat(item);
     }
+    console.log("item list", items);
   });
 
   return (
     <div>
       {items.map((item) => {
         console.log(item.description);
-        return <p> {item.description} </p>;
+        return <div> {item.description} </div>;
       })}
     </div>
   );
