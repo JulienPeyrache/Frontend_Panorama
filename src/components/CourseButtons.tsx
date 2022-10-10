@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { baseURL } from "../components/Const";
 import { Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import CourseView from "../components/CourseView";
 import axios from "axios";
 
 const theme = createTheme({
@@ -44,25 +43,27 @@ export default function CourseButtons(
   }, []);
   return (
     <ThemeProvider theme={theme}>
-      {data.map((course) => {
-        return (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              flexDirection: "row",
-              flexWrap: "nowrap",
-              rowGap: "20px",
-              columnGap: "20px",
-            }}
-          >
-            <Button variant="contained" color="secondary">
-              {course.label_course}
-            </Button>
-            <CourseView id_building={props.id_building} course_data={course} />
-          </div>
-        );
-      })}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          flexDirection: "column",
+          alignItems: "center",
+          columnGap: "10px",
+          rowGap: "10px",
+          flexWrap: "wrap",
+        }}
+      >
+        {data.map((course) => {
+          return (
+            <div>
+              <Button variant="contained" color="secondary">
+                {course.label_course}
+              </Button>
+            </div>
+          );
+        })}
+      </div>
     </ThemeProvider>
   );
 }
