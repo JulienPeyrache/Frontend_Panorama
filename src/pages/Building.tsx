@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import CourseButtons from "../components/CourseButtons";
+import CourseList from "../components/CourseList";
 import { baseURL } from "../components/Const";
 
 const theme = createTheme({
@@ -101,7 +101,7 @@ export const Building = (): React.ReactElement => {
         </Box>
       </ThemeProvider>
       <p></p>
-      <CourseButtons id_building={data.id} />
+      <CourseList id_building={data.id} />
       <Box textAlign="center">
         <Button href="/">Retour</Button>
       </Box>

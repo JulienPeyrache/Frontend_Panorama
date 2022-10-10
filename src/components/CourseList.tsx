@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { baseURL } from "../components/Const";
-import { Button } from "@mui/material";
+import { baseURL } from "./Const";
+import { Button, Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CourseButton from "../components/CourseButton";
 import axios from "axios";
 
 const theme = createTheme({
@@ -29,7 +30,7 @@ interface CourseButtonsProps {
   id_building: number;
 }
 
-export default function CourseButtons(
+export default function CourseList(
   props: CourseButtonsProps
 ): React.ReactElement {
   const [data, setData] = useState<CourseData[]>([]);
@@ -57,9 +58,7 @@ export default function CourseButtons(
         {data.map((course) => {
           return (
             <div>
-              <Button variant="contained" color="secondary">
-                {course.label_course}
-              </Button>
+              <CourseButton course={course} id_building={props.id_building} />
             </div>
           );
         })}
