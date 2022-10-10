@@ -227,9 +227,28 @@ export const TabCourse = (): React.ReactElement => {
 
 	const handleSaveClick = (id: GridRowId) => () => {
 		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+		// const currentRow = rows.find((row) => row.id === id);
+		// const idCourse = currentRow?.id;
+		// const codeCourse = currentRow?.code_course;
+		// const labelCourse = currentRow?.label_course;
+		// const description = currentRow?.description;
+		// const TempCourse: Course = {
+		// 	description: description,
+		// 	label_course: labelCourse,
+		// 	code_course: codeCourse,
+		// };
+		// console.log(idCourse);
+		// console.log("Coucou patch");
+		// axios.patch(baseURL + "/api/course/" + idCourse, TempCourse);
+		// console.log(TempCourse);
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
+		const currentRow = rows.find((row) => row.id === id);
+		const idCurrentRow = currentRow?.id;
+		console.log(idCurrentRow);
+		console.log("Delete");
+		axios.delete(baseURL + "/api/course/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
 
@@ -247,7 +266,21 @@ export const TabCourse = (): React.ReactElement => {
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
+		const idCourse = newRow?.id;
+		const codeCourse = newRow?.code_course;
+		const labelCourse = newRow?.label_course;
+		const description = newRow?.description;
+		const TempCourse: Course = {
+			description: description,
+			label_course: labelCourse,
+			code_course: codeCourse,
+		};
+		console.log(idCourse);
+		console.log("Patch");
+		axios.patch(baseURL + "/api/course/" + idCourse, TempCourse);
+		console.log(TempCourse);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
 		return updatedRow;
 	};
 
