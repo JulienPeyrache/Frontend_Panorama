@@ -31,26 +31,14 @@ export interface Course {
 	description: string;
 }
 
-// export interface State extends SnackbarOrigin {
-// 	open: boolean;
-// }
-
-// interface EditToolbarProps {
-// 	setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-// 	setRowModesModel: (
-// 		newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-// 	) => void;
-// }
-
 export const TabCourse = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 	const [newCourse, setNewCourse] = useState<Course | null>(null);
-	// const [openSnackBar, setOpenSnackBar] = useState(false);
-	// const [messageSnackBar, setMessageSnackBar] = useState<string>("");
+
 	useEffect(() => {
 		axios.get(baseURL + "/api/course").then((data) => setRows(data.data));
-		console.log("Coucou");
+		console.log("Get");
 	}, [newCourse]);
 
 	function EditToolbar() {
@@ -67,7 +55,9 @@ export const TabCourse = (): React.ReactElement => {
 				>
 					<Grid2
 						key="codeCourse"
-						xs="auto"
+						xs={12}
+						sm={4}
+						md={3}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -87,14 +77,16 @@ export const TabCourse = (): React.ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								width: "10ch",
+								flexGrow: 1,
 								backgroundColor: "white",
 							}}
 						></TextField>
 					</Grid2>
 					<Grid2
 						key="labelCourse"
-						xs="auto"
+						xs={12}
+						sm={4}
+						md={3}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -114,14 +106,16 @@ export const TabCourse = (): React.ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								width: "10ch",
+								width: "auto",
 								backgroundColor: "white",
 							}}
 						></TextField>
 					</Grid2>
 					<Grid2
 						key="description"
-						xs="auto"
+						xs={12}
+						sm={6}
+						md={6}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -141,7 +135,7 @@ export const TabCourse = (): React.ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								width: "10ch",
+								flexGrow: 1,
 								backgroundColor: "white",
 							}}
 						></TextField>
@@ -173,19 +167,7 @@ export const TabCourse = (): React.ReactElement => {
 								console.log(TempCourse);
 								axios.post(baseURL + "/api/course", TempCourse);
 								setNewCourse(TempCourse);
-								// axios
-								// 	.get(baseURL + "api/course/findByCode/" + newCodeCourse)
-								// 	.then((res) => {
-								// 		if (newCourse == res.data) {
-								// 			setMessageSnackBar("Nouveau parcours ajouté");
-								// 			setOpenSnackBar(true);
-								// 		} else {
-								// 			setMessageSnackBar(
-								// 				"Il semblerait que cela n'ait pas fonctionné... :/"
-								// 			);
-								// 			setOpenSnackBar(true);
-								// 		}
-								// });
+
 								setNewDescription("");
 								setNewLabelCourse("");
 								setNewCodeCourse("");
@@ -196,12 +178,6 @@ export const TabCourse = (): React.ReactElement => {
 					>
 						Ajouter un nouveau parcours
 					</Button>
-					{/* <Snackbar
-						anchorOrigin={{ horizontal: "right", vertical: "top" }}
-						open={openSnackBar}
-						onClose={() => setOpenSnackBar(false)}
-						message={messageSnackBar}
-					/> */}
 				</Grid2>
 			</GridToolbarContainer>
 		);
@@ -227,20 +203,6 @@ export const TabCourse = (): React.ReactElement => {
 
 	const handleSaveClick = (id: GridRowId) => () => {
 		setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-		// const currentRow = rows.find((row) => row.id === id);
-		// const idCourse = currentRow?.id;
-		// const codeCourse = currentRow?.code_course;
-		// const labelCourse = currentRow?.label_course;
-		// const description = currentRow?.description;
-		// const TempCourse: Course = {
-		// 	description: description,
-		// 	label_course: labelCourse,
-		// 	code_course: codeCourse,
-		// };
-		// console.log(idCourse);
-		// console.log("Coucou patch");
-		// axios.patch(baseURL + "/api/course/" + idCourse, TempCourse);
-		// console.log(TempCourse);
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
@@ -285,7 +247,7 @@ export const TabCourse = (): React.ReactElement => {
 	};
 
 	const columns: GridColumns = [
-		{ field: "id", headerName: "ID", editable: false },
+		{ field: "id", headerName: "ID", editable: false, hide: true },
 		{
 			field: "code_course",
 			headerName: "Code du parcours",
@@ -356,7 +318,7 @@ export const TabCourse = (): React.ReactElement => {
 					columns={columns}
 					rows={rows}
 					autoHeight={true}
-					checkboxSelection={true}
+					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
 					rowModesModel={rowModesModel}
