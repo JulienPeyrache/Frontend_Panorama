@@ -103,6 +103,7 @@ export const ManagerEquipment = (): React.ReactElement => {
 				}}
 			/>
 			<h2>{chosenBuildingSite}</h2>
+			{chosenSiteId && <p>(en rouge : les équipement liés au bâtiment)</p>}
 			<Grid2
 				container
 				spacing={2}
