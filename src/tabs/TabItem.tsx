@@ -280,7 +280,7 @@ export const TabItem = (): ReactElement => {
 		const idCurrentRow = currentRow?.id;
 		console.log(idCurrentRow);
 		console.log("Delete");
-		axios.delete(baseURL + "/api/course/" + idCurrentRow);
+		axios.delete(baseURL + "/api/item/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
 
@@ -298,19 +298,21 @@ export const TabItem = (): ReactElement => {
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
-		const idCourse = newRow?.id;
-		const codeCourse = newRow?.code_course;
-		const labelCourse = newRow?.label_course;
-		const description = newRow?.description;
-		const TempCourse: Course = {
-			description: description,
-			label_course: labelCourse,
-			code_course: codeCourse,
+		const idItem = newRow?.id;
+		const labelItem = newRow?.label_item;
+		const isOccupantInfo = newRow?.is_occupant_info;
+		const attachedService = newRow?.attachedService;
+		const default_value = newRow?.default_value;
+		const item: Item = {
+			label_item: labelItem,
+			is_occupant_info: isOccupantInfo,
+			attachedService: attachedService,
+			default_value: default_value,
 		};
-		console.log(idCourse);
+		console.log(item);
 		console.log("Patch");
-		axios.patch(baseURL + "/api/course/" + idCourse, TempCourse);
-		console.log(TempCourse);
+		axios.patch(baseURL + "/api/item/" + idItem, item);
+		console.log(item);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;
@@ -319,21 +321,21 @@ export const TabItem = (): ReactElement => {
 	const columns: GridColumns = [
 		{ field: "id", headerName: "ID", editable: false, hide: true },
 		{
-			field: "code_course",
-			headerName: "Code du parcours",
+			field: "label-item",
+			headerName: "Libellé de l'item",
 			type: "string",
 			editable: true,
 		},
 		{
-			field: "label_course",
-			headerName: "Libellé du parcours",
+			field: "default-value",
+			headerName: "Valeur par défaut",
 			type: "string",
 			editable: true,
 		},
 		{
-			field: "description",
-			headerName: "Description",
-			type: "string",
+			field: "is-occupant-info",
+			headerName: "Accessible aux occupants",
+			type: "boolean",
 			editable: true,
 		},
 		{
@@ -383,7 +385,7 @@ export const TabItem = (): ReactElement => {
 	return (
 		<div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 			<div style={{ flexGrow: 1 }}>
-				<h2> Liste des parcours </h2>
+				<h2> Liste des items </h2>
 				<DataGrid
 					columns={columns}
 					rows={rows}

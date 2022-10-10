@@ -260,7 +260,7 @@ export const TabEquipment = (): React.ReactElement => {
 	return (
 		<div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 			<div style={{ flexGrow: 1 }}>
-				<h2> Liste des parcours </h2>
+				<h2> Liste des équipements </h2>
 				<DataGrid
 					columns={columns}
 					rows={rows}
