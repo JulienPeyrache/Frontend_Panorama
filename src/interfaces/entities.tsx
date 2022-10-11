@@ -6,3 +6,10 @@ export interface Building {
 	city: string;
 	typology_building: string;
 }
+
+export interface ValueEquipmentBuilding {
+	id: number;
+	equipmentId: number;
+	buildingId: number;
+	description: string;
+}
