@@ -24,11 +24,7 @@ import {
 	GridRowId,
 	GridRowModel,
 } from "@mui/x-data-grid";
-export interface Course {
-	code_course: string;
-	label_course: string;
-	description: string;
-}
+import { Course } from "../interfaces/entities";
 
 export const TabCourse = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);

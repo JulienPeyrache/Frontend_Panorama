@@ -26,29 +26,12 @@ import {
 	GridRowModel,
 } from "@mui/x-data-grid";
 import FilterBar from "../components/FilterBar";
-
-export interface AttachedService {
-	id: number;
-	label_attached_service: string;
-	serviceId: number;
-}
-export interface Item {
-	label_item: string;
-	default_value?: string;
-	is_occupant_info: boolean;
-	attachedService: AttachedService;
-}
-
-export interface Course {
-	code_course: string;
-	label_course: string;
-	description: string;
-}
+import { AttachedService, ItemMacif } from "../interfaces/entities";
 
 export const TabItem = (): ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-	const [newItem, setNewItem] = useState<Item | null>(null);
+	const [newItem, setNewItem] = useState<ItemMacif | null>(null);
 
 	useEffect(() => {
 		axios.get(baseURL + "/api/item").then((data) => setRows(data.data));
@@ -230,7 +213,7 @@ export const TabItem = (): ReactElement => {
 						startIcon={<AddIcon />}
 						onClick={() => {
 							if (newLabelItem !== "" && newAttachedService !== null) {
-								const TempItem: Item = {
+								const TempItem: ItemMacif = {
 									label_item: newLabelItem,
 									is_occupant_info: newOccupantInfo,
 									attachedService: newAttachedService,
@@ -305,7 +288,7 @@ export const TabItem = (): ReactElement => {
 		const isOccupantInfo = newRow?.is_occupant_info;
 		const attachedService = newRow?.attachedService;
 		const default_value = newRow?.default_value;
-		const item: Item = {
+		const item: ItemMacif = {
 			label_item: labelItem,
 			is_occupant_info: isOccupantInfo,
 			attachedService: attachedService,

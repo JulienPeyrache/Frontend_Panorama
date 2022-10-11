@@ -25,18 +25,7 @@ import {
 	GridRowModel,
 } from "@mui/x-data-grid";
 import FilterBar from "../components/FilterBar";
-export interface Course {
-	code_course: string;
-	label_course: string;
-	description: string;
-}
-
-export interface Equipment {
-	label_equipment: string;
-}
-export interface EquipmentLocation extends Equipment {
-	site_or_building: string;
-}
+import { Equipment } from "../interfaces/entities";
 
 export const TabEquipment = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);

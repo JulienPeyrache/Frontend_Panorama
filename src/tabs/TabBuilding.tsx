@@ -7,28 +7,7 @@ import { Button, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
-
-export enum TypologyBuilding {
-	MIXTE = "Mixte",
-	PAP = "PAP",
-	TECHNIQUE = "Technique",
-	TERTIAIRE = "Tertiaire",
-}
-export interface Building {
-	id: number;
-	name_building: string;
-	address: string;
-	postal_code: number;
-	city: string;
-	typology_building: TypologyBuilding;
-}
-
-export interface Course {
-	code_course: string;
-	label_course: string;
-	description: string;
-}
-
+import { Course } from "../interfaces/entities";
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID" },
 	{ field: "code_course", headerName: "Code du parcours", width: 50 },

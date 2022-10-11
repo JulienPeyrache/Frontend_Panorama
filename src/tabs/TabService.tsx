@@ -7,13 +7,7 @@ import { Button, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
-import { Course } from "./TabCourse";
-
-export interface Service {
-	code_service: string;
-	label_service: string;
-	course: Course;
-}
+import { Course } from "../interfaces/entities";
 
 const columns: GridColDef[] = [
 	{ field: "id", headerName: "ID" },

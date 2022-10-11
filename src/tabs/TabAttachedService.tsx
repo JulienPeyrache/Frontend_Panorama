@@ -25,23 +25,7 @@ import {
 	GridRowModel,
 } from "@mui/x-data-grid";
 import FilterBar from "../components/FilterBar";
-import { NullLiteral } from "typescript";
-
-export interface AttachedService {
-	label_attached_service: string;
-	service: Service;
-}
-export interface Course {
-	code_course: string;
-	label_course: string;
-	description: string;
-}
-
-export interface Service {
-	code_service: string;
-	label_service: string;
-	course: Course;
-}
+import { Service, AttachedService } from "../interfaces/entities";
 
 export const TabAttachedService = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
