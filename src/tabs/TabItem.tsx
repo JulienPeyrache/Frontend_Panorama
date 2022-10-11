@@ -154,38 +154,16 @@ export const TabItem = (): ReactElement => {
 							Est une information accessible aux occupants :
 						</Item>
 						<div className="select-container">
-							{/* <FilterBar
-							label="..."
-							liste={["Site", "Bâtiment"]}
-							value={newLocationEquipment}
-							onChange={(event: any, newValue: string | null) => {
-								setNewLocationEquipment(newValue);
-							}}
-						/> */}
-							<Select
-								onChange={(event: any) => {
-									const newValue = event.target.value;
-									if (newValue === 1) {
-										setNewOccupantInfo(true);
-									} else {
-										setNewOccupantInfo(false);
-									}
+							<FilterBar
+								label="..."
+								liste={["Oui", "Non"]}
+								value={newOccupantInfo ? "Oui" : "Non"}
+								onChange={(event: any, newValue: string | null) => {
+									newValue === "Oui"
+										? setNewOccupantInfo(true)
+										: setNewOccupantInfo(false);
 								}}
-								sx={{
-									m: 1,
-									flexGrow: 1,
-									backgroundColor: "white",
-								}}
-							>
-								<option value={1}>
-									Oui, cette information est accessible à tous les
-									collaborateurs
-								</option>
-								<option value={2}>
-									Non, cette information n'est pas accessible à tous les
-									collaborateurs
-								</option>
-							</Select>
+							/>
 						</div>
 					</Grid2>
 					<Grid2
