@@ -24,10 +24,12 @@ import {
 	GridRowId,
 	GridRowModel,
 } from "@mui/x-data-grid";
+import FilterBar from "../components/FilterBar";
+import { NullLiteral } from "typescript";
 
 export interface AttachedService {
 	label_attached_service: string;
-	service: string;
+	service: Service;
 }
 export interface Course {
 	code_course: string;
@@ -35,9 +37,16 @@ export interface Course {
 	description: string;
 }
 
+export interface Service {
+	code_service: string;
+	label_service: string;
+	course: Course;
+}
+
 export const TabAttachedService = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+	const [newServiceList, setNewServiceList] = useState<Service[]>([]);
 	const [newAttachedService, setNewAttachedService] =
 		useState<AttachedService | null>(null);
 
@@ -45,13 +54,22 @@ export const TabAttachedService = (): React.ReactElement => {
 		axios
 			.get(baseURL + "/api/Attached-Service")
 			.then((data) => setRows(data.data));
-		console.log("Get");
+		console.log("Get attached service");
 	}, [newAttachedService]);
+
+	useEffect(() => {
+		axios
+			.get(baseURL + "/api/service")
+			.then((data) => setNewServiceList(data.data));
+		console.log("Get services");
+	}, []);
 
 	function EditToolbar() {
 		const [newLabelAttachedService, setNewLabelAttachedService] =
 			useState<string>("");
-		const [newService, setNewService] = useState<string>("");
+		const [newService, setNewService] = useState<Service | undefined | null>(
+			null
+		);
 
 		return (
 			<GridToolbarContainer>
@@ -101,28 +119,32 @@ export const TabAttachedService = (): React.ReactElement => {
 						>
 							Service :
 						</Item>
-						<TextField
-							value={newService}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								const newValue = event.target.value;
-								setNewService(newValue);
+						<FilterBar
+							label="..."
+							liste={newServiceList.map((service) => service.label_service)}
+							onChange={(event: any, newValue: string | null) => {
+								const service = newServiceList.find(
+									(service) => service.label_service === newValue
+								);
+								service !== undefined
+									? setNewService(service)
+									: setNewService(null);
 							}}
-							sx={{
-								m: 1,
-								width: "10ch",
-								backgroundColor: "white",
-							}}
-						></TextField>
+						/>
 					</Grid2>
 				</Grid2>
 				<Grid2 container sx={{ justifyContent: "center" }}>
 					<Button
 						id="validation-button"
-						disabled={!(newService !== "" && newLabelAttachedService !== "")}
+						disabled={!(newService !== null && newLabelAttachedService !== "")}
 						variant="contained"
 						startIcon={<AddIcon />}
 						onClick={() => {
-							if (newService !== "" && newLabelAttachedService !== "") {
+							if (
+								newService !== null &&
+								newService !== undefined &&
+								newLabelAttachedService !== ""
+							) {
 								const TempAttachedService: AttachedService = {
 									label_attached_service: newLabelAttachedService,
 									service: newService,
@@ -133,7 +155,7 @@ export const TabAttachedService = (): React.ReactElement => {
 									TempAttachedService
 								);
 
-								setNewService("");
+								setNewService(null);
 								setNewLabelAttachedService("");
 							} else {
 								setNewAttachedService(null);
@@ -220,12 +242,6 @@ export const TabAttachedService = (): React.ReactElement => {
 			editable: true,
 		},
 		{ field: "service", headerName: "Service", type: "string", editable: true },
-		{
-			field: "description",
-			headerName: "Description",
-			type: "string",
-			editable: true,
-		},
 		{
 			field: "actions",
 			type: "actions",
