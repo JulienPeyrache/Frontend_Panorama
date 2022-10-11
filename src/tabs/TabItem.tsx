@@ -25,6 +25,7 @@ import {
 	GridRowId,
 	GridRowModel,
 } from "@mui/x-data-grid";
+import FilterBar from "../components/FilterBar";
 
 export interface AttachedService {
 	id: number;
@@ -153,8 +154,16 @@ export const TabItem = (): ReactElement => {
 							Est une information accessible aux occupants :
 						</Item>
 						<div className="select-container">
+							{/* <FilterBar
+							label="..."
+							liste={["Site", "Bâtiment"]}
+							value={newLocationEquipment}
+							onChange={(event: any, newValue: string | null) => {
+								setNewLocationEquipment(newValue);
+							}}
+						/> */}
 							<Select
-								onChange={(event: SelectChangeEvent<number>) => {
+								onChange={(event: any) => {
 									const newValue = event.target.value;
 									if (newValue === 1) {
 										setNewOccupantInfo(true);
@@ -172,9 +181,9 @@ export const TabItem = (): ReactElement => {
 									Oui, cette information est accessible à tous les
 									collaborateurs
 								</option>
-								<option value={0}>
+								<option value={2}>
 									Non, cette information n'est pas accessible à tous les
-									collaborateurs{" "}
+									collaborateurs
 								</option>
 							</Select>
 						</div>
@@ -195,7 +204,22 @@ export const TabItem = (): ReactElement => {
 						>
 							Service rattaché :
 						</Item>
-						<Select
+						<FilterBar
+							label="..."
+							liste={newAttachedServicesList.map(
+								(service) => service.label_attached_service
+							)}
+							onChange={(event: any, newValue: string | null) => {
+								const attachedService = newAttachedServicesList.find(
+									(attachedService) =>
+										attachedService.label_attached_service === newValue
+								);
+								if (typeof attachedService !== "undefined") {
+									setNewAttachedService(attachedService);
+								}
+							}}
+						/>
+						{/* <Select
 							onChange={(event: SelectChangeEvent<number>) => {
 								const attachedService = newAttachedServicesList.find(
 									(attachedService) => attachedService.id === event.target.value
@@ -217,7 +241,7 @@ export const TabItem = (): ReactElement => {
 									</option>
 								)
 							)}
-						</Select>
+						</Select> */}
 					</Grid2>
 				</Grid2>
 				<Grid2 container sx={{ justifyContent: "center" }}>
