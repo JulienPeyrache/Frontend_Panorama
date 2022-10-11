@@ -24,6 +24,7 @@ import {
 	GridRowId,
 	GridRowModel,
 } from "@mui/x-data-grid";
+import FilterBar from "../components/FilterBar";
 export interface Course {
 	code_course: string;
 	label_course: string;
@@ -49,8 +50,6 @@ export const TabEquipment = (): React.ReactElement => {
 
 	function EditToolbar() {
 		const [newLabelEquipment, setNewLabelEquipment] = useState<string>("");
-		const [newLocationEquipment, setNewLocationEquipment] =
-			useState<string>("Site");
 
 		return (
 			<GridToolbarContainer>
@@ -88,43 +87,15 @@ export const TabEquipment = (): React.ReactElement => {
 							}}
 						></TextField>
 					</Grid2>
-					<Grid2
-						key="location-equipment"
-						xs={12}
-						sm={4}
-						md={3}
-						sx={{ display: "flex", flexDirection: "row" }}
-					>
-						<Item
-							sx={{
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							Équipement propre au site ou commune au bâtiment ?
-						</Item>
-						<Select
-							value={newLocationEquipment}
-							onChange={(event: SelectChangeEvent<string>) => {
-								setNewLocationEquipment(event.target.value as string);
-							}}
-						>
-							<option value="Site">Site</option>
-							<option value="Bâtiment">Bâtiment</option>
-						</Select>
-					</Grid2>
 				</Grid2>
 				<Grid2 container sx={{ justifyContent: "center" }}>
 					<Button
 						id="validation-button"
-						disabled={
-							!(newLabelEquipment !== "" && newLocationEquipment !== "")
-						}
+						disabled={!(newLabelEquipment !== "")}
 						variant="contained"
 						startIcon={<AddIcon />}
 						onClick={() => {
-							if (newLabelEquipment !== "" && newLocationEquipment !== "") {
+							if (newLabelEquipment !== "") {
 								const TempEquipment: Equipment = {
 									label_equipment: newLabelEquipment,
 								};
@@ -132,7 +103,6 @@ export const TabEquipment = (): React.ReactElement => {
 								axios.post(baseURL + "/api/equipment", TempEquipment);
 								setNewEquipment(TempEquipment);
 								setNewLabelEquipment("");
-								setNewLocationEquipment("");
 							} else {
 								setNewEquipment(null);
 							}
