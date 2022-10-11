@@ -3,19 +3,18 @@ import { useEffect, useState } from "react";
 import { baseURL } from "../components/Const";
 import FilterBar from "../components/FilterBar";
 import axios from "axios";
-import { Building, Site } from "../interfaces/entities";
+import { Building } from "../interfaces/entities";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import Item from "@mui/material/Unstable_Grid2";
 import { Alert, Button, Snackbar, Switch, TextField } from "@mui/material";
 
 export const ManagerService = (): React.ReactElement => {
-	const [sites, setSites] = useState<any[]>([]);
 	const [buildings, setBuildings] = useState<any[]>([]);
 	const [services, setServices] = useState<any[]>([]);
-	const [chosenSiteId, setChosenSiteId] = useState<any>(null);
+	const [chosenBuildingName, setChosenBuildingName] = useState<any>(null);
+	const [chosenBuildingId, setChosenBuildingId] = useState<any>(null);
 	const [chosenServiceId, setChosenServiceId] = useState<any>(null);
 	const [commonItems, setCommonItems] = useState<any[]>([]);
-	const [valuesItemSite, setValuesItemSite] = useState<any[]>([]);
+	const [valuesItemBuilding, setValuesItemBuilding] = useState<any[]>([]);
 	const [open, setOpen] = useState(false);
 	const [attachedServices, setAttachedServices] = useState<any[]>([]);
 	const [checkedAttachedServices, setCheckedAttachedServices] = useState<
@@ -23,11 +22,6 @@ export const ManagerService = (): React.ReactElement => {
 	>([]);
 	const [specificItems, setSpecificItems] = useState<any[]>([]);
 	const [isSpecificReset, setIsSpecificReset] = useState<boolean>(false);
-
-	const nameBuilding = (site: Site, buildings: Building[]): string => {
-		const siteIndex = sites.indexOf(site);
-		return buildings[siteIndex].name_building;
-	};
 
 	const handleClose = (
 		event?: React.SyntheticEvent | Event,
@@ -50,22 +44,32 @@ export const ManagerService = (): React.ReactElement => {
 	};
 
 	useEffect(() => {
-		axios.get(baseURL + "/api/site").then((res) => setSites(res.data));
-
-		axios
-			.post(baseURL + "/api/site/listBuildingsLinked")
-			.then((res) => setBuildings(res.data));
+		axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
 
 		axios.get(baseURL + "/api/service").then((res) => setServices(res.data));
 	}, []);
 
 	useEffect(() => {
-		if (chosenSiteId !== null) {
-			axios
-				.get(baseURL + "/api/value-item-site/findBySiteId/" + chosenSiteId)
-				.then((res) => setValuesItemSite(valuesItemSite.concat(res.data)));
+		if (chosenBuildingName !== null) {
+			setChosenBuildingId(
+				buildings.find(
+					(building) => building.name_building === chosenBuildingName
+				).id
+			);
 		}
-	}, [chosenSiteId]);
+	}, [chosenBuildingName]);
+
+	useEffect(() => {
+		if (chosenBuildingId !== null) {
+			axios
+				.get(
+					baseURL +
+						"/api/value-item-building/findByBuildingId/" +
+						chosenBuildingId
+				)
+				.then((res) => setValuesItemBuilding(res.data));
+		}
+	}, [chosenBuildingId]);
 
 	useEffect(() => {
 		if (chosenServiceId !== null) {
@@ -95,7 +99,7 @@ export const ManagerService = (): React.ReactElement => {
 		if (attachedServices.length > 0) {
 			axios
 				.post(
-					baseURL + "/api/attached-service/areOnSite/" + chosenSiteId,
+					baseURL + "/api/attached-service/areOnBuilding/" + chosenBuildingId,
 					attachedServices
 				)
 				.then((res) => setCheckedAttachedServices(res.data));
@@ -127,30 +131,20 @@ export const ManagerService = (): React.ReactElement => {
 	return (
 		<>
 			<FilterBar
-				label="Choisir un site..."
-				liste={
-					buildings.length
-						? sites.map(
-								(site) =>
-									nameBuilding(site, buildings) + " -- (" + site.id + ")"
-						  )
-						: []
-				}
+				label="Choisir un bâtiment..."
+				liste={buildings.map((building: Building) => building.name_building)}
+				value={chosenBuildingName}
 				onChange={(event: any, newValue: string | null) => {
-					setChosenSiteId(newValue?.split(" -- ")[1].slice(1, -1));
+					setChosenBuildingName(newValue);
 				}}
 			/>
-			{chosenSiteId && (
+			{chosenBuildingId && (
 				<FilterBar
 					label="Choisir un service..."
-					liste={
-						services.length
-							? services.map(
-									(service) =>
-										service.label_service + " (" + service.code_service + ")"
-							  )
-							: []
-					}
+					liste={services.map(
+						(service) =>
+							service.label_service + " (" + service.code_service + ")"
+					)}
 					onChange={(event: any, newValue: string | null) => {
 						setChosenServiceId(
 							services.find(
@@ -205,12 +199,13 @@ export const ManagerService = (): React.ReactElement => {
 								>
 									<TextField
 										value={
-											valuesItemSite.find((value) => value.itemId === item.id)
-												.description
+											valuesItemBuilding.find(
+												(value) => value.itemId === item.id
+											)?.description
 										}
 										onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-											setValuesItemSite(
-												valuesItemSite.map((value) =>
+											setValuesItemBuilding(
+												valuesItemBuilding.map((value) =>
 													value.itemId === item.id
 														? {
 																...value,
@@ -321,15 +316,15 @@ export const ManagerService = (): React.ReactElement => {
 										>
 											<TextField
 												value={
-													valuesItemSite.find(
+													valuesItemBuilding.find(
 														(value) => value.itemId === item.id
-													).description
+													)?.description
 												}
 												onChange={(
 													event: React.ChangeEvent<HTMLInputElement>
 												) => {
-													setValuesItemSite(
-														valuesItemSite.map((value) =>
+													setValuesItemBuilding(
+														valuesItemBuilding.map((value) =>
 															value.itemId === item.id
 																? {
 																		...value,
@@ -356,15 +351,15 @@ export const ManagerService = (): React.ReactElement => {
 				</>
 			)}
 			<Grid2 container sx={{ justifyContent: "center" }}>
-				{chosenSiteId !== null ? (
+				{chosenBuildingId !== null ? (
 					<>
 						<Button
 							id="validation-button"
 							variant="contained"
 							onClick={() => {
 								axios.post(
-									baseURL + "/api/value-item-site/updateAll",
-									valuesItemSite
+									baseURL + "/api/value-item-building/updateAll",
+									valuesItemBuilding
 								);
 								setOpen(true);
 							}}

@@ -6,25 +6,16 @@ import axios from "axios";
 import { Button, TextField, Snackbar, Alert } from "@mui/material";
 import FilterBar from "../components/FilterBar";
 import "./ManagerEquipment.css";
-import { Building, Site } from "../interfaces/entities";
+import { Building } from "../interfaces/entities";
 
 export const ManagerEquipment = (): React.ReactElement => {
 	const [equipments, setEquipments] = useState<any[]>([]);
-	const [sites, setSites] = useState<any[]>([]);
 	const [buildings, setBuildings] = useState<any[]>([]);
-	const [chosenBuilding, setChosenBuilding] = useState<any>(null);
-	const [chosenSiteId, setChosenSiteId] = useState<any>(null);
-	const [chosenBuildingSite, setChosenBuildingSite] = useState<any>(null);
+	const [chosenBuildingName, setChosenBuildingName] = useState<any>(null);
 	const [valuesEquipmentBuilding, setValuesEquipmentBuilding] = useState<any[]>(
 		[]
 	);
-	const [valuesEquipmentSite, setValuesEquipmentSite] = useState<any[]>([]);
 	const [open, setOpen] = useState(false);
-
-	const nameBuilding = (site: Site, buildings: Building[]): string => {
-		const siteIndex = sites.indexOf(site);
-		return buildings[siteIndex].name_building;
-	};
 
 	const handleClose = (
 		event?: React.SyntheticEvent | Event,
@@ -42,74 +33,42 @@ export const ManagerEquipment = (): React.ReactElement => {
 			.get(baseURL + "/api/equipment")
 			.then((res) => setEquipments(res.data));
 
-		axios.get(baseURL + "/api/site").then((res) => setSites(res.data));
-
-		axios
-			.post(baseURL + "/api/site/listBuildingsLinked")
-			.then((res) => setBuildings(res.data));
+		axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
 	}, []);
 
 	useEffect(() => {
-		if (chosenBuilding !== null) {
+		if (chosenBuildingName !== null) {
 			axios
-				.get(baseURL + "/api/building/findByName/" + chosenBuilding)
-				.then((res) =>
-					axios
-						.get(
-							baseURL +
-								"/api/value-equipment-building/findByBuildingId/" +
-								res.data.id
-						)
-						.then((res) => setValuesEquipmentBuilding(res.data))
-				);
+				.get(
+					baseURL +
+						"/api/value-equipment-building/findByBuildingId/" +
+						buildings.find(
+							(building) => building.name_building === chosenBuildingName
+						).id
+				)
+				.then((res) => setValuesEquipmentBuilding(res.data));
 		} else {
 			setValuesEquipmentBuilding([]);
 		}
-	}, [chosenBuilding]);
-
-	useEffect(() => {
-		if (chosenSiteId !== null) {
-			axios
-				.get(baseURL + "/api/site/" + chosenSiteId)
-				.then((res) =>
-					axios
-						.get(
-							baseURL + "/api/value-equipment-site/findBySiteId/" + res.data.id
-						)
-						.then((res) => setValuesEquipmentSite(res.data))
-				);
-		} else {
-			setValuesEquipmentSite([]);
-		}
-	}, [chosenSiteId]);
+	}, [chosenBuildingName]);
 
 	return (
 		<>
 			<FilterBar
-				label="Choisir un site..."
-				liste={
-					buildings.length
-						? sites.map(
-								(site) =>
-									nameBuilding(site, buildings) + " -- (" + site.id + ")"
-						  )
-						: []
-				}
-				value={chosenBuildingSite}
+				label="Choisir un bâtiment..."
+				liste={buildings.map((building: Building) => building.name_building)}
+				value={chosenBuildingName}
 				onChange={(event: any, newValue: string | null) => {
-					setChosenBuildingSite(newValue);
-					setChosenBuilding(newValue?.split(" -- ")[0]);
-					setChosenSiteId(newValue?.split(" -- ")[1].slice(1, -1));
+					setChosenBuildingName(newValue);
 				}}
 			/>
-			<h2>{chosenBuildingSite}</h2>
-			{chosenSiteId && <p>(en rouge : les équipement liés au bâtiment)</p>}
+			<h2>{chosenBuildingName}</h2>
 			<Grid2
 				container
 				spacing={2}
 				sx={{ color: "black", justifyContent: "center" }}
 			>
-				{chosenSiteId !== null
+				{chosenBuildingName !== null
 					? equipments.map((equipment) => (
 							<Grid2
 								key={equipment.id}
@@ -121,55 +80,27 @@ export const ManagerEquipment = (): React.ReactElement => {
 										display: "flex",
 										justifyContent: "center",
 										alignItems: "center",
-										color: valuesEquipmentBuilding.some(
-											(value) => value.equipmentId === equipment.id
-										)
-											? "darkred"
-											: "black",
 									}}
 								>
 									{equipment.label_equipment}
 								</Item>
 								<TextField
 									value={
-										valuesEquipmentBuilding.some(
+										valuesEquipmentBuilding.find(
 											(value) => value.equipmentId === equipment.id
-										)
-											? valuesEquipmentBuilding.find(
-													(value) => value.equipmentId === equipment.id
-											  )?.description
-											: valuesEquipmentSite.some(
-													(value) => value.equipmentId === equipment.id
-											  )
-											? valuesEquipmentSite.find(
-													(value) => value.equipmentId === equipment.id
-											  )?.description
-											: ""
+										)?.description
 									}
 									onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-										valuesEquipmentBuilding.some(
-											(value) => value.equipmentId === equipment.id
-										)
-											? setValuesEquipmentBuilding(
-													valuesEquipmentBuilding.map((value) =>
-														value.equipmentId === equipment.id
-															? {
-																	...value,
-																	description: event.target.value,
-															  }
-															: value
-													)
-											  )
-											: setValuesEquipmentSite(
-													valuesEquipmentSite.map((value) =>
-														value.equipmentId === equipment.id
-															? {
-																	...value,
-																	description: event.target.value,
-															  }
-															: value
-													)
-											  );
+										setValuesEquipmentBuilding(
+											valuesEquipmentBuilding.map((value) =>
+												value.equipmentId === equipment.id
+													? {
+															...value,
+															description: event.target.value,
+													  }
+													: value
+											)
+										);
 									}}
 									sx={{
 										m: 1,
@@ -182,7 +113,7 @@ export const ManagerEquipment = (): React.ReactElement => {
 					: null}
 			</Grid2>
 			<Grid2 container sx={{ justifyContent: "center" }}>
-				{chosenSiteId !== null ? (
+				{chosenBuildingName !== null ? (
 					<>
 						<Button
 							id="validation-button"
@@ -191,10 +122,6 @@ export const ManagerEquipment = (): React.ReactElement => {
 								axios.post(
 									baseURL + "/api/value-equipment-building/updateAll",
 									valuesEquipmentBuilding
-								);
-								axios.post(
-									baseURL + "/api/value-equipment-site/updateAll",
-									valuesEquipmentSite
 								);
 								setOpen(true);
 							}}
