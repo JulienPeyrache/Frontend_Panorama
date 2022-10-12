@@ -218,7 +218,7 @@ export const TabSite = (): React.ReactElement => {
 							/>
 					</Grid2>
 					<Grid2
-						key="eto"
+						key="comment"
 						xs={12}
 						sm={6}
 						md={6}
@@ -247,7 +247,7 @@ export const TabSite = (): React.ReactElement => {
 						></TextField>
 					</Grid2>
 					<Grid2
-						key="eto"
+						key="building"
 						xs={12}
 						sm={6}
 						md={6}
@@ -493,7 +493,7 @@ export const TabSite = (): React.ReactElement => {
 	return (
 		<div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 			<div style={{ flexGrow: 1 }}>
-				<h2> Liste des parcours </h2>
+				<h2> Liste des sites </h2>
 				<DataGrid
 					columns={columns}
 					rows={rows}
