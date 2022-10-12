@@ -34,7 +34,6 @@ export const TabEquipment = (): React.ReactElement => {
 
 	useEffect(() => {
 		axios.get(baseURL + "/api/equipment").then((data) => setRows(data.data));
-		console.log("Get");
 	}, [newEquipment]);
 
 	function EditToolbar() {
@@ -88,7 +87,6 @@ export const TabEquipment = (): React.ReactElement => {
 								const TempEquipment: Equipment = {
 									label_equipment: newLabelEquipment,
 								};
-								console.log(TempEquipment);
 								axios.post(baseURL + "/api/equipment", TempEquipment);
 								setNewEquipment(TempEquipment);
 								setNewLabelEquipment("");
@@ -129,8 +127,6 @@ export const TabEquipment = (): React.ReactElement => {
 	const handleDeleteClick = (id: GridRowId) => () => {
 		const currentRow = rows.find((row) => row.id === id);
 		const idCurrentRow = currentRow?.id;
-		console.log(idCurrentRow);
-		console.log("Delete");
 		axios.delete(baseURL + "/api/equipment/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
@@ -155,10 +151,7 @@ export const TabEquipment = (): React.ReactElement => {
 		const TempEquipment: Equipment = {
 			label_equipment: labelEquipment,
 		};
-		console.log(idEquipment);
-		console.log("Patch");
 		axios.patch(baseURL + "/api/equipment/" + idEquipment, TempEquipment);
-		console.log(TempEquipment);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;

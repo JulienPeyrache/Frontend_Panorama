@@ -24,10 +24,7 @@ import {
 	GridRowId,
 	GridRowModel,
 } from "@mui/x-data-grid";
-import {
-	TypologyBuilding,
-	Building,
-} from "../interfaces/entities";
+import { TypologyBuilding, Building } from "../interfaces/entities";
 import FilterBar from "../components/FilterBar";
 
 export const TabBuilding = (): React.ReactElement => {
@@ -37,7 +34,6 @@ export const TabBuilding = (): React.ReactElement => {
 
 	useEffect(() => {
 		axios.get(baseURL + "/api/building").then((data) => setRows(data.data));
-		console.log("Get");
 	}, [newBuilding]);
 
 	function EditToolbar() {
@@ -48,8 +44,7 @@ export const TabBuilding = (): React.ReactElement => {
 		const [newCity, setNewCity] = useState<string>("");
 		const [newPostalCode, setNewPostalCode] = useState<number>(-1);
 		const [newBuildingId, setNewBuildingId] = useState<number>(-1);
-
-
+		const [newIsCourrier, setNewIsCourrier] = useState<boolean>(false);
 
 		return (
 			<GridToolbarContainer>
@@ -104,12 +99,7 @@ export const TabBuilding = (): React.ReactElement => {
 						</Item>
 						<FilterBar
 							label="..."
-							liste={[
-								"Mixte",
-								"PAP",
-								"Technique",
-								"Tertiaire",
-							]}
+							liste={["Mixte", "PAP", "Technique", "Tertiaire"]}
 							onChange={(event: any, newValue: string | null) => {
 								if (newValue !== null) {
 									setNewTypologieBuilding(newValue as TypologyBuilding);
@@ -232,31 +222,57 @@ export const TabBuilding = (): React.ReactElement => {
 							}}
 						></TextField>
 					</Grid2>
+					<Grid2
+						key="is-courrier"
+						xs={12}
+						sm={6}
+						md={6}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							Le site est un courrier :
+						</Item>
+						<FilterBar
+							label="..."
+							liste={["Oui", "Non"]}
+							value={newIsCourrier ? "Oui" : "Non"}
+							onChange={(event: any, newValue: string | null) => {
+								newValue === "Oui"
+									? setNewIsCourrier(true)
+									: setNewIsCourrier(false);
+							}}
+						/>
+					</Grid2>
 				</Grid2>
 				<Grid2 container sx={{ justifyContent: "center" }}>
 					<Button
 						id="validation-button"
 						disabled={
 							!(
-								newTypologyBuilding!==null &&
-								newNameBuilding!=="" &&
-								newAddress!=="" &&
-								newPostalCode!==-1 &&
-								newCity!=="" &&
-								newBuildingId!==-1
-
+								newTypologyBuilding !== null &&
+								newNameBuilding !== "" &&
+								newAddress !== "" &&
+								newPostalCode !== -1 &&
+								newCity !== "" &&
+								newBuildingId !== -1
 							)
 						}
 						variant="contained"
 						startIcon={<AddIcon />}
 						onClick={() => {
 							if (
-								newTypologyBuilding!==null &&
-								newNameBuilding!=="" &&
-								newAddress!=="" &&
-								newPostalCode!==-1 &&
-								newCity!=="" &&
-								newBuildingId!==-1
+								newTypologyBuilding !== null &&
+								newNameBuilding !== "" &&
+								newAddress !== "" &&
+								newPostalCode !== -1 &&
+								newCity !== "" &&
+								newBuildingId !== -1
 							) {
 								const TempBuilding: Building = {
 									id: newBuildingId,
@@ -265,8 +281,8 @@ export const TabBuilding = (): React.ReactElement => {
 									address: newAddress,
 									postal_code: newPostalCode,
 									city: newCity,
+									is_courrier: newIsCourrier,
 								};
-								console.log(TempBuilding);
 								axios.post(baseURL + "/api/building", TempBuilding);
 								setNewBuilding(TempBuilding);
 								setNewBuildingId(-1);
@@ -275,7 +291,7 @@ export const TabBuilding = (): React.ReactElement => {
 								setNewAddress("");
 								setNewPostalCode(-1);
 								setNewCity("");
-
+								setNewIsCourrier(false);
 							} else {
 								setNewBuilding(null);
 							}
@@ -313,8 +329,6 @@ export const TabBuilding = (): React.ReactElement => {
 	const handleDeleteClick = (id: GridRowId) => () => {
 		const currentRow = rows.find((row) => row.id === id);
 		const idCurrentRow = currentRow?.id;
-		console.log(idCurrentRow);
-		console.log("Delete");
 		axios.delete(baseURL + "/api/building/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
@@ -339,6 +353,7 @@ export const TabBuilding = (): React.ReactElement => {
 		const newAddress = newRow?.address;
 		const newPostalCode = newRow?.postal_code;
 		const newCity = newRow?.city;
+		const newIsCourrier = newRow?.is_courrier;
 		const TempBuilding: Building = {
 			id: idBuilding,
 			typology_building: newTypologyBuilding,
@@ -346,12 +361,10 @@ export const TabBuilding = (): React.ReactElement => {
 			address: newAddress,
 			postal_code: newPostalCode,
 			city: newCity,
+			is_courrier: newIsCourrier,
 		};
 
-		console.log(idBuilding);
-		console.log("Patch");
 		axios.patch(baseURL + "/api/building/" + idBuilding, TempBuilding);
-		console.log(TempBuilding);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;

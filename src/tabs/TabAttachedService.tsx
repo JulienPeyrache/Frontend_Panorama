@@ -38,14 +38,12 @@ export const TabAttachedService = (): React.ReactElement => {
 		axios
 			.get(baseURL + "/api/Attached-Service")
 			.then((data) => setRows(data.data));
-		console.log("Get attached service");
 	}, [newAttachedService]);
 
 	useEffect(() => {
 		axios
 			.get(baseURL + "/api/service")
 			.then((data) => setNewServiceList(data.data));
-		console.log("Get services");
 	}, []);
 
 	function EditToolbar() {
@@ -133,7 +131,6 @@ export const TabAttachedService = (): React.ReactElement => {
 									label_attached_service: newLabelAttachedService,
 									service: newService,
 								};
-								console.log(TempAttachedService);
 								axios.post(
 									baseURL + "/api/Attached-Service",
 									TempAttachedService
@@ -178,8 +175,6 @@ export const TabAttachedService = (): React.ReactElement => {
 	const handleDeleteClick = (id: GridRowId) => () => {
 		const currentRow = rows.find((row) => row.id === id);
 		const idCurrentRow = currentRow?.id;
-		console.log(idCurrentRow);
-		console.log("Delete");
 		axios.delete(baseURL + "/api/Attached-Service/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
@@ -205,13 +200,10 @@ export const TabAttachedService = (): React.ReactElement => {
 			label_attached_service: labelAttachedService,
 			service: service,
 		};
-		console.log(idAttachedService);
-		console.log("Patch");
 		axios.patch(
 			baseURL + "/api/attached-service/" + idAttachedService,
 			TempAttachedService
 		);
-		console.log(TempAttachedService);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;

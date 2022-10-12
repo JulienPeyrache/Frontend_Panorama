@@ -33,7 +33,6 @@ export const TabCourse = (): React.ReactElement => {
 
 	useEffect(() => {
 		axios.get(baseURL + "/api/course").then((data) => setRows(data.data));
-		console.log("Get");
 	}, [newCourse]);
 
 	function EditToolbar() {
@@ -159,7 +158,6 @@ export const TabCourse = (): React.ReactElement => {
 									label_course: newLabelCourse,
 									code_course: newCodeCourse,
 								};
-								console.log(TempCourse);
 								axios.post(baseURL + "/api/course", TempCourse);
 								setNewCourse(TempCourse);
 
@@ -203,8 +201,6 @@ export const TabCourse = (): React.ReactElement => {
 	const handleDeleteClick = (id: GridRowId) => () => {
 		const currentRow = rows.find((row) => row.id === id);
 		const idCurrentRow = currentRow?.id;
-		console.log(idCurrentRow);
-		console.log("Delete");
 		axios.delete(baseURL + "/api/course/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
@@ -232,10 +228,7 @@ export const TabCourse = (): React.ReactElement => {
 			label_course: labelCourse,
 			code_course: codeCourse,
 		};
-		console.log(idCourse);
-		console.log("Patch");
 		axios.patch(baseURL + "/api/course/" + idCourse, TempCourse);
-		console.log(TempCourse);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;

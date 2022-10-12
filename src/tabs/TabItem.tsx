@@ -4,7 +4,7 @@ import { useState, useEffect, ReactElement } from "react";
 import { baseURL } from "../components/Const";
 import React from "react";
 import axios from "axios";
-import { Button,TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
 import AddIcon from "@mui/icons-material/Add";
@@ -35,7 +35,6 @@ export const TabItem = (): ReactElement => {
 
 	useEffect(() => {
 		axios.get(baseURL + "/api/item").then((data) => setRows(data.data));
-		console.log("Get");
 	}, [newItem]);
 
 	const [newAttachedServicesList, setNewAttachedServiceList] = useState<
@@ -45,7 +44,6 @@ export const TabItem = (): ReactElement => {
 		axios
 			.get(baseURL + "/api/attached-service")
 			.then((data) => setNewAttachedServiceList(data.data));
-		console.log("Attached service list fetched");
 	}, []);
 
 	function EditToolbar() {
@@ -218,7 +216,6 @@ export const TabItem = (): ReactElement => {
 									is_occupant_info: newOccupantInfo,
 									attachedService: newAttachedService,
 								};
-								console.log(TempItem);
 								axios.post(baseURL + "/api/course", TempItem);
 								setNewItem(TempItem);
 
@@ -263,8 +260,6 @@ export const TabItem = (): ReactElement => {
 	const handleDeleteClick = (id: GridRowId) => () => {
 		const currentRow = rows.find((row) => row.id === id);
 		const idCurrentRow = currentRow?.id;
-		console.log(idCurrentRow);
-		console.log("Delete");
 		axios.delete(baseURL + "/api/item/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
@@ -294,10 +289,7 @@ export const TabItem = (): ReactElement => {
 			attachedService: attachedService,
 			default_value: default_value,
 		};
-		console.log(item);
-		console.log("Patch");
 		axios.patch(baseURL + "/api/item/" + idItem, item);
-		console.log(item);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;

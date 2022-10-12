@@ -5,41 +5,40 @@ import { ManagerEquipment } from "./ManagerEquipment";
 import { ManagerService } from "./ManagerService";
 
 interface AuxTabsGroup {
-    tabs: AuxTabs[];
+	tabs: AuxTabs[];
 }
 interface AuxTabs {
-    label: string;
-    numero: number;
-    link: string;
-    component: React.ReactElement;
+	label: string;
+	numero: number;
+	link: string;
+	component: React.ReactElement;
 }
 
 const tabList: AuxTabs[] = [
-    {
-        label: "Service",
-        link: "/manager-service",
-        numero: 0,
-        component: <ManagerService />,
-    },
-    {
-        label: "Équipement",
-        link: "/manager-equipment",
-        numero: 1,
-        component: <ManagerEquipment />,
-    },
-    {
-        label: "Gestion Admin",
-        link: "/manager-admin",
-        numero: 2,
-        component: <ManagerAdmin />,
-    },
+	{
+		label: "Service",
+		link: "/manager-service",
+		numero: 0,
+		component: <ManagerService />,
+	},
+	{
+		label: "Équipement",
+		link: "/manager-equipment",
+		numero: 1,
+		component: <ManagerEquipment />,
+	},
+	{
+		label: "Gestion Admin",
+		link: "/manager-admin",
+		numero: 2,
+		component: <ManagerAdmin />,
+	},
 ];
 
 const tabGroup: AuxTabsGroup = {
-    tabs: tabList,
+	tabs: tabList,
 };
 
 export const ManagerHome = (): React.ReactElement => {
-    console.log(tabGroup);
-    return <NavTabs {...tabGroup} />;
+	return <NavTabs {...tabGroup} />;
 };

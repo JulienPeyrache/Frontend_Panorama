@@ -4,7 +4,7 @@ import { useState, useEffect, ReactElement } from "react";
 import { baseURL } from "../components/Const";
 import React from "react";
 import axios from "axios";
-import { Button,TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
 import AddIcon from "@mui/icons-material/Add";
@@ -35,17 +35,13 @@ export const TabService = (): ReactElement => {
 
 	useEffect(() => {
 		axios.get(baseURL + "/api/service").then((data) => setRows(data.data));
-		console.log("Get");
 	}, [newService]);
 
-	const [newCourseList, setNewCourseList] = useState<
-		Course[]
-	>([]);
+	const [newCourseList, setNewCourseList] = useState<Course[]>([]);
 	useEffect(() => {
 		axios
 			.get(baseURL + "/api/course")
 			.then((data) => setNewCourseList(data.data));
-		console.log("Course list fetched");
 	}, []);
 
 	function EditToolbar() {
@@ -136,13 +132,10 @@ export const TabService = (): ReactElement => {
 						</Item>
 						<FilterBar
 							label="..."
-							liste={newCourseList.map(
-								(course) => course.label_course
-							)}
+							liste={newCourseList.map((course) => course.label_course)}
 							onChange={(event: any, newValue: string | null) => {
 								const course = newCourseList.find(
-									(course) =>
-										course.label_course === newValue
+									(course) => course.label_course === newValue
 								);
 								if (course !== undefined) {
 									setNewCourse(course);
@@ -154,17 +147,26 @@ export const TabService = (): ReactElement => {
 				<Grid2 container sx={{ justifyContent: "center" }}>
 					<Button
 						id="validation-button"
-						disabled={!(newCodeService !== "" && newLabelService !== "" && newCourse !== null)}
+						disabled={
+							!(
+								newCodeService !== "" &&
+								newLabelService !== "" &&
+								newCourse !== null
+							)
+						}
 						variant="contained"
 						startIcon={<AddIcon />}
 						onClick={() => {
-							if (newCodeService !== "" && newLabelService !== "" && newCourse !== null) {
+							if (
+								newCodeService !== "" &&
+								newLabelService !== "" &&
+								newCourse !== null
+							) {
 								const TempService: Service = {
 									code_service: newCodeService,
 									label_service: newLabelService,
 									course: newCourse,
 								};
-								console.log(TempService);
 								axios.post(baseURL + "/api/service", TempService);
 								setNewService(TempService);
 
@@ -208,8 +210,6 @@ export const TabService = (): ReactElement => {
 	const handleDeleteClick = (id: GridRowId) => () => {
 		const currentRow = rows.find((row) => row.id === id);
 		const idCurrentRow = currentRow?.id;
-		console.log(idCurrentRow);
-		console.log("Delete");
 		axios.delete(baseURL + "/api/service/" + idCurrentRow);
 		setRows(rows.filter((row) => row.id !== id));
 	};
@@ -237,10 +237,7 @@ export const TabService = (): ReactElement => {
 			label_service: labelService,
 			course: course,
 		};
-		console.log(service);
-		console.log("Patch");
 		axios.patch(baseURL + "/api/service/" + idService, service);
-		console.log(service);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;

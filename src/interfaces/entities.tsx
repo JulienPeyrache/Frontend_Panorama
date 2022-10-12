@@ -5,6 +5,7 @@ export interface Building {
 	postal_code: number;
 	city: string;
 	typology_building: TypologyBuilding;
+	is_courrier: boolean;
 }
 
 export enum TypologyBuilding {
