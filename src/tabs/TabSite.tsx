@@ -94,6 +94,7 @@ export const TabSite = (): React.ReactElement => {
 								backgroundColor: "white",
 							}}
 						></TextField>
+					</Grid2>
 					<Grid2
 						key="typology-site"
 						xs={12}
@@ -271,9 +272,8 @@ export const TabSite = (): React.ReactElement => {
 									);
 									if (building !== undefined) {
 										setNewBuilding(building);
-									}
+									}}}
 							/>
-					</Grid2>
 				</Grid2>
 				</Grid2>
 				<Grid2 container sx={{ justifyContent: "center" }}>
