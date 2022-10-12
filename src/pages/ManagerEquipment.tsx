@@ -16,7 +16,8 @@ export const ManagerEquipment = (): React.ReactElement => {
 	const [valuesEquipmentBuilding, setValuesEquipmentBuilding] = useState<any[]>(
 		[]
 	);
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState<boolean>(false);
+	const [start, setStart] = useState<boolean>(false);
 
 	const handleCheck = (
 		event: React.ChangeEvent<HTMLInputElement>,
@@ -36,8 +37,24 @@ export const ManagerEquipment = (): React.ReactElement => {
 		if (reason === "clickaway") {
 			return;
 		}
-
 		setOpen(false);
+	};
+
+	const handleValidation = () => {
+		const values = valuesEquipmentBuilding.filter(
+			(value, i) => checkedEquipments[i]
+		);
+		axios.post(baseURL + "/api/value-equipment-building/updateAll", values);
+
+		const ancientValues = valuesEquipmentBuilding.filter(
+			(value, i) => !checkedEquipments[i] && value.id !== undefined
+		);
+		axios.post(
+			baseURL + "/api/value-equipment-building/deleteAll",
+			ancientValues
+		);
+
+		setOpen(true);
 	};
 
 	useEffect(() => {
@@ -78,19 +95,22 @@ export const ManagerEquipment = (): React.ReactElement => {
 						)
 					)
 				);
-
-			setCheckedEquipments(
-				equipments.map(
-					(equipment) =>
-						valuesEquipmentBuilding.find(
-							(valueEquipmentBuilding) => valueEquipmentBuilding.id
-						) !== undefined
-				)
-			);
 		} else {
 			setValuesEquipmentBuilding([]);
+			setStart(false);
 		}
 	}, [chosenBuildingName]);
+
+	useEffect(() => {
+		if (valuesEquipmentBuilding.length > 0 && !start) {
+			setStart(true);
+			setCheckedEquipments(
+				equipments.map(
+					(equipment, i) => valuesEquipmentBuilding[i].id !== undefined
+				)
+			);
+		}
+	}, [valuesEquipmentBuilding]);
 
 	return (
 		<>
@@ -106,44 +126,54 @@ export const ManagerEquipment = (): React.ReactElement => {
 			<Grid2
 				container
 				spacing={2}
-				sx={{ color: "black", justifyContent: "center" }}
+				sx={{
+					color: "black",
+					justifyContent: "center",
+					"--Grid-borderWidth": "1px",
+					"& > div": {
+						borderRight: "var(--Grid-borderWidth) solid",
+						borderBottom: "var(--Grid-borderWidth) solid",
+						borderTop: "var(--Grid-borderWidth) solid",
+						borderLeft: "var(--Grid-borderWidth) solid",
+						borderColor: "divider",
+					},
+					marginLeft: "4%",
+					marginRight: "4%",
+				}}
 			>
-				{chosenBuildingName !== null
-					? equipments.map((equipment, i) => (
-							<Grid2
-								key={equipment.id}
-								xs="auto"
-								sx={{ display: "flex", flexDirection: "row" }}
-							>
-								<Item
-									sx={{
-										display: "flex",
-										justifyContent: "center",
-										alignItems: "center",
-									}}
+				{checkedEquipments.length > 0
+					? equipments.map((equipment, i) => {
+							return (
+								<Grid2
+									key={equipment.id}
+									xs="auto"
+									sx={{ display: "flex", flexDirection: "row" }}
 								>
-									{equipment.label_equipment}
-								</Item>
-								<Checkbox
-									checked={checkedEquipments[i]}
-									onChange={(event) => {
-										handleCheck(event, i);
-									}}
-									sx={{
-										color: "#26367a",
-										"&.Mui-checked": {
+									<Item
+										sx={{
+											display: "flex",
+											justifyContent: "center",
+											alignItems: "center",
+										}}
+									>
+										{equipment.label_equipment}
+									</Item>
+									<Checkbox
+										key={equipment.id}
+										checked={checkedEquipments[i]}
+										onChange={(event) => {
+											handleCheck(event, i);
+										}}
+										sx={{
 											color: "#26367a",
-										},
-									}}
-								/>
-								{checkedEquipments[i] ? (
+											"&.Mui-checked": {
+												color: "#26367a",
+											},
+										}}
+									/>
 									<Item>
 										<TextField
-											value={
-												valuesEquipmentBuilding.find(
-													(value) => value.equipmentId === equipment.id
-												)?.description
-											}
+											value={valuesEquipmentBuilding[i].description}
 											onChange={(
 												event: React.ChangeEvent<HTMLInputElement>
 											) => {
@@ -165,9 +195,9 @@ export const ManagerEquipment = (): React.ReactElement => {
 											}}
 										></TextField>
 									</Item>
-								) : null}
-							</Grid2>
-					  ))
+								</Grid2>
+							);
+					  })
 					: null}
 			</Grid2>
 			<Grid2 container sx={{ justifyContent: "center" }}>
@@ -176,13 +206,7 @@ export const ManagerEquipment = (): React.ReactElement => {
 						<Button
 							id="validation-button"
 							variant="contained"
-							onClick={() => {
-								axios.post(
-									baseURL + "/api/value-equipment-building/updateAll",
-									valuesEquipmentBuilding
-								);
-								setOpen(true);
-							}}
+							onClick={handleValidation}
 						>
 							Valider les modifications
 						</Button>
