@@ -44,13 +44,13 @@ export const TabEquipment = (): React.ReactElement => {
 				<Grid2
 					container
 					spacing={2}
-					sx={{ color: "black", justifyContent: "center" }}
+					sx={{ color: "black", justifyContent: "center", display: "flex" }}
 				>
 					<Grid2
 						key="label-equipment"
 						xs={12}
-						sm={4}
-						md={3}
+						sm={10}
+						md={10}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -60,7 +60,7 @@ export const TabEquipment = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Libellé Équipement :
+							Libellé de l'équipement :
 						</Item>
 						<TextField
 							value={newLabelEquipment}
@@ -70,8 +70,9 @@ export const TabEquipment = (): React.ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								flexGrow: 1,
+								flexGrow: 10,
 								backgroundColor: "white",
+								width: "800px",
 							}}
 						></TextField>
 					</Grid2>
@@ -169,6 +170,7 @@ export const TabEquipment = (): React.ReactElement => {
 			headerName: "Libellé équipement",
 			type: "string",
 			editable: true,
+			flex: 1,
 		},
 		{
 			field: "actions",
