@@ -33,16 +33,23 @@ export const TabService = (): ReactElement => {
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 	const [newService, setNewService] = useState<Service | null>(null);
 
-	useEffect(() => {
-		axios.get(baseURL + "/api/service").then((data) => setRows(data.data));
-	}, [newService]);
-
 	const [newCourseList, setNewCourseList] = useState<Course[]>([]);
 	useEffect(() => {
 		axios
 			.get(baseURL + "/api/course")
 			.then((data) => setNewCourseList(data.data));
 	}, []);
+
+	useEffect(() => {
+		axios.get(baseURL + "/api/service").then((data) =>
+			setRows(
+				data.data.map((service: Service) => ({
+					...service,
+					course: service.course.label_course,
+				}))
+			)
+		);
+	}, [newService]);
 
 	function EditToolbar() {
 		const [newCodeService, setNewCodeService] = useState<string>("");
@@ -80,13 +87,12 @@ export const TabService = (): ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								flexGrow: 1,
 								backgroundColor: "white",
 							}}
 						></TextField>
 					</Grid2>
 					<Grid2
-						key="label service"
+						key="label-service"
 						xs={12}
 						sm={4}
 						md={3}
@@ -141,10 +147,18 @@ export const TabService = (): ReactElement => {
 									setNewCourse(course);
 								}
 							}}
+							width={200}
 						/>
 					</Grid2>
 				</Grid2>
-				<Grid2 container sx={{ justifyContent: "center" }}>
+				<Grid2
+					container
+					sx={{
+						display: "flex",
+						flexGrow: 1,
+						justifyContent: "center",
+					}}
+				>
 					<Button
 						id="validation-button"
 						disabled={
@@ -208,10 +222,12 @@ export const TabService = (): ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/service/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (window.confirm("Voulez-vous vraiment supprimer ce service ?")) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/service/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -230,9 +246,11 @@ export const TabService = (): ReactElement => {
 		const updatedRow = { ...newRow, isNew: false };
 		const idService = newRow?.id;
 		const labelService = newRow?.label_service;
-		const course = newRow?.course;
+		const course = newCourseList?.find(
+			(course) => course.label_course === newRow.course
+		);
 		const codeService = newRow?.code_service;
-		const service: Service = {
+		const service = {
 			code_service: codeService,
 			label_service: labelService,
 			course: course,
@@ -250,18 +268,22 @@ export const TabService = (): ReactElement => {
 			headerName: "Code service",
 			type: "string",
 			editable: true,
+			flex: 0.5,
 		},
 		{
 			field: "label_service",
 			headerName: "Libellé du service",
 			type: "string",
 			editable: true,
+			flex: 3,
 		},
 		{
 			field: "course",
-			headerName: "Parcours",
-			type: "Course",
+			headerName: "Parcours associé",
+			type: "singleSelect",
 			editable: true,
+			flex: 3,
+			valueOptions: newCourseList.map((course) => course.label_course),
 		},
 		{
 			field: "actions",
@@ -318,6 +340,7 @@ export const TabService = (): ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}

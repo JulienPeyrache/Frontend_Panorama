@@ -15,20 +15,32 @@ interface FilterBarProps {
 		reason: AutocompleteChangeReason,
 		details?: AutocompleteChangeDetails<string> | undefined
 	) => void;
+	width?: number;
 }
 
-export default function FilterBar(props: FilterBarProps): React.ReactElement {
+export default function FilterBar({
+	label,
+	liste,
+	value,
+	onChange,
+	width,
+}: FilterBarProps): React.ReactElement {
 	return (
 		<div>
 			<Autocomplete
 				id="filterbar-autocomplete"
-				style={{ backgroundColor: "white", margin: "2% 8%" }}
-				options={props.liste}
-				renderInput={(params) => (
-					<TextField {...params} label={props.label} />
-				)}
-				value={props.value}
-				onChange={props.onChange}
+				sx={{
+					backgroundColor: "white",
+					m: 1,
+					width: { width },
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+				}}
+				options={liste}
+				renderInput={(params) => <TextField {...params} label={label} />}
+				value={value}
+				onChange={onChange}
 			/>
 		</div>
 	);
