@@ -37,7 +37,6 @@ export interface Equipment {
 
 export interface ItemMacif {
 	label_item: string;
-	default_value?: string;
 	is_occupant_info: boolean;
 	attachedService: AttachedService;
 }
