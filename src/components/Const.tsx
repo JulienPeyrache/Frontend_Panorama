@@ -2,7 +2,7 @@ import FilterBar from "./FilterBar";
 import { GridRowsProp } from "@mui/x-data-grid";
 import { createTheme } from "@mui/material";
 
-export const baseURL = 'http://localhost:3000'
+export const baseURL = 'https://api.macif-panorama.mvp.centralesupelec.fr';
 
 export const listCity: string[] = [
     "Paris",
