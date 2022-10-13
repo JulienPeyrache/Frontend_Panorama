@@ -86,7 +86,7 @@ export const TabService = (): ReactElement => {
 						></TextField>
 					</Grid2>
 					<Grid2
-						key="label service"
+						key="label-service"
 						xs={12}
 						sm={4}
 						md={3}
@@ -141,6 +141,7 @@ export const TabService = (): ReactElement => {
 									setNewCourse(course);
 								}
 							}}
+							width={200}
 						/>
 					</Grid2>
 				</Grid2>
@@ -208,10 +209,12 @@ export const TabService = (): ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/service/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (window.confirm("Voulez-vous vraiment supprimer ce service ?")) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/service/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -250,18 +253,21 @@ export const TabService = (): ReactElement => {
 			headerName: "Code service",
 			type: "string",
 			editable: true,
+			flex: 0.5,
 		},
 		{
 			field: "label_service",
 			headerName: "Libellé du service",
 			type: "string",
 			editable: true,
+			flex: 5,
 		},
 		{
 			field: "course",
 			headerName: "Parcours",
 			type: "Course",
 			editable: true,
+			flex: 3,
 		},
 		{
 			field: "actions",
@@ -318,6 +324,7 @@ export const TabService = (): ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}

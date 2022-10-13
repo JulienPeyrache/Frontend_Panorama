@@ -236,7 +236,7 @@ export const TabBuilding = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Le site est un courrier :
+							Le bâtiment est courrier :
 						</Item>
 						<FilterBar
 							label="..."
@@ -327,10 +327,12 @@ export const TabBuilding = (): React.ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/building/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (window.confirm("Voulez-vous vraiment supprimer ce bâtiment ?")) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/building/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -462,6 +464,7 @@ export const TabBuilding = (): React.ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}

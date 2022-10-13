@@ -173,10 +173,14 @@ export const TabAttachedService = (): React.ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/Attached-Service/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (
+			window.confirm("Voulez-vous vraiment supprimer ce service rattaché ?")
+		) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/Attached-Service/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -273,6 +277,7 @@ export const TabAttachedService = (): React.ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}
