@@ -250,7 +250,10 @@ export const TabBuilding = (): React.ReactElement => {
 						/>
 					</Grid2>
 				</Grid2>
-				<Grid2 container sx={{ justifyContent: "center" }}>
+				<Grid2
+					container
+					sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}
+				>
 					<Button
 						id="validation-button"
 						disabled={

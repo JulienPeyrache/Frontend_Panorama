@@ -64,7 +64,7 @@ export const TabCourse = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Code Parcours :
+							Code du parcours :
 						</Item>
 						<TextField
 							value={newCodeCourse}
@@ -93,7 +93,7 @@ export const TabCourse = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Libellé du Parcours :
+							Libellé du parcours :
 						</Item>
 						<TextField
 							value={newLabelCourse}
@@ -138,7 +138,10 @@ export const TabCourse = (): React.ReactElement => {
 						></TextField>
 					</Grid2>
 				</Grid2>
-				<Grid2 container sx={{ justifyContent: "center", marginLeft: 1 }}>
+				<Grid2
+					container
+					sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}
+				>
 					<Button
 						id="validation-button"
 						disabled={
