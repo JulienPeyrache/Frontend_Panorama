@@ -193,8 +193,9 @@ export const TabItem = (): ReactElement => {
 									is_occupant_info: newOccupantInfo,
 									attachedService: newAttachedService,
 								};
-								axios.post(baseURL + "/api/item", TempItem);
-								setNewItem(TempItem);
+								axios
+									.post(baseURL + "/api/item", TempItem)
+									.then(() => setNewItem(TempItem));
 
 								setNewLabelItem("");
 								setNewOccupantInfo(true);

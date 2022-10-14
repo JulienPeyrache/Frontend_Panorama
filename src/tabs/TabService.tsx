@@ -194,9 +194,8 @@ export const TabService = (): ReactElement => {
 												CommonAttachedService
 											);
 										}
-									});
-
-								setNewService(TempService);
+									})
+									.then(() => setNewService(TempService));
 
 								setNewLabelService("");
 								setNewCodeService("");

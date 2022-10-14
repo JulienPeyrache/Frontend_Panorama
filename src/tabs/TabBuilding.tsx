@@ -286,8 +286,9 @@ export const TabBuilding = (): React.ReactElement => {
 									city: newCity,
 									is_courrier: newIsCourrier,
 								};
-								axios.post(baseURL + "/api/building", TempBuilding);
-								setNewBuilding(TempBuilding);
+								axios
+									.post(baseURL + "/api/building", TempBuilding)
+									.then(() => setNewBuilding(TempBuilding));
 								setNewBuildingId(-1);
 								setNewTypologieBuilding(null);
 								setNewNameBuilding("");

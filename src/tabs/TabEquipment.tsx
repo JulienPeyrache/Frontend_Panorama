@@ -91,8 +91,10 @@ export const TabEquipment = (): React.ReactElement => {
 								const TempEquipment: Equipment = {
 									label_equipment: newLabelEquipment,
 								};
-								axios.post(baseURL + "/api/equipment", TempEquipment);
-								setNewEquipment(TempEquipment);
+								axios
+									.post(baseURL + "/api/equipment", TempEquipment)
+									.then(() => setNewEquipment(TempEquipment));
+
 								setNewLabelEquipment("");
 							} else {
 								setNewEquipment(null);
