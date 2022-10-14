@@ -64,7 +64,6 @@ export const ManagerService = (): React.ReactElement => {
 	};
 
 	const handleValidation = () => {
-		console.log(checkedAttachedServices);
 		let values = valuesItemBuilding.filter((value, i) => checkedItems[i]);
 		let ancientValues = valuesItemBuilding.filter(
 			(value, i) => !checkedItems[i] && value.id !== undefined
