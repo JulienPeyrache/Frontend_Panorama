@@ -17,12 +17,12 @@ import {
 export const ManagerService = (): React.ReactElement => {
 	const [buildings, setBuildings] = useState<any[]>([]);
 	const [services, setServices] = useState<any[]>([]);
-	const [itemsBuilding, setItemsBuilding] = useState<any[]>([]);
 	const [chosenBuildingName, setChosenBuildingName] = useState<any>(null);
 	const [chosenBuildingId, setChosenBuildingId] = useState<any>(null);
 	const [chosenServiceId, setChosenServiceId] = useState<any>(null);
 	const [items, setItems] = useState<any[]>([]);
 	const [commonItems, setCommonItems] = useState<any[]>([]);
+	const [specificItems, setSpecificItems] = useState<any[]>([]);
 	const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
 	const [valuesItemBuilding, setValuesItemBuilding] = useState<any[]>([]);
 	const [open, setOpen] = useState(false);
@@ -31,7 +31,8 @@ export const ManagerService = (): React.ReactElement => {
 	const [checkedAttachedServices, setCheckedAttachedServices] = useState<
 		boolean[]
 	>([]);
-	const [specificItems, setSpecificItems] = useState<any[]>([]);
+	const [ancientCheckedAttachedServices, setAncientCheckedAttachedServices] =
+		useState<boolean[]>([]);
 	const [isSpecificReset, setIsSpecificReset] = useState<boolean>(false);
 
 	const handleCheck = (
@@ -63,6 +64,55 @@ export const ManagerService = (): React.ReactElement => {
 		);
 	};
 
+	const handleValidation = () => {
+		console.log(checkedAttachedServices);
+		let values = valuesItemBuilding.filter((value, i) => checkedItems[i]);
+		let ancientValues = valuesItemBuilding.filter(
+			(value, i) => !checkedItems[i] && value.id !== undefined
+		);
+
+		for (const item of specificItems) {
+			const isAttached =
+				checkedAttachedServices[
+					attachedServices.indexOf(
+						attachedServices.find(
+							(attachedService) => attachedService.id === item.attachedServiceId
+						)
+					)
+				];
+			if (!isAttached) {
+				const valueToDelete = values.find((value) => value.itemId === item.id);
+				if (valueToDelete !== undefined) {
+					values.splice(values.indexOf(valueToDelete), 1);
+					ancientValues.push(valueToDelete);
+				}
+			}
+		}
+
+		axios.post(baseURL + "/api/value-item-building/updateAll", values);
+		axios.post(baseURL + "/api/value-item-building/deleteAll", ancientValues);
+
+		const newAttachedServices = attachedServices.filter(
+			(_, i) => checkedAttachedServices[i] && !ancientCheckedAttachedServices[i]
+		);
+		axios.post(
+			baseURL + "/api/attached-service/addAllToBuilding/" + chosenBuildingId,
+			newAttachedServices
+		);
+
+		const deletedAttachedServices = attachedServices.filter(
+			(_, i) => !checkedAttachedServices[i] && ancientCheckedAttachedServices[i]
+		);
+		axios.post(
+			baseURL +
+				"/api/attached-service/deleteAllFromBuilding/" +
+				chosenBuildingId,
+			deletedAttachedServices
+		);
+
+		setOpen(true);
+	};
+
 	useEffect(() => {
 		axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
 
@@ -82,21 +132,11 @@ export const ManagerService = (): React.ReactElement => {
 	useEffect(() => {
 		if (chosenServiceId !== null) {
 			axios
-				.get(
-					baseURL +
-						"/api/attached-service/findByServiceAndLabel/" +
-						chosenServiceId +
-						"/Commun"
-				)
-				.then((res) =>
-					axios.get(
-						baseURL + "/api/item/findByAttachedServiceId/" + res.data.id
-					)
-				)
+				.get(baseURL + "/api/item/findCommonByServiceId/" + chosenServiceId)
 				.then((res) => setCommonItems(res.data));
 
 			axios
-				.get(baseURL + "/api/item/findByServiceId/" + chosenServiceId)
+				.get(baseURL + "/api/item/findSpecificByServiceId/" + chosenServiceId)
 				.then((res) => setSpecificItems(res.data));
 
 			axios
@@ -114,7 +154,10 @@ export const ManagerService = (): React.ReactElement => {
 					baseURL + "/api/attached-service/areOnBuilding/" + chosenBuildingId,
 					attachedServices
 				)
-				.then((res) => setCheckedAttachedServices(res.data));
+				.then((res) => {
+					setCheckedAttachedServices(res.data);
+					setAncientCheckedAttachedServices(res.data);
+				});
 		}
 	}, [attachedServices]);
 
@@ -236,143 +279,47 @@ export const ManagerService = (): React.ReactElement => {
 							marginRight: "4%",
 						}}
 					>
-						{commonItems.map((item) => (
-							<>
-								<Grid2
-									key={item.id}
-									xs={8}
-									sx={{
-										display: "flex",
-										justifyContent: "center",
-										alignItems: "center",
-									}}
-								>
-									{item.label_item}
-								</Grid2>
-								<Grid2
-									xs={4}
-									sx={{
-										display: "flex",
-										justifyContent: "center",
-									}}
-								>
-									<Checkbox
-										key={item.id}
-										checked={checkedItems[items.indexOf(item)]}
-										onChange={(event) => {
-											handleCheck(event, items.indexOf(item));
-										}}
-										sx={{
-											color: "#26367a",
-											"&.Mui-checked": {
-												color: "#26367a",
-											},
-										}}
-									/>
-									<TextField
-										value={
-											valuesItemBuilding.find(
-												(value) => value.itemId === item.id
-											)?.description
-										}
-										onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-											setValuesItemBuilding(
-												valuesItemBuilding.map((value) =>
-													value.itemId === item.id
-														? {
-																...value,
-																description: event.target.value,
-														  }
-														: value
-												)
-											);
-										}}
-										sx={{
-											display: "flex",
-											justifyContent: "center",
-											width: "80%",
-											m: 1,
-											backgroundColor: "white",
-										}}
-									></TextField>
-								</Grid2>
-							</>
-						))}
-					</Grid2>
-					<h2>Services rattachés</h2>
-					<Grid2
-						container
-						spacing={2}
-						sx={{
-							"--Grid-borderWidth": "1px",
-							borderTop: "var(--Grid-borderWidth) solid",
-							borderColor: "divider",
-							"& > div": {
-								borderBottom: "var(--Grid-borderWidth) solid",
-								borderColor: "divider",
-							},
-							color: "black",
-							marginLeft: "4%",
-							marginRight: "4%",
-						}}
-					>
-						{attachedServices.map((attachedService) => (
-							<>
-								<Grid2
-									xs={8}
-									sx={{
-										display: "flex",
-										justifyContent: "center",
-										alignItems: "center",
-									}}
-								>
-									{attachedService.label_attached_service}
-								</Grid2>
-								<Grid2 xs={4}>
-									<Switch
-										checked={
-											checkedAttachedServices[
-												attachedServices.indexOf(attachedService)
-											]
-										}
-										onChange={(e) =>
-											handleSwitch(e, attachedServices.indexOf(attachedService))
-										}
-										inputProps={{ "aria-label": "controlled" }}
-									/>
-								</Grid2>
-							</>
-						))}
-					</Grid2>
-					{checkedAttachedServices.includes(true) ? (
-						<>
-							<h2>Informations spécifiques service rattaché</h2>
-							<Grid2
-								container
-								spacing={2}
-								sx={{
-									"--Grid-borderWidth": "1px",
-									borderTop: "var(--Grid-borderWidth) solid",
-									borderLeft: "var(--Grid-borderWidth) solid",
-									borderColor: "divider",
-									"& > div": {
-										borderRight: "var(--Grid-borderWidth) solid",
-										borderBottom: "var(--Grid-borderWidth) solid",
-										borderColor: "divider",
-									},
-									color: "black",
-									marginLeft: "4%",
-									marginRight: "4%",
-								}}
-							>
-								{specificItems.map((item) => (
+						<Grid2
+							xs={8}
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								color: "blue",
+							}}
+						>
+							Libellé
+						</Grid2>
+						<Grid2
+							xs={0.7}
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								color: "blue",
+							}}
+						>
+							Oui/Non
+						</Grid2>
+						<Grid2
+							xs={3.3}
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+								color: "blue",
+							}}
+						>
+							Détails supplémentaires (facultatif)
+						</Grid2>
+						{checkedItems.length > 0
+							? commonItems.map((item) => (
 									<>
 										<Grid2
-											key={item.id}
+											key={"label" + item.id}
 											xs={8}
 											sx={{
 												display: "flex",
-												flexDirection: "column",
 												justifyContent: "center",
 												alignItems: "center",
 											}}
@@ -380,13 +327,28 @@ export const ManagerService = (): React.ReactElement => {
 											{item.label_item}
 										</Grid2>
 										<Grid2
+											key={"value" + item.id}
 											xs={4}
 											sx={{
 												display: "flex",
 												justifyContent: "center",
 											}}
 										>
+											<Checkbox
+												key={"check" + item.id}
+												checked={checkedItems[items.indexOf(item)]}
+												onChange={(event) => {
+													handleCheck(event, items.indexOf(item));
+												}}
+												sx={{
+													color: "#26367a",
+													"&.Mui-checked": {
+														color: "#26367a",
+													},
+												}}
+											/>
 											<TextField
+												key={"textfield" + item.id}
 												value={
 													valuesItemBuilding.find(
 														(value) => value.itemId === item.id
@@ -416,7 +378,193 @@ export const ManagerService = (): React.ReactElement => {
 											></TextField>
 										</Grid2>
 									</>
-								))}
+							  ))
+							: null}
+					</Grid2>
+					<h2>Services rattachés</h2>
+					<Grid2
+						container
+						spacing={2}
+						sx={{
+							"--Grid-borderWidth": "1px",
+							borderTop: "var(--Grid-borderWidth) solid",
+							borderColor: "divider",
+							"& > div": {
+								borderBottom: "var(--Grid-borderWidth) solid",
+								borderColor: "divider",
+							},
+							color: "black",
+							marginLeft: "4%",
+							marginRight: "4%",
+						}}
+					>
+						{checkedAttachedServices.length > 0
+							? attachedServices.map((attachedService) => (
+									<>
+										<Grid2
+											key={"label" + attachedService.id}
+											xs={8}
+											sx={{
+												display: "flex",
+												justifyContent: "center",
+												alignItems: "center",
+											}}
+										>
+											{attachedService.label_attached_service}
+										</Grid2>
+										<Grid2 key={"checked" + attachedService.id} xs={4}>
+											<Switch
+												key={"switch" + attachedService.id}
+												checked={
+													checkedAttachedServices[
+														attachedServices.indexOf(attachedService)
+													]
+												}
+												onChange={(e) =>
+													handleSwitch(
+														e,
+														attachedServices.indexOf(attachedService)
+													)
+												}
+												inputProps={{ "aria-label": "controlled" }}
+											/>
+										</Grid2>
+									</>
+							  ))
+							: null}
+					</Grid2>
+					{checkedAttachedServices.includes(true) ? (
+						<>
+							<h2>Informations spécifiques service rattaché</h2>
+							<Grid2
+								container
+								spacing={2}
+								sx={{
+									"--Grid-borderWidth": "1px",
+									borderTop: "var(--Grid-borderWidth) solid",
+									borderLeft: "var(--Grid-borderWidth) solid",
+									borderColor: "divider",
+									"& > div": {
+										borderRight: "var(--Grid-borderWidth) solid",
+										borderBottom: "var(--Grid-borderWidth) solid",
+										borderColor: "divider",
+									},
+									color: "black",
+									marginLeft: "4%",
+									marginRight: "4%",
+								}}
+							>
+								<Grid2
+									xs={8}
+									sx={{
+										display: "flex",
+										justifyContent: "center",
+										alignItems: "center",
+										color: "blue",
+									}}
+								>
+									Libellé
+								</Grid2>
+								<Grid2
+									xs={0.7}
+									sx={{
+										display: "flex",
+										justifyContent: "center",
+										alignItems: "center",
+										color: "blue",
+									}}
+								>
+									Oui/Non
+								</Grid2>
+								<Grid2
+									xs={3.3}
+									sx={{
+										display: "flex",
+										justifyContent: "center",
+										alignItems: "center",
+										color: "blue",
+									}}
+								>
+									Détails supplémentaires (facultatif)
+								</Grid2>
+								{checkedItems.length > 0
+									? specificItems.map((item) =>
+											checkedAttachedServices[
+												attachedServices.indexOf(
+													attachedServices.find(
+														(attachedService) =>
+															attachedService.id === item.attachedServiceId
+													)
+												)
+											] ? (
+												<>
+													<Grid2
+														key={"label" + item.id}
+														xs={8}
+														sx={{
+															display: "flex",
+															flexDirection: "column",
+															justifyContent: "center",
+															alignItems: "center",
+														}}
+													>
+														{item.label_item}
+													</Grid2>
+													<Grid2
+														key={"value" + item.id}
+														xs={4}
+														sx={{
+															display: "flex",
+															justifyContent: "center",
+														}}
+													>
+														<Checkbox
+															key={"check" + item.id}
+															checked={checkedItems[items.indexOf(item)]}
+															onChange={(event) => {
+																handleCheck(event, items.indexOf(item));
+															}}
+															sx={{
+																color: "#26367a",
+																"&.Mui-checked": {
+																	color: "#26367a",
+																},
+															}}
+														/>
+														<TextField
+															key={"textfield" + item.id}
+															value={
+																valuesItemBuilding.find(
+																	(value) => value.itemId === item.id
+																)?.description
+															}
+															onChange={(
+																event: React.ChangeEvent<HTMLInputElement>
+															) => {
+																setValuesItemBuilding(
+																	valuesItemBuilding.map((value) =>
+																		value.itemId === item.id
+																			? {
+																					...value,
+																					description: event.target.value,
+																			  }
+																			: value
+																	)
+																);
+															}}
+															sx={{
+																display: "flex",
+																justifyContent: "center",
+																width: "80%",
+																m: 1,
+																backgroundColor: "white",
+															}}
+														></TextField>
+													</Grid2>
+												</>
+											) : null
+									  )
+									: null}
 							</Grid2>
 						</>
 					) : null}
@@ -428,13 +576,7 @@ export const ManagerService = (): React.ReactElement => {
 						<Button
 							id="validation-button"
 							variant="contained"
-							onClick={() => {
-								axios.post(
-									baseURL + "/api/value-item-building/updateAll",
-									valuesItemBuilding
-								);
-								setOpen(true);
-							}}
+							onClick={handleValidation}
 						>
 							Valider les modifications
 						</Button>
