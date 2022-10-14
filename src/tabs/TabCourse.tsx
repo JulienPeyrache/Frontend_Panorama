@@ -164,8 +164,9 @@ export const TabCourse = (): React.ReactElement => {
 									label_course: newLabelCourse,
 									code_course: newCodeCourse,
 								};
-								axios.post(baseURL + "/api/course", TempCourse);
-								setNewCourse(TempCourse);
+								axios
+									.post(baseURL + "/api/course", TempCourse)
+									.then(() => setNewCourse(TempCourse));
 
 								setNewDescription("");
 								setNewLabelCourse("");

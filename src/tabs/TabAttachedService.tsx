@@ -140,10 +140,9 @@ export const TabAttachedService = (): React.ReactElement => {
 									label_attached_service: newLabelAttachedService,
 									service: newService,
 								};
-								axios.post(
-									baseURL + "/api/Attached-Service",
-									TempAttachedService
-								);
+								axios
+									.post(baseURL + "/api/Attached-Service", TempAttachedService)
+									.then(() => setNewAttachedService(TempAttachedService));
 
 								setNewService(null);
 								setNewLabelAttachedService("");
