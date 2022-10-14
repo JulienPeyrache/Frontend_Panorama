@@ -90,3 +90,10 @@ export interface ValueEquipmentBuilding {
 	buildingId: number;
 	description: string;
 }
+
+export interface ValueItemBuilding {
+	id: number;
+	itemId: number;
+	buildingId: number;
+	description: string;
+}

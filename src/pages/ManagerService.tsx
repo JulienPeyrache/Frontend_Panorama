@@ -3,25 +3,45 @@ import { useEffect, useState } from "react";
 import { baseURL } from "../components/Const";
 import FilterBar from "../components/FilterBar";
 import axios from "axios";
-import { Building } from "../interfaces/entities";
+import { Building, ValueItemBuilding } from "../interfaces/entities";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { Alert, Button, Snackbar, Switch, TextField } from "@mui/material";
+import {
+	Alert,
+	Button,
+	Checkbox,
+	Snackbar,
+	Switch,
+	TextField,
+} from "@mui/material";
 
 export const ManagerService = (): React.ReactElement => {
 	const [buildings, setBuildings] = useState<any[]>([]);
 	const [services, setServices] = useState<any[]>([]);
+	const [itemsBuilding, setItemsBuilding] = useState<any[]>([]);
 	const [chosenBuildingName, setChosenBuildingName] = useState<any>(null);
 	const [chosenBuildingId, setChosenBuildingId] = useState<any>(null);
 	const [chosenServiceId, setChosenServiceId] = useState<any>(null);
+	const [items, setItems] = useState<any[]>([]);
 	const [commonItems, setCommonItems] = useState<any[]>([]);
+	const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
 	const [valuesItemBuilding, setValuesItemBuilding] = useState<any[]>([]);
 	const [open, setOpen] = useState(false);
+	const [start, setStart] = useState<boolean>(false);
 	const [attachedServices, setAttachedServices] = useState<any[]>([]);
 	const [checkedAttachedServices, setCheckedAttachedServices] = useState<
 		boolean[]
 	>([]);
 	const [specificItems, setSpecificItems] = useState<any[]>([]);
 	const [isSpecificReset, setIsSpecificReset] = useState<boolean>(false);
+
+	const handleCheck = (
+		event: React.ChangeEvent<HTMLInputElement>,
+		i: number
+	) => {
+		setCheckedItems(
+			checkedItems.map((bool, idx) => (idx === i ? event.target.checked : bool))
+		);
+	};
 
 	const handleClose = (
 		event?: React.SyntheticEvent | Event,
@@ -60,18 +80,6 @@ export const ManagerService = (): React.ReactElement => {
 	}, [chosenBuildingName]);
 
 	useEffect(() => {
-		if (chosenBuildingId !== null) {
-			axios
-				.get(
-					baseURL +
-						"/api/value-item-building/findByBuildingId/" +
-						chosenBuildingId
-				)
-				.then((res) => setValuesItemBuilding(res.data));
-		}
-	}, [chosenBuildingId]);
-
-	useEffect(() => {
 		if (chosenServiceId !== null) {
 			axios
 				.get(
@@ -86,6 +94,10 @@ export const ManagerService = (): React.ReactElement => {
 					)
 				)
 				.then((res) => setCommonItems(res.data));
+
+			axios
+				.get(baseURL + "/api/item/findByServiceId/" + chosenServiceId)
+				.then((res) => setSpecificItems(res.data));
 
 			axios
 				.get(
@@ -107,26 +119,74 @@ export const ManagerService = (): React.ReactElement => {
 	}, [attachedServices]);
 
 	useEffect(() => {
-		setSpecificItems([]);
-		setIsSpecificReset(true);
-	}, [checkedAttachedServices]);
+		if (
+			commonItems.length > 0 &&
+			specificItems.length > 0 &&
+			attachedServices.length > 0
+		) {
+			const items = commonItems.concat(specificItems);
+			setItems(items);
+			axios
+				.get(
+					baseURL +
+						"/api/value-item-building/findByBuildingId/" +
+						chosenBuildingId
+				)
+				.then((res) =>
+					setValuesItemBuilding(
+						items.map((item) =>
+							res.data.some(
+								(valueItemBuilding: ValueItemBuilding) =>
+									valueItemBuilding.itemId === item.id
+							)
+								? res.data.find(
+										(valueItemBuilding: ValueItemBuilding) =>
+											valueItemBuilding.itemId === item.id
+								  )
+								: {
+										itemId: item.id,
+										buildingId: chosenBuildingId,
+										description: "",
+								  }
+						)
+					)
+				);
+		} else {
+			setValuesItemBuilding([]);
+			setStart(false);
+		}
+	}, [commonItems, specificItems, attachedServices]);
 
 	useEffect(() => {
-		if (specificItems.length === 0) {
-			for (let i = 0; i < checkedAttachedServices.length; i++) {
-				if (checkedAttachedServices[i]) {
-					axios
-						.get(
-							baseURL +
-								"/api/item/findByAttachedServiceId/" +
-								attachedServices[i].id
-						)
-						.then((res) => setSpecificItems(specificItems.concat(res.data)));
-				}
-			}
+		if (valuesItemBuilding.length > 0 && !start) {
+			setStart(true);
+			setCheckedItems(
+				items.map((item, i) => valuesItemBuilding[i].id !== undefined)
+			);
 		}
-		setIsSpecificReset(false);
-	}, [isSpecificReset]);
+	}, [valuesItemBuilding]);
+
+	// useEffect(() => {
+	// 	setSpecificItems([]);
+	// 	setIsSpecificReset(true);
+	// }, [checkedAttachedServices]);
+
+	// useEffect(() => {
+	// 	if (specificItems.length === 0) {
+	// 		for (let i = 0; i < checkedAttachedServices.length; i++) {
+	// 			if (checkedAttachedServices[i]) {
+	// 				axios
+	// 					.get(
+	// 						baseURL +
+	// 							"/api/item/findByAttachedServiceId/" +
+	// 							attachedServices[i].id
+	// 					)
+	// 					.then((res) => setSpecificItems(specificItems.concat(res.data)));
+	// 			}
+	// 		}
+	// 	}
+	// 	setIsSpecificReset(false);
+	// }, [isSpecificReset]);
 
 	return (
 		<>
@@ -183,7 +243,6 @@ export const ManagerService = (): React.ReactElement => {
 									xs={8}
 									sx={{
 										display: "flex",
-										flexDirection: "column",
 										justifyContent: "center",
 										alignItems: "center",
 									}}
@@ -197,6 +256,19 @@ export const ManagerService = (): React.ReactElement => {
 										justifyContent: "center",
 									}}
 								>
+									<Checkbox
+										key={item.id}
+										checked={checkedItems[items.indexOf(item)]}
+										onChange={(event) => {
+											handleCheck(event, items.indexOf(item));
+										}}
+										sx={{
+											color: "#26367a",
+											"&.Mui-checked": {
+												color: "#26367a",
+											},
+										}}
+									/>
 									<TextField
 										value={
 											valuesItemBuilding.find(
