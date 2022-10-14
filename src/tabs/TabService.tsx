@@ -181,7 +181,21 @@ export const TabService = (): ReactElement => {
 									label_service: newLabelService,
 									course: newCourse,
 								};
-								axios.post(baseURL + "/api/service", TempService);
+								axios
+									.post(baseURL + "/api/service", TempService)
+									.then((res) => {
+										if (res.status === 201) {
+											const CommonAttachedService = {
+												label_attached_service: "Commun",
+												serviceId: res.data.id,
+											};
+											axios.post(
+												baseURL + "/api/attached-service",
+												CommonAttachedService
+											);
+										}
+									});
+
 								setNewService(TempService);
 
 								setNewLabelService("");

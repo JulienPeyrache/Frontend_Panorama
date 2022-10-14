@@ -33,7 +33,6 @@ export const ManagerService = (): React.ReactElement => {
 	>([]);
 	const [ancientCheckedAttachedServices, setAncientCheckedAttachedServices] =
 		useState<boolean[]>([]);
-	const [isSpecificReset, setIsSpecificReset] = useState<boolean>(false);
 
 	const handleCheck = (
 		event: React.ChangeEvent<HTMLInputElement>,
@@ -208,28 +207,6 @@ export const ManagerService = (): React.ReactElement => {
 			);
 		}
 	}, [valuesItemBuilding]);
-
-	// useEffect(() => {
-	// 	setSpecificItems([]);
-	// 	setIsSpecificReset(true);
-	// }, [checkedAttachedServices]);
-
-	// useEffect(() => {
-	// 	if (specificItems.length === 0) {
-	// 		for (let i = 0; i < checkedAttachedServices.length; i++) {
-	// 			if (checkedAttachedServices[i]) {
-	// 				axios
-	// 					.get(
-	// 						baseURL +
-	// 							"/api/item/findByAttachedServiceId/" +
-	// 							attachedServices[i].id
-	// 					)
-	// 					.then((res) => setSpecificItems(specificItems.concat(res.data)));
-	// 			}
-	// 		}
-	// 	}
-	// 	setIsSpecificReset(false);
-	// }, [isSpecificReset]);
 
 	return (
 		<>
