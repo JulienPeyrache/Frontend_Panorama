@@ -35,9 +35,14 @@ export const TabAttachedService = (): React.ReactElement => {
 		useState<AttachedService | null>(null);
 
 	useEffect(() => {
-		axios
-			.get(baseURL + "/api/Attached-Service")
-			.then((data) => setRows(data.data));
+		axios.get(baseURL + "/api/attached-service").then((data) =>
+			setRows(
+				data.data.map((attachedService: AttachedService) => ({
+					...attachedService,
+					service: attachedService.service.label_service,
+				}))
+			)
+		);
 	}, [newAttachedService]);
 
 	useEffect(() => {
@@ -72,7 +77,7 @@ export const TabAttachedService = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Libellé Service Rattaché :
+							Libellé du service rattaché :
 						</Item>
 						<TextField
 							value={newLabelAttachedService}
@@ -82,15 +87,15 @@ export const TabAttachedService = (): React.ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								width: "10ch",
 								backgroundColor: "white",
+								width: "400px",
 							}}
 						></TextField>
 					</Grid2>
 					<Grid2
 						key="service"
 						xs="auto"
-						sx={{ display: "flex", flexDirection: "row" }}
+						sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}
 					>
 						<Item
 							sx={{
@@ -99,7 +104,7 @@ export const TabAttachedService = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Service :
+							Service associé :
 						</Item>
 						<FilterBar
 							label="..."
@@ -112,10 +117,14 @@ export const TabAttachedService = (): React.ReactElement => {
 									? setNewService(service)
 									: setNewService(null);
 							}}
+							width={400}
 						/>
 					</Grid2>
 				</Grid2>
-				<Grid2 container sx={{ justifyContent: "center" }}>
+				<Grid2
+					container
+					sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}
+				>
 					<Button
 						id="validation-button"
 						disabled={!(newService !== null && newLabelAttachedService !== "")}
@@ -143,7 +152,7 @@ export const TabAttachedService = (): React.ReactElement => {
 							}
 						}}
 					>
-						Ajouter un nouveau parcours
+						Ajouter un nouveau service rattaché
 					</Button>
 				</Grid2>
 			</GridToolbarContainer>
@@ -173,10 +182,14 @@ export const TabAttachedService = (): React.ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/Attached-Service/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (
+			window.confirm("Voulez-vous vraiment supprimer ce service rattaché ?")
+		) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/Attached-Service/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -195,8 +208,10 @@ export const TabAttachedService = (): React.ReactElement => {
 		const updatedRow = { ...newRow, isNew: false };
 		const idAttachedService = newRow?.id;
 		const labelAttachedService = newRow?.label_attached_service;
-		const service = newRow?.service;
-		const TempAttachedService: AttachedService = {
+		const service = newServiceList?.find(
+			(service) => service.label_service === newRow.service
+		);
+		const TempAttachedService = {
 			label_attached_service: labelAttachedService,
 			service: service,
 		};
@@ -216,8 +231,16 @@ export const TabAttachedService = (): React.ReactElement => {
 			headerName: "Libellé du service rattaché",
 			type: "string",
 			editable: true,
+			flex: 1,
 		},
-		{ field: "service", headerName: "Service", type: "string", editable: true },
+		{
+			field: "service",
+			headerName: "Service associé",
+			type: "singleSelect",
+			editable: true,
+			flex: 1,
+			valueOptions: newServiceList.map((service) => service.label_service),
+		},
 		{
 			field: "actions",
 			type: "actions",
@@ -273,6 +296,7 @@ export const TabAttachedService = (): React.ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}

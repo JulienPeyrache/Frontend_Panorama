@@ -37,7 +37,6 @@ export interface Equipment {
 
 export interface ItemMacif {
 	label_item: string;
-	default_value?: string;
 	is_occupant_info: boolean;
 	attachedService: AttachedService;
 }
@@ -88,6 +87,13 @@ export interface Site {
 export interface ValueEquipmentBuilding {
 	id: number;
 	equipmentId: number;
+	buildingId: number;
+	description: string;
+}
+
+export interface ValueItemBuilding {
+	id: number;
+	itemId: number;
 	buildingId: number;
 	description: string;
 }

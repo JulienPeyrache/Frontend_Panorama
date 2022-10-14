@@ -45,7 +45,10 @@ export const TabCourse = (): React.ReactElement => {
 				<Grid2
 					container
 					spacing={2}
-					sx={{ color: "black", justifyContent: "center" }}
+					sx={{
+						color: "black",
+						justifyContent: "center",
+					}}
 				>
 					<Grid2
 						key="codeCourse"
@@ -61,7 +64,7 @@ export const TabCourse = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Code Parcours :
+							Code du parcours :
 						</Item>
 						<TextField
 							value={newCodeCourse}
@@ -90,7 +93,7 @@ export const TabCourse = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Libellé du Parcours :
+							Libellé du parcours :
 						</Item>
 						<TextField
 							value={newLabelCourse}
@@ -135,7 +138,10 @@ export const TabCourse = (): React.ReactElement => {
 						></TextField>
 					</Grid2>
 				</Grid2>
-				<Grid2 container sx={{ justifyContent: "center" }}>
+				<Grid2
+					container
+					sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}
+				>
 					<Button
 						id="validation-button"
 						disabled={
@@ -199,10 +205,12 @@ export const TabCourse = (): React.ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/course/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (window.confirm("Voulez-vous vraiment supprimer ce parcours ?")) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/course/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -241,18 +249,21 @@ export const TabCourse = (): React.ReactElement => {
 			headerName: "Code du parcours",
 			type: "string",
 			editable: true,
+			flex: 0.5,
 		},
 		{
 			field: "label_course",
 			headerName: "Libellé du parcours",
 			type: "string",
 			editable: true,
+			flex: 3,
 		},
 		{
 			field: "description",
 			headerName: "Description",
 			type: "string",
 			editable: true,
+			flex: 10,
 		},
 		{
 			field: "actions",
@@ -309,6 +320,7 @@ export const TabCourse = (): React.ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}

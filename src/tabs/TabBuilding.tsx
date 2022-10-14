@@ -57,7 +57,7 @@ export const TabBuilding = (): React.ReactElement => {
 						key="id"
 						xs={12}
 						sm={6}
-						md={6}
+						md={3}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -76,8 +76,8 @@ export const TabBuilding = (): React.ReactElement => {
 							}}
 							sx={{
 								m: 1,
-								flexGrow: 1,
 								backgroundColor: "white",
+								width: "100px",
 							}}
 						></TextField>
 					</Grid2>
@@ -99,18 +99,19 @@ export const TabBuilding = (): React.ReactElement => {
 						</Item>
 						<FilterBar
 							label="..."
-							liste={["Mixte", "PAP", "Technique", "Tertiaire"]}
+							liste={Object.values(TypologyBuilding)}
 							onChange={(event: any, newValue: string | null) => {
 								if (newValue !== null) {
 									setNewTypologieBuilding(newValue as TypologyBuilding);
 								}
 							}}
+							width={150}
 						/>
 					</Grid2>
 					<Grid2
 						key="name_building"
 						xs={12}
-						sm={6}
+						sm={8}
 						md={6}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
@@ -132,6 +133,33 @@ export const TabBuilding = (): React.ReactElement => {
 							sx={{
 								m: 1,
 								flexGrow: 1,
+								backgroundColor: "white",
+							}}
+						></TextField>
+					</Grid2>
+					<Grid2
+						key="postal_code"
+						xs={12}
+						sm={6}
+						md={3}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							Code postal :
+						</Item>
+						<TextField
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								const newValue = event.target.value;
+								setNewPostalCode(newValue as unknown as number);
+							}}
+							sx={{
+								m: 1,
 								backgroundColor: "white",
 							}}
 						></TextField>
@@ -166,38 +194,10 @@ export const TabBuilding = (): React.ReactElement => {
 						></TextField>
 					</Grid2>
 					<Grid2
-						key="postal_code"
-						xs={12}
-						sm={6}
-						md={6}
-						sx={{ display: "flex", flexDirection: "row" }}
-					>
-						<Item
-							sx={{
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							Code postal :
-						</Item>
-						<TextField
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								const newValue = event.target.value;
-								setNewPostalCode(newValue as unknown as number);
-							}}
-							sx={{
-								m: 1,
-								flexGrow: 1,
-								backgroundColor: "white",
-							}}
-						></TextField>
-					</Grid2>
-					<Grid2
 						key="city"
 						xs={12}
 						sm={6}
-						md={6}
+						md={4}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -226,7 +226,7 @@ export const TabBuilding = (): React.ReactElement => {
 						key="is-courrier"
 						xs={12}
 						sm={6}
-						md={6}
+						md={3}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -236,7 +236,7 @@ export const TabBuilding = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Le site est un courrier :
+							Le bâtiment est courrier :
 						</Item>
 						<FilterBar
 							label="..."
@@ -250,7 +250,10 @@ export const TabBuilding = (): React.ReactElement => {
 						/>
 					</Grid2>
 				</Grid2>
-				<Grid2 container sx={{ justifyContent: "center" }}>
+				<Grid2
+					container
+					sx={{ display: "flex", flexGrow: 1, justifyContent: "center" }}
+				>
 					<Button
 						id="validation-button"
 						disabled={
@@ -327,10 +330,12 @@ export const TabBuilding = (): React.ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		const currentRow = rows.find((row) => row.id === id);
-		const idCurrentRow = currentRow?.id;
-		axios.delete(baseURL + "/api/building/" + idCurrentRow);
-		setRows(rows.filter((row) => row.id !== id));
+		if (window.confirm("Voulez-vous vraiment supprimer ce bâtiment ?")) {
+			const currentRow = rows.find((row) => row.id === id);
+			const idCurrentRow = currentRow?.id;
+			axios.delete(baseURL + "/api/building/" + idCurrentRow);
+			setRows(rows.filter((row) => row.id !== id));
+		}
 	};
 
 	const handleCancelClick = (id: GridRowId) => () => {
@@ -376,36 +381,50 @@ export const TabBuilding = (): React.ReactElement => {
 			headerName: "ID",
 			type: "number",
 			editable: true,
+			flex: 0.5,
 		},
 		{
 			field: "typology_building",
 			headerName: "Typologie du bâtiment",
-			type: "TypologyBuilding",
+			type: "singleSelect",
 			editable: true,
+			flex: 1,
+			valueOptions: Object.values(TypologyBuilding),
 		},
 		{
 			field: "name_building",
 			headerName: "Nom du bâtiment",
 			type: "string",
 			editable: true,
+			flex: 2,
 		},
 		{
 			field: "address",
 			headerName: "Adresse",
 			type: "string",
 			editable: true,
+			flex: 3,
 		},
 		{
 			field: "postal_code",
 			headerName: "Code postal",
 			type: "number",
 			editable: true,
+			flex: 1,
 		},
 		{
 			field: "city",
 			headerName: "Ville",
 			type: "string",
 			editable: true,
+			flex: 2,
+		},
+		{
+			field: "is_courrier",
+			headerName: "Bâtiment courrier",
+			type: "boolean",
+			editable: true,
+			flex: 1,
 		},
 		{
 			field: "actions",
@@ -462,6 +481,7 @@ export const TabBuilding = (): React.ReactElement => {
 					checkboxSelection={false}
 					density="comfortable"
 					editMode="row"
+					getRowHeight={() => "auto"}
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
 					onRowEditStart={handleRowEditStart}
