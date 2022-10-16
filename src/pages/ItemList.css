@@ -1,0 +1,24 @@
+div {
+  display: block;
+}
+
+.logo {
+  max-width: 50vw;
+  max-height: 50vw;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1, h2, h3{
+  text-align: center;
+  color: #26367a;
+}
+
+p{
+  color: #000
+}
+
+h1 {
+  font-size: 3em;
+}
