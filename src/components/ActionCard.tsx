@@ -14,7 +14,16 @@ export interface ActionCardProps {
 
 export function ActionAreaCard(props: ActionCardProps): React.ReactElement {
 	return (
-		<Grid key={props.name_card} m={1} xs={4} sm={4} md={4}>
+		<Grid
+			key={props.name_card}
+			m={1}
+			xs={4}
+			sm={4}
+			md={4}
+			display="flex"
+			justify-content="center"
+			align-items="center"
+		>
 			<Card sx={{ maxWidth: "auto" }}>
 				<CardActionArea onClick={props.handleCLick}>
 					<CardMedia component="img" height="100" image={props.image_card} />
