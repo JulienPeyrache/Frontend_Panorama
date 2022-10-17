@@ -27,7 +27,9 @@ export const HeaderBar = (): ReactElement => {
 	};
 
 	useEffect(() => {
-		axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
+		axios
+			.get(baseURL + "/api/building/sortedByName")
+			.then((res) => setBuildings(res.data));
 	}, []);
 
 	useEffect(() => {
@@ -71,7 +73,10 @@ export const HeaderBar = (): ReactElement => {
 				{buildings.map((building) => (
 					<MenuItem
 						key={building.name_building}
-						onClick={handleCloseListBuildings}
+						onClick={() => {
+							setChosenBuilding(building);
+							handleCloseListBuildings();
+						}}
 					>
 						<Typography textAlign="center">{building.name_building}</Typography>
 					</MenuItem>
