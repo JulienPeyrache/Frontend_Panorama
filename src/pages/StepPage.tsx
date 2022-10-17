@@ -14,9 +14,13 @@ import WindowIcon from "@mui/icons-material/Window";
 
 interface StepCardProps {
 	title: string;
+	handleClick?: () => void;
 }
 
-export const StepCard = ({ title }: StepCardProps): ReactElement => {
+export const StepCard = ({
+	title,
+	handleClick,
+}: StepCardProps): ReactElement => {
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid
@@ -41,6 +45,7 @@ export const StepCard = ({ title }: StepCardProps): ReactElement => {
 						color: "#202020",
 					},
 				}}
+				onClick={handleClick}
 			>
 				<Typography variant="h5" sx={{ textAlign: "center" }}>
 					<b>{title}</b>
@@ -63,18 +68,14 @@ export default function StepPage(): ReactElement {
 					padding={2}
 					sx={{ display: "flex", justifyContent: "center" }}
 				>
+					<StepCard title="Se déplacer" />
 					<StepCard title="Organiser un événement" />
-					<StepCard title="Réserver une salle de réunion" />
-					<StepCard title="Se rendre à la gare" />
-					<StepCard title="Manger de la soupe" />
-					<StepCard title="Réserver un panier" />
-					<StepCard title="Pondre un oeuf" />
-					<StepCard title="Organiser un événement" />
-					<StepCard title="Réserver une salle de réunion" />
-					<StepCard title="Se rendre à la gare" />
-					<StepCard title="Manger de la soupe" />
-					<StepCard title="Réserver un panier" />
-					<StepCard title="Pondre un oeuf" />
+					<StepCard
+						title="Se détendre"
+						handleClick={() => (window.location.href = "item-list")}
+					/>
+					<StepCard title="Accueillir des visiteurs" />
+					<StepCard title="Imprimer" />
 				</Grid>
 				<div className="bottom">
 					<BottomNavigation showLabels>

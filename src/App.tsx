@@ -5,7 +5,7 @@ import { ManagerService } from "./pages/ManagerService";
 import { ManagerEquipment } from "./pages/ManagerEquipment";
 import { ManagerAdmin } from "./pages/ManagerAdmin";
 import { Building } from "./pages/Building";
-import { TabUserHome } from "./tabs/TabUserHome";
+import { ItemList } from "./pages/ItemList";
 import { Home } from "./pages/Home";
 import StepPage from "./pages/StepPage";
 
@@ -15,6 +15,7 @@ function App(): React.ReactElement {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/step" element={<StepPage />} />
+				<Route path="/item-list" element={<ItemList />} />
 				<Route path="/manager" element={<ManagerHome />} />
 				<Route path="/manager-service" element={<ManagerService />} />
 				<Route path="/manager-equipment" element={<ManagerEquipment />} />
