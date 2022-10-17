@@ -1,5 +1,6 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, ThemeProvider, Typography } from "@mui/material";
 import { ReactElement } from "react";
+import { theme } from "../assets/Theme";
 
 interface StepCardProps {
 	title: string;
@@ -14,7 +15,7 @@ export const StepCard = ({ title }: StepCardProps): ReactElement => {
 			md={4}
 			sx={{
 				borderRadius: 2,
-				border: 2,
+				border: 3,
 				p: 2,
 				m: 1,
 				backgroundColor: "#90caf9",
@@ -24,7 +25,11 @@ export const StepCard = ({ title }: StepCardProps): ReactElement => {
 				flexDirection: "row",
 			}}
 		>
-			{title}
+			<ThemeProvider theme={theme}>
+				<Typography variant="h5" sx={{ textAlign: "center" }}>
+					<b>{title}</b>
+				</Typography>
+			</ThemeProvider>
 		</Grid>
 	);
 };
@@ -32,20 +37,20 @@ export const StepCard = ({ title }: StepCardProps): ReactElement => {
 export default function StepPage(): ReactElement {
 	return (
 		<>
-			<Grid
-				container
-				padding={2}
-				sx={{ display: "flex", justifyContent: "center" }}
-			>
-				<Typography variant="h3">
-					<StepCard title="Hello" />
-					<StepCard title="Ca va ?" />
-					<StepCard title="Moi oui" />
-				</Typography>
-				<StepCard title="et toi ?" />
-				<StepCard title="ah super !" />
-				<StepCard title="Ca va ?" />
-			</Grid>
+			<ThemeProvider theme={theme}>
+				<Grid
+					container
+					padding={2}
+					sx={{ display: "flex", justifyContent: "center" }}
+				>
+					<StepCard title="Organiser un événement" />
+					<StepCard title="Réserver une salle de réunion" />
+					<StepCard title="Se rendre à la gare" />
+					<StepCard title="Manger de la soupe" />
+					<StepCard title="Réserver un panier" />
+					<StepCard title="Pondre un oeuf" />
+				</Grid>
+			</ThemeProvider>
 		</>
 	);
 }
