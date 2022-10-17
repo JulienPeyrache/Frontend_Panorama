@@ -12,6 +12,7 @@ import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import { Building } from "../interfaces/entities";
 import { baseURL } from "./Const";
+import logo from "../assets/logo_macif.png";
 
 export const HeaderBar = (): ReactElement => {
 	const [buildings, setBuildings] = useState<Building[]>([]);
@@ -89,7 +90,13 @@ export const HeaderBar = (): ReactElement => {
 					</Typography>
 				</Toolbar>
 			</Box>
-			<span style={{ marginRight: 1, width: "51px" }}></span>
+			<span style={{ marginRight: 1, width: "51px" }}>
+				<img
+					src={logo}
+					alt="Logo MACIF"
+					style={{ width: "auto", height: "48px", marginTop: "4px" }}
+				/>
+			</span>
 		</AppBar>
 	);
 };

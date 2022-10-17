@@ -1,7 +1,16 @@
-import { Grid, ThemeProvider, Typography } from "@mui/material";
+import {
+	BottomNavigation,
+	BottomNavigationAction,
+	Grid,
+	ThemeProvider,
+	Typography,
+} from "@mui/material";
 import { ReactElement } from "react";
 import { theme } from "../assets/Theme";
 import { HeaderBar } from "../components/HeaderBar";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import SearchIcon from "@mui/icons-material/Search";
+import WindowIcon from "@mui/icons-material/Window";
 
 interface StepCardProps {
 	title: string;
@@ -67,6 +76,19 @@ export default function StepPage(): ReactElement {
 					<StepCard title="Réserver un panier" />
 					<StepCard title="Pondre un oeuf" />
 				</Grid>
+				<div className="bottom">
+					<BottomNavigation showLabels>
+						<BottomNavigationAction
+							label="Accueil"
+							icon={<WindowIcon />}
+							onClick={() => {
+								window.location.href = "/";
+							}}
+						/>
+						<BottomNavigationAction label="Recherche" icon={<SearchIcon />} />
+						<BottomNavigationAction label="Catalogue" icon={<MenuBookIcon />} />
+					</BottomNavigation>
+				</div>
 			</ThemeProvider>
 		</>
 	);
