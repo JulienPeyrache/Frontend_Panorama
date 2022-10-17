@@ -11,9 +11,11 @@ export const NewHome = (): React.ReactElement => {
 	const [value, setValue] = useState(0);
 	return (
 		<div>
-			{value === 0 && <TabUserHome />}
-			{value === 1 && <h1> Catalogue </h1>}
-			{value === 2 && <h1> Recherche </h1>}
+			<div className="tab">
+				{value === 0 && <TabUserHome />}
+				{value === 1 && <h1> Catalogue </h1>}
+				{value === 2 && <h1> Recherche </h1>}
+			</div>
 			<div className="bottom">
 				<BottomNavigation
 					showLabels
