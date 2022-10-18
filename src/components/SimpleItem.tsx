@@ -26,11 +26,6 @@ export default function SimpleItem({ label, description }: SimpleItemProps) {
         color: "#505050",
         transition: "0.3s",
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-        "&:hover": {
-          cursor: "pointer",
-          backgroundColor: "lightgray",
-          color: "#202020",
-        },
       }}
     >
       <ThemeProvider theme={theme}>

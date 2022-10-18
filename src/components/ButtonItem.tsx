@@ -31,15 +31,10 @@ export default function ButtonItem({
         color: "#505050",
         transition: "0.3s",
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-        "&:hover": {
-          cursor: "pointer",
-          backgroundColor: "lightgray",
-          color: "#202020",
-        },
       }}
     >
       <ThemeProvider theme={theme}>
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", padding: 5 }}>
           <b>{label}</b> :
         </div>
 
