@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Stack } from "@mui/system";
-import { Paper, Button, Grid } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { Button, Grid } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../assets/Theme";
 
 interface ButtonItemProps {
