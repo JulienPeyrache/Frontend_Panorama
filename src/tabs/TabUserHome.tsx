@@ -1,11 +1,11 @@
 import { ActionAreaCard } from "../components/ActionCard";
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import restauration from "../assets/restauration.jpg";
 import intervention from "../assets/intervention.jpg";
 import travail from "../assets/travail.jpg";
 import commodities from "../assets/commodités.jpg";
-import { HeaderBar } from "../components/HeaderBar";
+import StepPage from "../pages/StepPage";
 
 export interface ActionCardProps {
 	name_card: string;
@@ -14,59 +14,67 @@ export interface ActionCardProps {
 	handleClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const Restauration: ActionCardProps = {
-	name_card: "Restauration",
-	image_card: restauration,
-	description_card: "Trouvez un restaurant",
-	handleClick: () => {
-		console.log("Restauration");
-	},
-};
-
-export const Commodites: ActionCardProps = {
-	name_card: "Commodités",
-	image_card: commodities,
-	description_card: "Trouvez une pharmacie",
-	handleClick: () => {
-		window.location.href = "/step";
-	},
-};
-
-export const Travail: ActionCardProps = {
-	name_card: "Travail",
-	image_card: travail,
-	description_card: "Trouvez un lieu de travail",
-	handleClick: () => {
-		console.log("Travail");
-	},
-};
-
-export const Intervention: ActionCardProps = {
-	name_card: "Demande d'intervention",
-	image_card: intervention,
-	description_card: "Faites une demande d'intervention",
-	handleClick: () => {
-		console.log("Demande d'intervention");
-	},
-};
-
 export const TabUserHome = () => {
+	const Restauration: ActionCardProps = {
+		name_card: "Restauration",
+		image_card: restauration,
+		description_card: "",
+		handleClick: () => {
+			setStepPage(1);
+		},
+	};
+
+	const Commodites: ActionCardProps = {
+		name_card: "Commodités",
+		image_card: commodities,
+		description_card: "",
+		handleClick: () => {
+			setStepPage(2);
+		},
+	};
+
+	const Travail: ActionCardProps = {
+		name_card: "Outils de travail",
+		image_card: travail,
+		description_card: "",
+		handleClick: () => {
+			setStepPage(3);
+		},
+	};
+
+	const Intervention: ActionCardProps = {
+		name_card: "Signalisation & Demande d'intervention",
+		image_card: intervention,
+		description_card: "",
+		handleClick: () => {
+			setStepPage(4);
+		},
+	};
+	const [stepPage, setStepPage] = useState(0);
 	return (
 		<>
-			<HeaderBar />
 			<Grid
 				container
-				mt={10}
 				sx={{
 					color: "black",
 					display: "flex",
 					justifyContent: "center",
 				}}
 			>
-				<ActionAreaCard {...Restauration} />
-				<ActionAreaCard {...Commodites} />
-				<ActionAreaCard {...Travail} />
-				<ActionAreaCard {...Intervention} />
+				{stepPage === 0 && (
+					<>
+						<span style={{ marginTop: "15%", width: "100%" }}></span>
+						<ActionAreaCard {...Restauration} />
+						<ActionAreaCard {...Commodites} />
+						<ActionAreaCard {...Travail} />
+						<ActionAreaCard {...Intervention} />
+					</>
+				)}
+
+				{stepPage === 1 && <StepPage />}
+				{stepPage === 2 && <StepPage />}
+				{stepPage === 3 && <StepPage />}
+				{stepPage === 4 && <StepPage />}
 			</Grid>
 		</>
 	);
