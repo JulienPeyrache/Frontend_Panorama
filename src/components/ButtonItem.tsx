@@ -40,7 +40,7 @@ export default function ButtonItem({
       }}
     >
       <ThemeProvider theme={theme}>
-        <div>
+        <div style={{ textAlign: "center" }}>
           <b>{label}</b> :
         </div>
         <Button variant="contained" sx={{ backgroundColor: "#26367a" }}>

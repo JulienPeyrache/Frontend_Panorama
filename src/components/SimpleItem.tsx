@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Stack } from "@mui/system";
-import { Paper, Grid } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { Grid } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../assets/Theme";
 
 interface SimpleItemProps {
@@ -35,10 +34,10 @@ export default function SimpleItem({ label, description }: SimpleItemProps) {
       }}
     >
       <ThemeProvider theme={theme}>
-        <div>
+        <div style={{ textAlign: "center" }}>
           <b>{label}</b> :
         </div>
-        <div>{description}</div>
+        <div style={{ textAlign: "center" }}>{description}</div>
       </ThemeProvider>
     </Grid>
   );
