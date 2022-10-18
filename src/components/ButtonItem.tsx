@@ -42,7 +42,11 @@ export default function ButtonItem({
         <div style={{ textAlign: "center" }}>
           <b>{label}</b> :
         </div>
-        <Button variant="contained" sx={{ backgroundColor: "#26367a" }}>
+
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#26367a", flexShrink: 0 }}
+        >
           {buttonText}
         </Button>
       </ThemeProvider>

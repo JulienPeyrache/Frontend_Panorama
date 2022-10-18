@@ -22,7 +22,7 @@ export default function SimpleItem({ label, description }: SimpleItemProps) {
         justifyContent: "center",
         alignItems: "center",
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         color: "#505050",
         transition: "0.3s",
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
