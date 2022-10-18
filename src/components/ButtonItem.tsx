@@ -1,47 +1,55 @@
 import * as React from "react";
-import { Stack } from "@mui/system";
-import { Paper, Button } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { Button, Grid } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../assets/Theme";
 
-const Item = styled(Paper)(({ theme }) => ({
-	...theme.typography.body2,
-	textAlign: "center",
-	color: theme.palette.text.secondary,
-	lineHeight: "60px",
-}));
-
 interface ButtonItemProps {
-	label: string;
-	buttonText: string;
-	handleClick?: () => void;
+  label: string;
+  buttonText: string;
+  handleClick?: () => void;
 }
 
 export default function ButtonItem({
-	label,
-	buttonText,
-	handleClick,
+  label,
+  buttonText,
+  handleClick,
 }: ButtonItemProps) {
-	return (
-		<div>
-			<ThemeProvider theme={theme}>
-				<Item elevation={1}>
-					<Stack
-						direction="row"
-						justifyContent="space-evenly"
-						alignItems="center"
-						spacing={1}
-						sx={{ my: 1, mx: 1 }}
-					>
-						<div>
-							<b>{label}</b> :
-						</div>
-						<Button variant="contained" sx={{ backgroundColor: "#26367a" }}>
-							{buttonText}
-						</Button>
-					</Stack>
-				</Item>
-			</ThemeProvider>
-		</div>
-	);
+  return (
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      sx={{
+        borderRadius: 2,
+        p: 2,
+        m: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+        flexDirection: "row",
+        color: "#505050",
+        transition: "0.3s",
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        "&:hover": {
+          cursor: "pointer",
+          backgroundColor: "lightgray",
+          color: "#202020",
+        },
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <div style={{ textAlign: "center" }}>
+          <b>{label}</b> :
+        </div>
+
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#26367a", flexShrink: 0 }}
+        >
+          {buttonText}
+        </Button>
+      </ThemeProvider>
+    </Grid>
+  );
 }

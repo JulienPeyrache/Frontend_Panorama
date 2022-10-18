@@ -1,41 +1,44 @@
 import * as React from "react";
-import { Stack } from "@mui/system";
-import { Paper } from "@mui/material";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { Grid } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "../assets/Theme";
 
-const Item = styled(Paper)(({ theme }) => ({
-	...theme.typography.body2,
-	textAlign: "center",
-	color: theme.palette.text.secondary,
-	height: 60,
-	lineHeight: "60px",
-}));
-
 interface SimpleItemProps {
-	label: string;
-	description: string;
+  label: string;
+  description: string;
 }
 
 export default function SimpleItem({ label, description }: SimpleItemProps) {
-	return (
-		<div>
-			<ThemeProvider theme={theme}>
-				<Item elevation={1}>
-					<Stack
-						direction="row"
-						justifyContent="space-evenly"
-						alignItems="center"
-						spacing={1}
-						sx={{ my: 1, mx: 1 }}
-					>
-						<div>
-							<b>{label}</b> :
-						</div>
-						<div>{description}</div>
-					</Stack>
-				</Item>
-			</ThemeProvider>
-		</div>
-	);
+  return (
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={4}
+      sx={{
+        borderRadius: 2,
+        p: 2,
+        m: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        color: "#505050",
+        transition: "0.3s",
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        "&:hover": {
+          cursor: "pointer",
+          backgroundColor: "lightgray",
+          color: "#202020",
+        },
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <div style={{ textAlign: "center" }}>
+          <b>{label}</b> :
+        </div>
+        <div style={{ textAlign: "center" }}>{description}</div>
+      </ThemeProvider>
+    </Grid>
+  );
 }
