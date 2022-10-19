@@ -7,8 +7,7 @@ import { CardActionArea, Grid } from "@mui/material";
 
 export interface ActionCardProps {
 	name_card: string;
-	image_card?: string;
-	description_card: string;
+	image_card: string;
 	handleClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -25,9 +24,30 @@ export function ActionAreaCard(props: ActionCardProps): React.ReactElement {
 			justifyContent="center"
 			alignItems="center"
 		>
-			<Card sx={{ width: "250px", height: "250px" }}>
-				<CardActionArea sx={{ width: "100%" }} onClick={props.handleClick}>
-					<CardMedia component="img" height="100" image={props.image_card} />
+			<Card
+				sx={{
+					width: "230px",
+					height: "230px",
+					backgroundColor: "#515E95",
+					color: "white",
+				}}
+			>
+				<CardActionArea
+					sx={{
+						width: "100%",
+						height: "100%",
+						display: "flex",
+						flexDirection: "column",
+						justifyContent: "flex-start",
+					}}
+					onClick={props.handleClick}
+				>
+					<CardMedia
+						component="img"
+						height="100"
+						image={props.image_card}
+						sx={{ position: "top" }}
+					/>
 					<CardContent
 						sx={{
 							display: "flex",
@@ -41,10 +61,7 @@ export function ActionAreaCard(props: ActionCardProps): React.ReactElement {
 							component="div"
 							align="center"
 						>
-							{props.name_card}
-						</Typography>
-						<Typography variant="body2" color="text.secondary" align="center">
-							{props.description_card}
+							<b>{props.name_card}</b>
 						</Typography>
 					</CardContent>
 				</CardActionArea>

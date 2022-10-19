@@ -3,54 +3,44 @@ import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import restauration from "../assets/restauration.jpg";
 import intervention from "../assets/intervention.jpg";
-import travail from "../assets/travail.jpg";
-import commodities from "../assets/commodités.jpg";
+import work from "../assets/travail.jpg";
+import comfort from "../assets/commodités.jpg";
 import StepPage from "../pages/StepPage";
-
-export interface ActionCardProps {
-	name_card: string;
-	image_card: string;
-	description_card: string;
-	handleClick: React.MouseEventHandler<HTMLButtonElement>;
-}
+import { ActionCardProps } from "../components/ActionCard";
 
 export const TabUserHome = () => {
 	const Restauration: ActionCardProps = {
 		name_card: "Restauration",
 		image_card: restauration,
-		description_card: "",
 		handleClick: () => {
-			setStepPage(1);
+			setValueStepPage(1);
 		},
 	};
 
-	const Commodites: ActionCardProps = {
+	const Comfort: ActionCardProps = {
 		name_card: "Commodités",
-		image_card: commodities,
-		description_card: "",
+		image_card: comfort,
 		handleClick: () => {
-			setStepPage(2);
+			setValueStepPage(2);
 		},
 	};
 
-	const Travail: ActionCardProps = {
+	const Work: ActionCardProps = {
 		name_card: "Outils de travail",
-		image_card: travail,
-		description_card: "",
+		image_card: work,
 		handleClick: () => {
-			setStepPage(3);
+			setValueStepPage(3);
 		},
 	};
 
 	const Intervention: ActionCardProps = {
-		name_card: "Signalisation & Demande d'intervention",
+		name_card: "Signalement & Demande d'intervention",
 		image_card: intervention,
-		description_card: "",
 		handleClick: () => {
-			setStepPage(4);
+			setValueStepPage(4);
 		},
 	};
-	const [stepPage, setStepPage] = useState(0);
+	const [valueStepPage, setValueStepPage] = useState(0);
 	return (
 		<>
 			<Grid
@@ -61,20 +51,44 @@ export const TabUserHome = () => {
 					justifyContent: "center",
 				}}
 			>
-				{stepPage === 0 && (
+				{valueStepPage === 0 && (
 					<>
-						<span style={{ marginTop: "15%", width: "100%" }}></span>
+						<span style={{ marginTop: "10%", width: "100%" }}></span>
 						<ActionAreaCard {...Restauration} />
-						<ActionAreaCard {...Commodites} />
-						<ActionAreaCard {...Travail} />
+						<ActionAreaCard {...Comfort} />
+						<ActionAreaCard {...Work} />
 						<ActionAreaCard {...Intervention} />
 					</>
 				)}
 
-				{stepPage === 1 && <StepPage />}
-				{stepPage === 2 && <StepPage />}
-				{stepPage === 3 && <StepPage />}
-				{stepPage === 4 && <StepPage />}
+				{valueStepPage === 1 && (
+					<StepPage
+						valueStepPage={1}
+						setValueStepPage={setValueStepPage}
+						title={Restauration.name_card}
+					/>
+				)}
+				{valueStepPage === 2 && (
+					<StepPage
+						valueStepPage={2}
+						setValueStepPage={setValueStepPage}
+						title={Comfort.name_card}
+					/>
+				)}
+				{valueStepPage === 3 && (
+					<StepPage
+						valueStepPage={3}
+						setValueStepPage={setValueStepPage}
+						title={Work.name_card}
+					/>
+				)}
+				{valueStepPage === 4 && (
+					<StepPage
+						valueStepPage={4}
+						setValueStepPage={setValueStepPage}
+						title={Intervention.name_card}
+					/>
+				)}
 			</Grid>
 		</>
 	);
