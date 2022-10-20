@@ -26,7 +26,12 @@ import {
 	GridRowModel,
 } from "@mui/x-data-grid";
 import FilterBar from "../components/FilterBar";
-import { AttachedService, ItemMacif, Service } from "../interfaces/entities";
+import {
+	AttachedService,
+	ItemMacif,
+	Service,
+	Step,
+} from "../interfaces/entities";
 
 export const TabItem = (): ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
@@ -65,6 +70,10 @@ export const TabItem = (): ReactElement => {
 
 	function EditToolbar() {
 		const [newLabelItem, setNewLabelItem] = useState<string>("");
+		const [newLabelUserfriendlyItem, setNewLabelUserfriendlyItem] = useState<
+			string | undefined
+		>(undefined);
+		const [newStep, setNewStep] = useState<Step | undefined>(undefined);
 		const [newOccupantInfo, setNewOccupantInfo] = useState<boolean>(true);
 		const [newAttachedService, setNewAttachedService] =
 			useState<AttachedService | null>(null);
@@ -79,8 +88,8 @@ export const TabItem = (): ReactElement => {
 					<Grid2
 						key="label-item"
 						xs={12}
-						sm={4}
-						md={3}
+						sm={6}
+						md={6}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -105,6 +114,63 @@ export const TabItem = (): ReactElement => {
 								width: "600px",
 							}}
 						></TextField>
+					</Grid2>
+					<Grid2
+						key="label-userfriendly-item"
+						xs={12}
+						sm={6}
+						md={6}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							Nom de l'item dans l'interface utilisateur (facultatif) :
+						</Item>
+						<TextField
+							value={newLabelUserfriendlyItem}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								const newValue = event.target.value;
+								setNewLabelUserfriendlyItem(newValue);
+							}}
+							sx={{
+								m: 1,
+								flexGrow: 1,
+								backgroundColor: "white",
+								width: "500px",
+							}}
+						></TextField>
+					</Grid2>
+					<Grid2
+						key="step"
+						xs={12}
+						sm={6}
+						md={6}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							Etape associée dans l'interface utilisateur (facultatif) :
+						</Item>
+						<FilterBar
+							label="..."
+							liste={Object.values(Step)}
+							onChange={(event: any, newValue: string | null) => {
+								if (newValue !== null) {
+									setNewStep(newValue as Step);
+								}
+							}}
+							width={300}
+						/>
 					</Grid2>
 					<Grid2
 						key="attached-service"
@@ -163,7 +229,7 @@ export const TabItem = (): ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Est une information accessible aux occupants :
+							Information accessible aux occupants :
 						</Item>
 						<FilterBar
 							label="..."
@@ -190,6 +256,8 @@ export const TabItem = (): ReactElement => {
 							if (newLabelItem !== "" && newAttachedService !== null) {
 								const TempItem: ItemMacif = {
 									label_item: newLabelItem,
+									label_userfriendly: newLabelUserfriendlyItem,
+									step: newStep,
 									is_occupant_info: newOccupantInfo,
 									attachedService: newAttachedService,
 								};
@@ -198,6 +266,8 @@ export const TabItem = (): ReactElement => {
 									.then(() => setNewItem(TempItem));
 
 								setNewLabelItem("");
+								setNewLabelUserfriendlyItem(undefined);
+								setNewStep(undefined);
 								setNewOccupantInfo(true);
 								setNewAttachedService(null);
 							} else {
@@ -259,6 +329,9 @@ export const TabItem = (): ReactElement => {
 		const updatedRow = { ...newRow, isNew: false };
 		const idItem = newRow?.id;
 		const labelItem = newRow?.label_item;
+		const labelUserfriendlyItem =
+			newRow?.label_userfriendly === "" ? null : newRow?.label_userfriendly;
+		const stepItem = newRow?.step === "<vide>" ? null : newRow?.step;
 		const isOccupantInfo = newRow?.is_occupant_info;
 		const attachedService = newAttachedServicesList.find(
 			(attachedService: any) =>
@@ -272,6 +345,8 @@ export const TabItem = (): ReactElement => {
 		const default_value = newRow?.default_value;
 		const item = {
 			label_item: labelItem,
+			label_userfriendly: labelUserfriendlyItem,
+			step: stepItem,
 			is_occupant_info: isOccupantInfo,
 			attachedService: attachedService,
 			default_value: default_value,
@@ -290,6 +365,21 @@ export const TabItem = (): ReactElement => {
 			type: "string",
 			editable: true,
 			flex: 5,
+		},
+		{
+			field: "label_userfriendly",
+			headerName: "Libellé pour l'utilisateur",
+			type: "string",
+			editable: true,
+			flex: 3.5,
+		},
+		{
+			field: "step",
+			headerName: "Etape associée dans l'interface utilisateur",
+			type: "singleSelect",
+			editable: true,
+			flex: 3,
+			valueOptions: ["<vide>", ...Object.values(Step)],
 		},
 		{
 			field: "attachedService",

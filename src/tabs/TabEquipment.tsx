@@ -25,7 +25,7 @@ import {
 	GridRowModel,
 } from "@mui/x-data-grid";
 import FilterBar from "../components/FilterBar";
-import { Equipment } from "../interfaces/entities";
+import { Equipment, Step } from "../interfaces/entities";
 
 export const TabEquipment = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
@@ -38,6 +38,7 @@ export const TabEquipment = (): React.ReactElement => {
 
 	function EditToolbar() {
 		const [newLabelEquipment, setNewLabelEquipment] = useState<string>("");
+		const [newStep, setNewStep] = useState<Step | undefined>(undefined);
 
 		return (
 			<GridToolbarContainer>
@@ -49,8 +50,8 @@ export const TabEquipment = (): React.ReactElement => {
 					<Grid2
 						key="label-equipment"
 						xs={12}
-						sm={10}
-						md={10}
+						sm={12}
+						md={6}
 						sx={{ display: "flex", flexDirection: "row" }}
 					>
 						<Item
@@ -76,6 +77,33 @@ export const TabEquipment = (): React.ReactElement => {
 							}}
 						></TextField>
 					</Grid2>
+					<Grid2
+						key="step"
+						xs={12}
+						sm={12}
+						md={6}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							Etape associée dans l'interface utilisateur (facultatif) :
+						</Item>
+						<FilterBar
+							label="..."
+							liste={Object.values(Step)}
+							onChange={(event: any, newValue: string | null) => {
+								if (newValue !== null) {
+									setNewStep(newValue as Step);
+								}
+							}}
+							width={300}
+						/>
+					</Grid2>
 				</Grid2>
 				<Grid2
 					container
@@ -90,12 +118,14 @@ export const TabEquipment = (): React.ReactElement => {
 							if (newLabelEquipment !== "") {
 								const TempEquipment: Equipment = {
 									label_equipment: newLabelEquipment,
+									step: newStep,
 								};
 								axios
 									.post(baseURL + "/api/equipment", TempEquipment)
 									.then(() => setNewEquipment(TempEquipment));
 
 								setNewLabelEquipment("");
+								setNewStep(undefined);
 							} else {
 								setNewEquipment(null);
 							}
@@ -155,9 +185,11 @@ export const TabEquipment = (): React.ReactElement => {
 		const updatedRow = { ...newRow, isNew: false };
 		const idEquipment = newRow?.id;
 		const labelEquipment = newRow?.label_equipment;
+		const stepItem = newRow?.step === "<vide>" ? null : newRow?.step;
 
 		const TempEquipment: Equipment = {
 			label_equipment: labelEquipment,
+			step: stepItem,
 		};
 		axios.patch(baseURL + "/api/equipment/" + idEquipment, TempEquipment);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
@@ -172,7 +204,15 @@ export const TabEquipment = (): React.ReactElement => {
 			headerName: "Libellé équipement",
 			type: "string",
 			editable: true,
-			flex: 1,
+			flex: 3,
+		},
+		{
+			field: "step",
+			headerName: "Etape associée dans l'interface utilisateur",
+			type: "singleSelect",
+			editable: true,
+			flex: 2,
+			valueOptions: ["<vide>", ...Object.values(Step)],
 		},
 		{
 			field: "actions",
