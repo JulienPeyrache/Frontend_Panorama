@@ -5,7 +5,6 @@ import { ManagerService } from "./pages/ManagerService";
 import { ManagerEquipment } from "./pages/ManagerEquipment";
 import { ManagerAdmin } from "./pages/ManagerAdmin";
 import { Building } from "./pages/Building";
-import { ItemList } from "./pages/ItemList";
 import { Home } from "./pages/Home";
 
 function App(): React.ReactElement {
@@ -13,7 +12,6 @@ function App(): React.ReactElement {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/item-list" element={<ItemList />} />
 				<Route path="/manager" element={<ManagerHome />} />
 				<Route path="/manager-service" element={<ManagerService />} />
 				<Route path="/manager-equipment" element={<ManagerEquipment />} />

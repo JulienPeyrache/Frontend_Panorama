@@ -34,7 +34,7 @@ export const TabUserHome = () => {
 	};
 
 	const Intervention: ActionCardProps = {
-		name_card: "Signalement & Demande d'intervention",
+		name_card: "Support & sécurité",
 		image_card: intervention,
 		handleClick: () => {
 			setValueStepPage(4);
