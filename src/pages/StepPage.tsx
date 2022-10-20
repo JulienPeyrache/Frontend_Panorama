@@ -1,96 +1,75 @@
-import {
-	BottomNavigation,
-	BottomNavigationAction,
-	Grid,
-	ThemeProvider,
-	Typography,
-} from "@mui/material";
-import { ReactElement } from "react";
+import { Grid, ThemeProvider, Typography } from "@mui/material";
+import { ReactElement, useState } from "react";
 import { theme } from "../assets/Theme";
-import { HeaderBar } from "../components/HeaderBar";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import SearchIcon from "@mui/icons-material/Search";
-import WindowIcon from "@mui/icons-material/Window";
+import { BackButton } from "../components/BackButton";
+import { StepCard } from "../components/StepCard";
+import { ItemPage } from "./ItemPage";
 
-interface StepCardProps {
+interface StepPageProps {
+	valueStepPage: number;
+	setValueStepPage: (value: number) => void;
 	title: string;
-	handleClick?: () => void;
 }
 
-export const StepCard = ({
-	title,
-	handleClick,
-}: StepCardProps): ReactElement => {
-	return (
-		<ThemeProvider theme={theme}>
-			<Grid
-				item
-				xs={12}
-				sm={6}
-				md={4}
-				sx={{
-					borderRadius: 2,
-					p: 2,
-					m: 1,
-					justifyContent: "center",
-					alignItems: "center",
-					display: "flex",
-					flexDirection: "row",
-					color: "#505050",
-					transition: "0.3s",
-					boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-					"&:hover": {
-						cursor: "pointer",
-						backgroundColor: "lightgray",
-						color: "#202020",
-					},
-				}}
-				onClick={handleClick}
-			>
-				<Typography variant="h5" sx={{ textAlign: "center" }}>
-					<b>{title}</b>
-				</Typography>
-			</Grid>
-		</ThemeProvider>
-	);
+const steps: Record<number, string[]> = {
+	1: ["Restaurant d'entreprise", "Offre en libre service"],
+	2: ["Se détendre", "Services à la personne", "Hygiène"],
+	3: [
+		"Se déplacer",
+		"Organiser une réunion",
+		"Organiser un événement",
+		"Accueillir des visiteurs",
+		"Equipements du bâtiment",
+		"Réception et expédition de courrier",
+		"Reprographie",
+		"Archivage",
+		"Déménager et aménager",
+	],
+	4: [
+		"Guichet de support ET",
+		"Guichet de support IT",
+		"Entretien des extérieurs",
+		"Sécurité et sûreté",
+	],
 };
 
-export default function StepPage(): ReactElement {
+export default function StepPage({
+	valueStepPage,
+	setValueStepPage,
+	title,
+}: StepPageProps): ReactElement {
+	const [valueItemPage, setValueItemPage] = useState(0);
 	return (
 		<>
-			<ThemeProvider theme={theme}>
-				<HeaderBar />
-				<Typography variant="h3" align="center" sx={{ m: 2, marginTop: 4 }}>
-					<b>Commodités</b>
-				</Typography>
-				<Grid
-					container
-					padding={2}
-					sx={{ display: "flex", justifyContent: "center" }}
-				>
-					<StepCard title="Se déplacer" />
-					<StepCard title="Organiser un événement" />
-					<StepCard
-						title="Se détendre"
-						handleClick={() => (window.location.href = "item-list")}
-					/>
-					<StepCard title="Accueillir des visiteurs" />
-					<StepCard title="Imprimer" />
-				</Grid>
-				<div className="bottom">
-					<BottomNavigation showLabels>
-						<BottomNavigationAction
-							label="Accueil"
-							icon={<WindowIcon />}
-							onClick={() => {
-								window.location.href = "/";
-							}}
-						/>
-						<BottomNavigationAction label="Recherche" icon={<SearchIcon />} />
-						<BottomNavigationAction label="Catalogue" icon={<MenuBookIcon />} />
-					</BottomNavigation>
-				</div>
-			</ThemeProvider>
+			{valueItemPage === 0 && (
+				<ThemeProvider theme={theme}>
+					<div>
+						<BackButton onClick={() => setValueStepPage(0)} />
+						<Typography variant="h3" align="center" sx={{ m: 1 }}>
+							<b>{title}</b>
+						</Typography>
+					</div>
+					<Grid
+						container
+						padding={2}
+						sx={{ display: "flex", justifyContent: "center" }}
+					>
+						{steps[valueStepPage].map((step: string, i: number) => (
+							<StepCard
+								title={step}
+								handleClick={() => setValueItemPage(i + 1)}
+							/>
+						))}
+					</Grid>
+				</ThemeProvider>
+			)}
+			{steps[valueStepPage].map(
+				(step: string, i: number) =>
+					valueItemPage === i + 1 && (
+						<ItemPage setValueItemPage={setValueItemPage} title={step} />
+					)
+			)}
+			<span style={{ marginTop: "15%", width: "100%" }}></span>
 		</>
 	);
 }
