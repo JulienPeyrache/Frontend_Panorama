@@ -6,6 +6,7 @@ import { TabEquipment } from "../tabs/TabEquipment";
 import { TabCourse } from "../tabs/TabCourse";
 import { TabBuilding } from "../tabs/TabBuilding";
 import { TabItem } from "../tabs/TabItem";
+import { TabRedirection } from "../tabs/TabRedirection";
 import { ReactElement } from "react";
 
 interface AuxTabs {
@@ -51,6 +52,13 @@ const tabList: AuxTabs[] = [
 		link: "/building",
 		numero: 5,
 		component: <TabBuilding />,
+	},
+
+	{
+		label: "Redirection",
+		link: "/redirection",
+		numero: 6,
+		component: <TabRedirection />,
 	},
 ];
 
