@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import { baseURL } from "../components/Const";
 import axios from "axios";
-import { Button, Select, SelectChangeEvent, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,59 +24,35 @@ import {
 	GridRowId,
 	GridRowModel,
 } from "@mui/x-data-grid";
+import { Redirection, Step } from "../interfaces/entities";
 import FilterBar from "../components/FilterBar";
-import { Equipment, Step } from "../interfaces/entities";
 
-export const TabEquipment = (): React.ReactElement => {
+export const TabRedirection = (): React.ReactElement => {
 	const [rows, setRows] = useState<GridRowsProp>([]);
 	const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-	const [newEquipment, setNewEquipment] = useState<Equipment | null>(null);
+	const [newRedirection, setNewRedirection] = useState<Redirection | null>(
+		null
+	);
 
 	useEffect(() => {
-		axios.get(baseURL + "/api/equipment").then((data) => setRows(data.data));
-	}, [newEquipment]);
+		axios.get(baseURL + "/api/redirection").then((data) => setRows(data.data));
+	}, [newRedirection]);
 
 	function EditToolbar() {
-		const [newLabelEquipment, setNewLabelEquipment] = useState<string>("");
 		const [newStep, setNewStep] = useState<Step | undefined>(undefined);
+		const [newLabel, setNewLabel] = useState<string>("");
+		const [newUrl, setNewUrl] = useState<string>("");
 
 		return (
 			<GridToolbarContainer>
 				<Grid2
 					container
 					spacing={2}
-					sx={{ color: "black", justifyContent: "center", display: "flex" }}
+					sx={{
+						color: "black",
+						justifyContent: "center",
+					}}
 				>
-					<Grid2
-						key="label-equipment"
-						xs={12}
-						sm={12}
-						md={6}
-						sx={{ display: "flex", flexDirection: "row" }}
-					>
-						<Item
-							sx={{
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center",
-							}}
-						>
-							Libellé de l'équipement :
-						</Item>
-						<TextField
-							value={newLabelEquipment}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								const newValue = event.target.value;
-								setNewLabelEquipment(newValue);
-							}}
-							sx={{
-								m: 1,
-								flexGrow: 10,
-								backgroundColor: "white",
-								width: "800px",
-							}}
-						></TextField>
-					</Grid2>
 					<Grid2
 						key="step"
 						xs={12}
@@ -91,7 +67,7 @@ export const TabEquipment = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							Etape associée dans l'interface utilisateur (facultatif) :
+							Etape associée dans l'interface utilisateur :
 						</Item>
 						<FilterBar
 							label="..."
@@ -104,6 +80,66 @@ export const TabEquipment = (): React.ReactElement => {
 							width={300}
 						/>
 					</Grid2>
+					<Grid2
+						key="Label"
+						xs={12}
+						sm={12}
+						md={6}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							Libellé :
+						</Item>
+						<TextField
+							value={newLabel}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								const newValue = event.target.value;
+								setNewLabel(newValue);
+							}}
+							sx={{
+								m: 1,
+								width: "auto",
+								backgroundColor: "white",
+								flexGrow: 1,
+							}}
+						></TextField>
+					</Grid2>
+					<Grid2
+						key="url"
+						xs={12}
+						sm={12}
+						md={6}
+						sx={{ display: "flex", flexDirection: "row" }}
+					>
+						<Item
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							URL :
+						</Item>
+						<TextField
+							value={newUrl}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								const newValue = event.target.value;
+								setNewUrl(newValue);
+							}}
+							sx={{
+								m: 1,
+								flexGrow: 1,
+								backgroundColor: "white",
+								width: "auto",
+							}}
+						></TextField>
+					</Grid2>
 				</Grid2>
 				<Grid2
 					container
@@ -111,27 +147,31 @@ export const TabEquipment = (): React.ReactElement => {
 				>
 					<Button
 						id="validation-button"
-						disabled={!(newLabelEquipment !== "")}
+						disabled={
+							!(newUrl !== "" && newLabel !== "" && newStep !== undefined)
+						}
 						variant="contained"
 						startIcon={<AddIcon />}
 						onClick={() => {
-							if (newLabelEquipment !== "") {
-								const TempEquipment: Equipment = {
-									label_equipment: newLabelEquipment,
+							if (newUrl !== "" && newLabel !== "" && newStep !== undefined) {
+								const TempRedirection: Redirection = {
+									url: newUrl,
+									label: newLabel,
 									step: newStep,
 								};
 								axios
-									.post(baseURL + "/api/equipment", TempEquipment)
-									.then(() => setNewEquipment(TempEquipment));
+									.post(baseURL + "/api/redirection", TempRedirection)
+									.then(() => setNewRedirection(TempRedirection));
 
-								setNewLabelEquipment("");
+								setNewUrl("");
+								setNewLabel("");
 								setNewStep(undefined);
 							} else {
-								setNewEquipment(null);
+								setNewRedirection(null);
 							}
 						}}
 					>
-						Ajouter un nouvel équipement
+						Ajouter une nouvelle redirection
 					</Button>
 				</Grid2>
 			</GridToolbarContainer>
@@ -161,10 +201,10 @@ export const TabEquipment = (): React.ReactElement => {
 	};
 
 	const handleDeleteClick = (id: GridRowId) => () => {
-		if (window.confirm("Voulez-vous vraiment supprimer cet équipement ?")) {
+		if (window.confirm("Voulez-vous vraiment supprimer ce parcours ?")) {
 			const currentRow = rows.find((row) => row.id === id);
 			const idCurrentRow = currentRow?.id;
-			axios.delete(baseURL + "/api/equipment/" + idCurrentRow);
+			axios.delete(baseURL + "/api/redirection/" + idCurrentRow);
 			setRows(rows.filter((row) => row.id !== id));
 		}
 	};
@@ -183,15 +223,16 @@ export const TabEquipment = (): React.ReactElement => {
 
 	const processRowUpdate = (newRow: GridRowModel) => {
 		const updatedRow = { ...newRow, isNew: false };
-		const idEquipment = newRow?.id;
-		const labelEquipment = newRow?.label_equipment;
-		const stepItem = newRow?.step === "<vide>" ? null : newRow?.step;
-
-		const TempEquipment: Equipment = {
-			label_equipment: labelEquipment,
-			step: stepItem,
+		const idRedirection = newRow?.id;
+		const step = newRow?.step;
+		const label = newRow?.label;
+		const url = newRow?.url;
+		const TempRedirection: Redirection = {
+			url: url,
+			label: label,
+			step: step,
 		};
-		axios.patch(baseURL + "/api/equipment/" + idEquipment, TempEquipment);
+		axios.patch(baseURL + "/api/redirection/" + idRedirection, TempRedirection);
 		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
 		return updatedRow;
@@ -200,19 +241,26 @@ export const TabEquipment = (): React.ReactElement => {
 	const columns: GridColumns = [
 		{ field: "id", headerName: "ID", editable: false, hide: true },
 		{
-			field: "label_equipment",
-			headerName: "Libellé équipement",
-			type: "string",
-			editable: true,
-			flex: 3,
-		},
-		{
 			field: "step",
 			headerName: "Etape associée dans l'interface utilisateur",
 			type: "singleSelect",
 			editable: true,
 			flex: 2,
-			valueOptions: ["<vide>", ...Object.values(Step)],
+			valueOptions: Object.values(Step),
+		},
+		{
+			field: "label",
+			headerName: "Libellé du parcours",
+			type: "string",
+			editable: true,
+			flex: 3,
+		},
+		{
+			field: "url",
+			headerName: "URL",
+			type: "string",
+			editable: true,
+			flex: 10,
 		},
 		{
 			field: "actions",
@@ -261,7 +309,7 @@ export const TabEquipment = (): React.ReactElement => {
 	return (
 		<div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 			<div style={{ flexGrow: 1 }}>
-				<h2> Liste des équipements </h2>
+				<h2> Liste des parcours </h2>
 				<DataGrid
 					columns={columns}
 					rows={rows}

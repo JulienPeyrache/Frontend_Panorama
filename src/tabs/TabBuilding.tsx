@@ -37,7 +37,7 @@ export const TabBuilding = (): React.ReactElement => {
 	}, [newBuilding]);
 
 	function EditToolbar() {
-		const [newTypologyBuilding, setNewTypologieBuilding] =
+		const [newTypologyBuilding, setNewTypologyBuilding] =
 			useState<TypologyBuilding | null>(null);
 		const [newNameBuilding, setNewNameBuilding] = useState<string>("");
 		const [newAddress, setNewAddress] = useState<string>("");
@@ -102,7 +102,7 @@ export const TabBuilding = (): React.ReactElement => {
 							liste={Object.values(TypologyBuilding)}
 							onChange={(event: any, newValue: string | null) => {
 								if (newValue !== null) {
-									setNewTypologieBuilding(newValue as TypologyBuilding);
+									setNewTypologyBuilding(newValue as TypologyBuilding);
 								}
 							}}
 							width={150}
@@ -290,7 +290,7 @@ export const TabBuilding = (): React.ReactElement => {
 									.post(baseURL + "/api/building", TempBuilding)
 									.then(() => setNewBuilding(TempBuilding));
 								setNewBuildingId(-1);
-								setNewTypologieBuilding(null);
+								setNewTypologyBuilding(null);
 								setNewNameBuilding("");
 								setNewAddress("");
 								setNewPostalCode(-1);

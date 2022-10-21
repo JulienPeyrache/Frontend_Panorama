@@ -1,3 +1,31 @@
+export enum TypologyBuilding {
+	MIXTE = "Mixte",
+	PAP = "PAP",
+	TECHNIQUE = "Technique",
+	TERTIAIRE = "Tertiaire",
+}
+
+export enum Step {
+	RESTAURANT = "Restaurant d'entreprise",
+	OPEN_SERVICE = "Offre en libre service",
+	RELAX = "Se détendre",
+	PERSONAL = "Services à la personne",
+	HYGIENE = "Hygiène",
+	MOVE = "Se déplacer",
+	MEETING = "Organiser une réunion",
+	EVENT = "Organiser un événement",
+	GUEST = "Accueillir des visiteurs",
+	EQUIPMENT = "Equipements du bâtiment",
+	MAIL = "Réception et expédition de courrier",
+	PRINT = "Reprographie",
+	ARCHIVE = "Archivage",
+	RELOCATE = "Déménager et aménager",
+	ET_SUPPORT = "Guichet de support ET",
+	IT_SUPPORT = "Guichet de support IT",
+	LANDSCAPING = "Entretien des extérieurs",
+	SAFETY = "Sécurité et sûreté",
+}
+
 export interface Building {
 	id: number;
 	name_building: string;
@@ -6,13 +34,6 @@ export interface Building {
 	city: string;
 	typology_building: TypologyBuilding;
 	is_courrier: boolean;
-}
-
-export enum TypologyBuilding {
-	MIXTE = "Mixte",
-	PAP = "PAP",
-	TECHNIQUE = "Technique",
-	TERTIAIRE = "Tertiaire",
 }
 
 export interface AttachedService {
@@ -33,55 +54,15 @@ export interface Service {
 
 export interface Equipment {
 	label_equipment: string;
+	step?: Step;
 }
 
 export interface ItemMacif {
 	label_item: string;
+	label_userfriendly?: string;
+	step?: Step;
 	is_occupant_info: boolean;
 	attachedService: AttachedService;
-}
-
-export enum TypologySite {
-	ARCHIVES = "ARCHIVES",
-	CRC_PRO = "CRC PRO",
-	CRC_COM = "CRC COM",
-	CRC_SIN = "CRC SIN",
-	CRD_MACIF_DIRECT = "CRD MACIF DIRECT",
-	ESPACE_RESTAURATION = "Espace Restauration",
-	IRD = "IRD",
-	PAP = "PAP",
-	RE = "RE",
-	SGD = "SGD",
-	SUPPORT = "SUPPORT",
-	TERTIAIRE = "Tertiaire",
-}
-
-export enum Immo {
-	AMM = "AMM",
-	CNP = "CNP",
-	FE = "FE",
-	NORD_EST = "Nord Est",
-	OUEST = "Ouest",
-	SUD_EST = "Sud Est",
-}
-
-export enum ETOrganisation {
-	AMM = "AMM",
-	DIET_CNP = "DIET CNP",
-	FE = "FE",
-	NORD_EST = "Nord Est",
-	OUEST = "Ouest",
-	SUD_EST = "Sud Est",
-}
-
-export interface Site {
-	id: number;
-	typology_site: TypologySite;
-	immo: Immo;
-	ET_organisation: ETOrganisation;
-	is_courrier: boolean;
-	comments: string;
-	building: Building;
 }
 
 export interface ValueEquipmentBuilding {
@@ -96,4 +77,10 @@ export interface ValueItemBuilding {
 	itemId: number;
 	buildingId: number;
 	description: string;
+}
+
+export interface Redirection {
+	step: Step;
+	label: string;
+	url: string;
 }
