@@ -124,7 +124,7 @@ export const TabRedirection = (): React.ReactElement => {
 								alignItems: "center",
 							}}
 						>
-							URL :
+							URL (exemple : https://macif.fr) :
 						</Item>
 						<TextField
 							value={newUrl}

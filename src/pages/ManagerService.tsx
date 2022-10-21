@@ -33,6 +33,11 @@ export const ManagerService = (): React.ReactElement => {
 	>([]);
 	const [ancientCheckedAttachedServices, setAncientCheckedAttachedServices] =
 		useState<boolean[]>([]);
+	const [commonItemsFetched, setCommonItemsFetched] = useState<boolean>(false);
+	const [specificItemsFetched, setSpecificItemsFetched] =
+		useState<boolean>(false);
+	const [attachedServicesFetched, setAttachedServicesFetched] =
+		useState<boolean>(false);
 
 	const handleCheck = (
 		event: React.ChangeEvent<HTMLInputElement>,
@@ -112,7 +117,9 @@ export const ManagerService = (): React.ReactElement => {
 	};
 
 	useEffect(() => {
-		axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
+		axios
+			.get(baseURL + "/api/building/sortedByName")
+			.then((res) => setBuildings(res.data));
 
 		axios.get(baseURL + "/api/service").then((res) => setServices(res.data));
 	}, []);
@@ -131,17 +138,20 @@ export const ManagerService = (): React.ReactElement => {
 		if (chosenServiceId !== null) {
 			axios
 				.get(baseURL + "/api/item/findCommonByServiceId/" + chosenServiceId)
-				.then((res) => setCommonItems(res.data));
+				.then((res) => setCommonItems(res.data))
+				.then(() => setCommonItemsFetched(true));
 
 			axios
 				.get(baseURL + "/api/item/findSpecificByServiceId/" + chosenServiceId)
-				.then((res) => setSpecificItems(res.data));
+				.then((res) => setSpecificItems(res.data))
+				.then(() => setSpecificItemsFetched(true));
 
 			axios
 				.get(
 					baseURL + "/api/attached-service/findByServiceId/" + chosenServiceId
 				)
-				.then((res) => setAttachedServices(res.data));
+				.then((res) => setAttachedServices(res.data))
+				.then(() => setAttachedServicesFetched(true));
 		}
 	}, [chosenServiceId]);
 
@@ -157,14 +167,11 @@ export const ManagerService = (): React.ReactElement => {
 					setAncientCheckedAttachedServices(res.data);
 				});
 		}
-	}, [attachedServices]);
+	}, [attachedServices, chosenBuildingId]);
 
 	useEffect(() => {
-		if (
-			commonItems.length > 0 &&
-			specificItems.length > 0 &&
-			attachedServices.length > 0
-		) {
+		if (commonItemsFetched && specificItemsFetched && attachedServicesFetched) {
+			console.log(commonItems);
 			const items = commonItems.concat(specificItems);
 			setItems(items);
 			axios
@@ -196,7 +203,7 @@ export const ManagerService = (): React.ReactElement => {
 			setValuesItemBuilding([]);
 			setStart(false);
 		}
-	}, [commonItems, specificItems, attachedServices]);
+	}, [commonItems, specificItems, attachedServices, chosenBuildingId]);
 
 	useEffect(() => {
 		if (valuesItemBuilding.length > 0 && !start) {
@@ -292,7 +299,7 @@ export const ManagerService = (): React.ReactElement => {
 							? commonItems.map((item) => (
 									<>
 										<Grid2
-											key={"label" + item.id}
+											key={item.id}
 											xs={8}
 											sx={{
 												display: "flex",
@@ -311,7 +318,7 @@ export const ManagerService = (): React.ReactElement => {
 											}}
 										>
 											<Checkbox
-												key={"check" + item.id}
+												key={"checkbox" + item.id}
 												checked={checkedItems[items.indexOf(item)]}
 												onChange={(event) => {
 													handleCheck(event, items.indexOf(item));
@@ -388,7 +395,7 @@ export const ManagerService = (): React.ReactElement => {
 										>
 											{attachedService.label_attached_service}
 										</Grid2>
-										<Grid2 key={"checked" + attachedService.id} xs={4}>
+										<Grid2 key={"grid-switch" + attachedService.id} xs={4}>
 											<Switch
 												key={"switch" + attachedService.id}
 												checked={
@@ -475,7 +482,7 @@ export const ManagerService = (): React.ReactElement => {
 											] ? (
 												<>
 													<Grid2
-														key={"label" + item.id}
+														key={"grid-label-item" + item.id}
 														xs={8}
 														sx={{
 															display: "flex",
@@ -487,7 +494,7 @@ export const ManagerService = (): React.ReactElement => {
 														{item.label_item}
 													</Grid2>
 													<Grid2
-														key={"value" + item.id}
+														key={"grid-value-item" + item.id}
 														xs={4}
 														sx={{
 															display: "flex",
@@ -495,7 +502,7 @@ export const ManagerService = (): React.ReactElement => {
 														}}
 													>
 														<Checkbox
-															key={"check" + item.id}
+															key={"checkbox-item" + item.id}
 															checked={checkedItems[items.indexOf(item)]}
 															onChange={(event) => {
 																handleCheck(event, items.indexOf(item));
@@ -508,7 +515,7 @@ export const ManagerService = (): React.ReactElement => {
 															}}
 														/>
 														<TextField
-															key={"textfield" + item.id}
+															key={"textfield-item" + item.id}
 															value={
 																valuesItemBuilding.find(
 																	(value) => value.itemId === item.id

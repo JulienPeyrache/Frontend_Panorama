@@ -56,6 +56,7 @@ export default function StepPage({
 					>
 						{steps[valueStepPage].map((step: string, i: number) => (
 							<StepCard
+								key={i}
 								title={step}
 								handleClick={() => setValueItemPage(i + 1)}
 							/>
@@ -66,7 +67,7 @@ export default function StepPage({
 			{steps[valueStepPage].map(
 				(step: string, i: number) =>
 					valueItemPage === i + 1 && (
-						<ItemPage setValueItemPage={setValueItemPage} title={step} />
+						<ItemPage key={i} setValueItemPage={setValueItemPage} step={step} />
 					)
 			)}
 			<span style={{ marginTop: "15%", width: "100%" }}></span>

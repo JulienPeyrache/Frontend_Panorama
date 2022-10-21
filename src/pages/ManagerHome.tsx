@@ -19,19 +19,19 @@ const tabList: AuxTabs[] = [
 		label: "Service",
 		link: "/manager-service",
 		numero: 0,
-		component: <ManagerService />,
+		component: <ManagerService key={0} />,
 	},
 	{
 		label: "Équipement",
 		link: "/manager-equipment",
 		numero: 1,
-		component: <ManagerEquipment />,
+		component: <ManagerEquipment key={1} />,
 	},
 	{
 		label: "Gestion Admin",
 		link: "/manager-admin",
 		numero: 2,
-		component: <ManagerAdmin />,
+		component: <ManagerAdmin key={2} />,
 	},
 ];
 

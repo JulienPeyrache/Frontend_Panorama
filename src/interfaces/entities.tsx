@@ -58,6 +58,7 @@ export interface Equipment {
 }
 
 export interface ItemMacif {
+	id?: number;
 	label_item: string;
 	label_userfriendly?: string;
 	step?: Step;
@@ -80,6 +81,7 @@ export interface ValueItemBuilding {
 }
 
 export interface Redirection {
+	id?: number;
 	step: Step;
 	label: string;
 	url: string;
