@@ -12,6 +12,7 @@ import { TabUserHome } from "../tabs/TabUserHome";
 import "./Home.css";
 import { theme } from "../assets/Theme";
 import { HeaderBar } from "../components/HeaderBar";
+import { SearchRasa } from "./SearchRasa";
 
 export const Home = (): React.ReactElement => {
 	const [value, setValue] = useState(0);
@@ -21,7 +22,7 @@ export const Home = (): React.ReactElement => {
 				<HeaderBar />
 				<div className="tab">
 					{value === 0 && <TabUserHome />}
-					{value === 1 && <Typography variant="h3">Recherche</Typography>}
+					{value === 1 && <SearchRasa />}
 					{value === 2 && <Typography variant="h3">Catalogue</Typography>}
 				</div>
 				<div className="bottom">
