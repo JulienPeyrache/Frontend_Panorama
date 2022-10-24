@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Step } from "../interfaces/entities";
 import { rasaURL } from "../components/Const";
 import TextField from "@mui/material/TextField";
+import "./SearchRasa.css";
 
 export interface Requete {
 	text: string;
@@ -27,28 +28,38 @@ export const SearchRasa = () => {
 		// we obtain a JSON object
 		// we need to convert it to a Step[]
 		// we need to set the result with the new value
-		fetch(rasaURL + "/models/parse" + text)
+		console.log(text);
+		console.log(text.text);
+		console.log('{"text":"' + text.text + '"}');
+
+		fetch("http://localhost:5005/model/parse", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			body: '{"text":"' + text.text + '"}',
+		})
 			.then((response) => response.json())
-			.then((data) => console.log(data));
-		console.log("Ok");
-		console.log({ result });
+			.then((response) => console.log(response, response.intent_ranking));
+
+		console.log("Ok fetch effectué");
 	}, [text]);
-	console.log("Ok");
 
 	return (
-		<TextField
-			value={text.text}
-			onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-				const newText: Requete = {
-					text: event.target.value,
-				};
-				setText(newText);
-			}}
-			sx={{
-				m: 1,
-				width: "10ch",
-				backgroundColor: "white",
-			}}
-		></TextField>
+		<div className="search-rasa">
+			<TextField
+				value={text.text}
+				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+					const newText: Requete = {
+						text: event.target.value,
+					};
+					setText(newText);
+				}}
+				sx={{
+					width: "max-content",
+					backgroundColor: "white",
+				}}
+			></TextField>
+		</div>
 	);
 };
