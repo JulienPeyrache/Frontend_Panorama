@@ -17,6 +17,9 @@ import logo from "../assets/logo_macif.png";
 export const HeaderBar = (): ReactElement => {
 	const [buildings, setBuildings] = useState<Building[]>([]);
 	const [chosenBuilding, setChosenBuilding] = useState<Building | null>(null);
+	const [buildingName, setBuildingName] = useState<string>(
+		"<= Choisir un bâtiment"
+	);
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
 	const handleOpenListBuildings = (event: React.MouseEvent<HTMLElement>) => {
@@ -36,6 +39,7 @@ export const HeaderBar = (): ReactElement => {
 	useEffect(() => {
 		if (chosenBuilding !== null) {
 			localStorage.setItem("building", JSON.stringify(chosenBuilding));
+			setBuildingName(chosenBuilding.name_building);
 			window.dispatchEvent(new Event("storage"));
 		}
 	}, [chosenBuilding]);
@@ -80,14 +84,20 @@ export const HeaderBar = (): ReactElement => {
 							handleCloseListBuildings();
 						}}
 					>
-						<Typography textAlign="center">{building.name_building}</Typography>
+						<Typography>{building.name_building}</Typography>
 					</MenuItem>
 				))}
 			</Menu>
 			<Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
-				<Toolbar variant="dense">
+				<Toolbar
+					variant="dense"
+					sx={{ display: "flex", flexDirection: "column" }}
+				>
 					<Typography variant="h6" color="inherit">
 						<b>Panorama</b>
+					</Typography>
+					<Typography variant="body2" color="inherit">
+						{buildingName}
 					</Typography>
 				</Toolbar>
 			</Box>
