@@ -2,7 +2,6 @@ import {
 	BottomNavigation,
 	BottomNavigationAction,
 	ThemeProvider,
-	Typography,
 } from "@mui/material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import SearchIcon from "@mui/icons-material/Search";
@@ -13,6 +12,7 @@ import "./Home.css";
 import { theme } from "../assets/Theme";
 import { HeaderBar } from "../components/HeaderBar";
 import { Catalog } from "./Catalog";
+import { SearchRasa } from "./SearchRasa";
 
 export const Home = (): React.ReactElement => {
 	const [value, setValue] = useState(0);
@@ -22,7 +22,7 @@ export const Home = (): React.ReactElement => {
 				<HeaderBar />
 				<div className="tab">
 					{value === 0 && <TabUserHome />}
-					{value === 1 && <Typography variant="h3">Recherche</Typography>}
+					{value === 1 && <SearchRasa />}
 					{value === 2 && <Catalog />}
 				</div>
 				<div className="bottom">
