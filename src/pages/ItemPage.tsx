@@ -111,3 +111,34 @@ export const ItemPage = ({
 		</ThemeProvider>
 	);
 };
+
+export const ItemPageBis = (title: { title: string }): React.ReactElement => {
+	return (
+		<ThemeProvider theme={theme}>
+			<div>
+				<div>
+					<Typography variant="h3" align="center" sx={{ m: 1 }}>
+						<b>{title.title}</b>
+					</Typography>
+				</div>
+				<Divider orientation="horizontal" />
+				<Grid
+					container
+					padding={2}
+					sx={{ display: "flex", justifyContent: "center" }}
+				>
+					<SimpleItem
+						label="Machine à café"
+						description="1er étage, au fond du couloir"
+					/>
+					<SimpleItem label="Salle de repos" description="3e étage" />
+					<ButtonItem label="Sauna" buttonText="Réserver" />
+					<SimpleItem label="Salle de repos" description="3e étage" />
+					<SimpleItem label="Salle de repos" description="3e étage" />
+					<SimpleItem label="Salle de repos" description="3e étage" />
+					<SimpleItem label="Salle de repos" description="3e étage" />
+				</Grid>
+			</div>
+		</ThemeProvider>
+	);
+};
