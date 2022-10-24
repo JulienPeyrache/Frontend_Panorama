@@ -1,6 +1,6 @@
 import "./ManagerService.css";
 import { useEffect, useState } from "react";
-import { baseURL } from "../components/Const";
+import { baseURL } from "../assets/Const";
 import FilterBar from "../components/FilterBar";
 import axios from "axios";
 import { Building, ValueItemBuilding } from "../interfaces/entities";

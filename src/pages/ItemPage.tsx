@@ -8,7 +8,7 @@ import { theme } from "../assets/Theme";
 import { BackButton } from "../components/BackButton";
 import { useEffect, useState } from "react";
 import { Building, Redirection } from "../interfaces/entities";
-import { baseURL } from "../components/Const";
+import { baseURL } from "../assets/Const";
 import axios from "axios";
 
 interface ItemPageProps {

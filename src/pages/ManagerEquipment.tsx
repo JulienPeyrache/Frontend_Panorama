@@ -1,6 +1,6 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Item from "@mui/material/Unstable_Grid2";
-import { baseURL } from "../components/Const";
+import { baseURL } from "../assets/Const";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, TextField, Snackbar, Alert, Checkbox } from "@mui/material";

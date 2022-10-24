@@ -1,7 +1,7 @@
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
-import { baseURL } from "../components/Const";
+import { baseURL } from "../assets/Const";
 import axios from "axios";
 import { Button, Select, SelectChangeEvent, TextField } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
