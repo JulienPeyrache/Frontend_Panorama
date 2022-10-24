@@ -36,6 +36,7 @@ export const HeaderBar = (): ReactElement => {
 	useEffect(() => {
 		if (chosenBuilding !== null) {
 			localStorage.setItem("building", JSON.stringify(chosenBuilding));
+			window.dispatchEvent(new Event("storage"));
 		}
 	}, [chosenBuilding]);
 
