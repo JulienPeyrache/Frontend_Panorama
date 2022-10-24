@@ -7,10 +7,11 @@ import work from "../assets/travail.jpg";
 import comfort from "../assets/commodités.jpg";
 import StepPage from "../pages/StepPage";
 import { ActionCardProps } from "../components/ActionCard";
+import { needs } from "../assets/Const";
 
 export const TabUserHome = () => {
 	const Restauration: ActionCardProps = {
-		name_card: "Restauration",
+		name_card: needs[0],
 		image_card: restauration,
 		handleClick: () => {
 			setValueStepPage(1);
@@ -18,7 +19,7 @@ export const TabUserHome = () => {
 	};
 
 	const Comfort: ActionCardProps = {
-		name_card: "Commodités",
+		name_card: needs[1],
 		image_card: comfort,
 		handleClick: () => {
 			setValueStepPage(2);
@@ -26,7 +27,7 @@ export const TabUserHome = () => {
 	};
 
 	const Work: ActionCardProps = {
-		name_card: "Outils de travail",
+		name_card: needs[2],
 		image_card: work,
 		handleClick: () => {
 			setValueStepPage(3);
@@ -34,7 +35,7 @@ export const TabUserHome = () => {
 	};
 
 	const Intervention: ActionCardProps = {
-		name_card: "Support & sécurité",
+		name_card: needs[3],
 		image_card: intervention,
 		handleClick: () => {
 			setValueStepPage(4);

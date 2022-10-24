@@ -1,7 +1,7 @@
 import type {} from "@mui/x-data-grid/themeAugmentation";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState, useEffect, ReactElement } from "react";
-import { baseURL } from "../components/Const";
+import { baseURL } from "../assets/Const";
 import React from "react";
 import axios from "axios";
 import { Button, TextField } from "@mui/material";

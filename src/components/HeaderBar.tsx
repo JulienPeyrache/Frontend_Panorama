@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import { Building } from "../interfaces/entities";
-import { baseURL } from "./Const";
+import { baseURL } from "../assets/Const";
 import logo from "../assets/logo_macif.png";
 
 export const HeaderBar = (): ReactElement => {
