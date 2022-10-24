@@ -21,12 +21,8 @@ export const ItemPage = ({
 	step,
 }: ItemPageProps): React.ReactElement => {
 	const [items, setItems] = useState<any[]>([]);
+	const [equipments, setEquipments] = useState<any[]>([]);
 	const [redirections, setRedirections] = useState<Redirection[]>([]);
-
-	// const building = JSON.parse(
-	// 	localStorage.getItem("building") || "{}"
-	// ) as Building;
-
 	const [building, setBuilding] = useState<Building | null>(
 		JSON.parse(localStorage.getItem("building") || "{}")
 	);
@@ -42,6 +38,20 @@ export const ItemPage = ({
 	useEffect(() => {
 		if (building !== null) {
 			axios
+				.get(baseURL + "/api/redirection/findByStep/" + step)
+				.then((response) => setRedirections(response.data));
+
+			axios
+				.get(
+					baseURL +
+						"/api/equipment/findByStep/" +
+						step +
+						"/inBuilding/" +
+						building.id
+				)
+				.then((response) => setEquipments(response.data));
+
+			axios
 				.get(
 					baseURL +
 						"/api/item/findByStep/" +
@@ -50,10 +60,6 @@ export const ItemPage = ({
 						building.id
 				)
 				.then((response) => setItems(response.data));
-
-			axios
-				.get(baseURL + "/api/redirection/findByStep/" + step)
-				.then((response) => setRedirections(response.data));
 		}
 	}, [building]);
 
@@ -78,6 +84,14 @@ export const ItemPage = ({
 								key={redirection.id}
 								label={redirection.label}
 								handleClick={() => window.open(redirection.url)}
+							/>
+						))}
+					{equipments.length > 0 &&
+						equipments.map((equipment) => (
+							<SimpleItem
+								key={equipment.id}
+								label={equipment.label_equipment}
+								description={equipment.description}
 							/>
 						))}
 					{items.length > 0 &&
