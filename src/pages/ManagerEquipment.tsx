@@ -62,7 +62,9 @@ export const ManagerEquipment = (): React.ReactElement => {
 			.get(baseURL + "/api/equipment")
 			.then((res) => setEquipments(res.data));
 
-		axios.get(baseURL + "/api/building").then((res) => setBuildings(res.data));
+		axios
+			.get(baseURL + "/api/building/sortedByName")
+			.then((res) => setBuildings(res.data));
 	}, []);
 
 	useEffect(() => {

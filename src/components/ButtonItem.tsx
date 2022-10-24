@@ -5,13 +5,13 @@ import { theme } from "../assets/Theme";
 
 interface ButtonItemProps {
 	label: string;
-	buttonText: string;
+	buttonText?: string;
 	handleClick?: () => void;
 }
 
 export default function ButtonItem({
 	label,
-	buttonText,
+	buttonText = "Accéder",
 	handleClick,
 }: ButtonItemProps) {
 	return (
@@ -51,6 +51,7 @@ export default function ButtonItem({
 							color: "#131b3e",
 						},
 					}}
+					onClick={handleClick}
 				>
 					<b>{buttonText}</b>
 				</Button>
