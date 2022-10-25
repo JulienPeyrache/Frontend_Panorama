@@ -1,0 +1,19 @@
+services:
+  - docker:stable-dind
+
+stages:
+  - build
+
+build:
+  image: docker:latest
+  only:
+    - tags
+  tags:
+    - docker
+  stage: build
+  before_script:
+    - docker login ${HARBOR_SERVER} --username ${DOCKER_USER} --password ${DOCKER_PASSWORD}
+  script:
+    - docker build -t client .
+    - docker tag client zasyvcng.gra5.container-registry.ovh.net/library/macif-panorama/client:${CI_COMMIT_REF_NAME}
+    - docker push zasyvcng.gra5.container-registry.ovh.net/library/macif-panorama/client:${CI_COMMIT_REF_NAME}
