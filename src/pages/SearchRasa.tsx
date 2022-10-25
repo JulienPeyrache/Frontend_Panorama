@@ -1,29 +1,27 @@
 import { useEffect, useState } from "react";
-import { Step } from "../interfaces/entities";
-import { baseURL, rasaURL } from "../components/Const";
+import { baseURL } from "../components/Const";
 import TextField from "@mui/material/TextField";
 import "./SearchRasa.css";
-import { Button, Grid, ThemeProvider, Typography } from "@mui/material";
+import {
+	Button,
+	Divider,
+	Grid,
+	ThemeProvider,
+	Typography,
+} from "@mui/material";
 import { ReactElement } from "react";
 import { theme } from "../assets/Theme";
-import { BackButton } from "../components/BackButton";
 import { StepCard } from "../components/StepCard";
-import { ItemPageBis } from "./ItemPage";
+import { ItemPageSearch } from "./ItemPage";
 import axios from "axios";
 
-interface StepPageProps {
-	valueStepPage: number;
-	setValueStepPage: (value: number) => void;
-	title: string;
-}
-
-export const SearchRasa = () => {
+export const SearchRasa = (): ReactElement => {
 	const [textField, setTextField] = useState<string>("");
 	const [text, setText] = useState<string>("");
 	const [result, setResult] = useState<string[]>([]);
 	const [valuePage, setValuePage] = useState<null | string>(null);
 
-	// // text is on the form {"text":"heil",
+	// text returned by RASA is on the form {"text":"heil",
 	// "intent":{"name":"greet","confidence":0.9999971389770508},
 	// "entities":[],
 	// "text_tokens":[[0,4]],
@@ -40,8 +38,8 @@ export const SearchRasa = () => {
 	return (
 		<div className="search-rasa">
 			{valuePage === null && (
-				<div>
-					<Typography variant="h3" align="center" sx={{ m: 1 }}>
+				<div className="search-view">
+					<Typography variant="h3" align="center" sx={{ m: 3 }}>
 						<b>Recherche</b>
 					</Typography>
 					<TextField
@@ -49,19 +47,34 @@ export const SearchRasa = () => {
 						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
 							setTextField(event.target.value);
 						}}
-						sx={{ width: "80%", backgroundColor: "white", m: 1 }}
+						sx={{
+							width: "80%",
+							backgroundColor: "white",
+							display: "flex",
+							justifyContent: "center",
+							m: 1,
+						}}
 					></TextField>
-					<Button variant="contained" onClick={() => setText(textField)}>
-						{" "}
-						Rechercher{" "}
+					<Button
+						variant="contained"
+						onClick={() => setText(textField)}
+						sx={{ m: 2 }}
+					>
+						Rechercher
 					</Button>
+					<Divider orientation="horizontal" sx={{ width: "100%" }} />
 				</div>
 			)}
 			{result.length > 0 && valuePage === null && (
 				<div className="result">
 					<ThemeProvider theme={theme}>
 						<div>
-							<Typography variant="h3" align="center" sx={{ m: 1 }}>
+							<Typography
+								variant="h5"
+								align="center"
+								color="primary"
+								sx={{ mt: 3 }}
+							>
 								<b>Résultats</b>
 							</Typography>
 						</div>
@@ -70,19 +83,26 @@ export const SearchRasa = () => {
 							padding={2}
 							sx={{ display: "flex", justifyContent: "center" }}
 						>
-							{result.map((step: string) => (
-								<StepCard title={step} handleClick={() => setValuePage(step)} />
-							))}
+							{result.map((step: string) =>
+								step === "nlu_fallback" ? (
+									<Typography variant="h6" align="center" sx={{ m: 3 }}>
+										{result.length === 1
+											? "Pas de résultats"
+											: "Résultats incertains :"}
+									</Typography>
+								) : (
+									<StepCard
+										title={step}
+										handleClick={() => setValuePage(step)}
+									/>
+								)
+							)}
 						</Grid>
 					</ThemeProvider>
 				</div>
 			)}
 			{result.length > 0 && valuePage !== null && (
-				<div>
-					<BackButton onClick={() => setValuePage(null)} />
-					<ItemPageBis step={valuePage} />
-					<span style={{ marginTop: "15%", width: "100%" }}></span>
-				</div>
+				<ItemPageSearch step={valuePage} setValueItemPage={setValuePage} />
 			)}
 		</div>
 	);

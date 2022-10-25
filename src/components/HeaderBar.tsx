@@ -34,6 +34,13 @@ export const HeaderBar = (): ReactElement => {
 		axios
 			.get(baseURL + "/api/building/sortedByName")
 			.then((res) => setBuildings(res.data));
+
+		if (localStorage.getItem("building") !== null) {
+			setChosenBuilding(JSON.parse(localStorage.getItem("building") || "{}"));
+			setBuildingName(
+				JSON.parse(localStorage.getItem("building") || "{}").name
+			);
+		}
 	}, []);
 
 	useEffect(() => {

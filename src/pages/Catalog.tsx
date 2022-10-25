@@ -6,7 +6,6 @@ import {
 	ListItemIcon,
 	ListItemText,
 	ListSubheader,
-	Typography,
 } from "@mui/material";
 import { ReactElement, useState } from "react";
 import BuildIcon from "@mui/icons-material/Build";
@@ -91,11 +90,10 @@ export function Catalog(): ReactElement {
 	};
 
 	return (
-		<>
+		<div style={{ display: "flex", justifyContent: "center" }}>
 			<List
 				sx={{
 					width: "100%",
-					maxWidth: 360,
 					bgcolor: "background.paper",
 				}}
 				component="nav"
@@ -188,6 +186,6 @@ export function Catalog(): ReactElement {
 					</div>
 				))}
 			</List>
-		</>
+		</div>
 	);
 }

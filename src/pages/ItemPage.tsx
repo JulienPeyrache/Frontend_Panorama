@@ -12,7 +12,7 @@ import { baseURL } from "../assets/Const";
 import axios from "axios";
 
 interface ItemPageProps {
-	setValueItemPage: (value: number) => void;
+	setValueItemPage: (value: any) => void;
 	step: string;
 }
 
@@ -112,7 +112,10 @@ export const ItemPage = ({
 	);
 };
 
-export const ItemPageBis = (step: { step: string }): React.ReactElement => {
+export const ItemPageSearch = ({
+	setValueItemPage,
+	step,
+}: ItemPageProps): React.ReactElement => {
 	const [items, setItems] = useState<any[]>([]);
 	const [equipments, setEquipments] = useState<any[]>([]);
 	const [redirections, setRedirections] = useState<Redirection[]>([]);
@@ -131,14 +134,14 @@ export const ItemPageBis = (step: { step: string }): React.ReactElement => {
 	useEffect(() => {
 		if (building !== null) {
 			axios
-				.get(baseURL + "/api/redirection/findByStep/" + step.step)
+				.get(baseURL + "/api/redirection/findByStep/" + step)
 				.then((response) => setRedirections(response.data));
 
 			axios
 				.get(
 					baseURL +
 						"/api/equipment/findByStep/" +
-						step.step +
+						step +
 						"/inBuilding/" +
 						building.id
 				)
@@ -160,8 +163,9 @@ export const ItemPageBis = (step: { step: string }): React.ReactElement => {
 		<ThemeProvider theme={theme}>
 			<div>
 				<div>
+					<BackButton onClick={() => setValueItemPage(null)} />
 					<Typography variant="h3" align="center" sx={{ m: 1 }}>
-						<b>{step.step}</b>
+						<b>{step}</b>
 					</Typography>
 				</div>
 				<Divider orientation="horizontal" />
