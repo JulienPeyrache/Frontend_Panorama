@@ -39,18 +39,24 @@ export const SearchRasa = () => {
 
 	return (
 		<div className="search-rasa">
-			<h1>Recherche</h1>
-			<TextField
-				value={textField}
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					setTextField(event.target.value);
-				}}
-				sx={{ width: "80%", backgroundColor: "white", m: 1 }}
-			></TextField>
-			<Button variant="contained" onClick={() => setText(textField)}>
-				{" "}
-				Rechercher{" "}
-			</Button>
+			{valuePage === null && (
+				<div>
+					<Typography variant="h3" align="center" sx={{ m: 1 }}>
+						<b>Recherche</b>
+					</Typography>
+					<TextField
+						value={textField}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							setTextField(event.target.value);
+						}}
+						sx={{ width: "80%", backgroundColor: "white", m: 1 }}
+					></TextField>
+					<Button variant="contained" onClick={() => setText(textField)}>
+						{" "}
+						Rechercher{" "}
+					</Button>
+				</div>
+			)}
 			{result.length > 0 && valuePage === null && (
 				<div className="result">
 					<ThemeProvider theme={theme}>
@@ -74,10 +80,7 @@ export const SearchRasa = () => {
 			{result.length > 0 && valuePage !== null && (
 				<div>
 					<BackButton onClick={() => setValuePage(null)} />
-					<Typography variant="h3" align="center" sx={{ m: 1 }}>
-						<b>{valuePage as string}</b>
-					</Typography>
-					<ItemPageBis title={valuePage} />
+					<ItemPageBis step={valuePage} />
 					<span style={{ marginTop: "15%", width: "100%" }}></span>
 				</div>
 			)}
