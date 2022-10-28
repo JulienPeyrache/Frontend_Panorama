@@ -2,12 +2,26 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Version de Node
+`node:16.17`
+
 ## Install npm
 
 In the project directory you can run :
 
 
 ### `npm install`
+
+## Variables d'environnement
+Ici, il n'y a que `baseURL` comme variable d'environnement. Il s'agit de la base url du back, pour ensuite lancer les requêtes au back.
+Cette variable est hardcodé (parce que le front doit être build), dans le fichier `/src/assets/Const.tsx`, sur la ligne 1.
+
+## Lancement du front
+Vous disposez ici aussi d'un Dockerfile qui permet de lancer le front.
+Il faut ici aussi build l'image avant de la lancer avec `docker build -t client .`.
+
+Dans le Dockerfile, il faut build le front: `npm run build` et ensuite copier `/app/build` dans `/usr/share/nginx/html` pour avoir une configuration nginx.
+Cette configuration est ensuite mise dans `/etc/nginx/conf.d/default.conf`.
 
 ## Available Scripts
 
