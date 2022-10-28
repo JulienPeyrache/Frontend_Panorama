@@ -68,6 +68,8 @@ export const ManagerEquipment = (): React.ReactElement => {
 	}, []);
 
 	useEffect(() => {
+		setStart(false);
+		setValuesEquipmentBuilding([]);
 		if (chosenBuildingName !== null) {
 			const buildingId = buildings.find(
 				(building) => building.name_building === chosenBuildingName
@@ -97,9 +99,6 @@ export const ManagerEquipment = (): React.ReactElement => {
 						)
 					)
 				);
-		} else {
-			setValuesEquipmentBuilding([]);
-			setStart(false);
 		}
 	}, [chosenBuildingName]);
 
@@ -143,15 +142,16 @@ export const ManagerEquipment = (): React.ReactElement => {
 					marginRight: "4%",
 				}}
 			>
-				{checkedEquipments.length > 0
+				{checkedEquipments.length > 0 && start
 					? equipments.map((equipment, i) => {
 							return (
 								<Grid2
-									key={equipment.id}
+									key={"grid-item-" + equipment.id}
 									xs="auto"
 									sx={{ display: "flex", flexDirection: "row" }}
 								>
 									<Item
+										key={"item-" + equipment.id}
 										sx={{
 											display: "flex",
 											justifyContent: "center",
@@ -161,8 +161,13 @@ export const ManagerEquipment = (): React.ReactElement => {
 										{equipment.label_equipment}
 									</Item>
 									<Checkbox
-										key={equipment.id}
-										checked={checkedEquipments[i]}
+										key={
+											"checkbox-" +
+											equipment.id +
+											"-building-" +
+											chosenBuildingName
+										}
+										checked={checkedEquipments[i] ?? false}
 										onChange={(event) => {
 											handleCheck(event, i);
 										}}
@@ -175,6 +180,12 @@ export const ManagerEquipment = (): React.ReactElement => {
 									/>
 									<Item>
 										<TextField
+											key={
+												"textfield-" +
+												equipment.id +
+												"-building-" +
+												chosenBuildingName
+											}
 											value={valuesEquipmentBuilding[i].description}
 											onChange={(
 												event: React.ChangeEvent<HTMLInputElement>
