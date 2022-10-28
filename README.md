@@ -1,14 +1,21 @@
-# Getting Started with Create React App
+# Note à l'attention de la MACIF en vue de la passation technique
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce Readme.md provient de la documentation de React, l'outil que nous avons utilisé pour développer l'interface du front. Il est complet concernant l'utilisation que la MACIF peut avoir et détaille les quelques commandes à utiliser lors de la première utilisation du projet (npm install convient pour installer les dépendances et les librairies que nous utilisons). À chaque utilisation, il convient ensuite de lancer "npm start" comme détaillé di-dessous pour que le projet se lance et soit accessible depuis le naviguateur. 
+
+
+Pour créer l'image docker qui sera nécessaire au déploiement du projet, il faudra lancer la commande suivante : `docker build -t front .`
+depuis le répertoire ici présent, ou dans un ficher de configuration, un dockerfile, ... annexe qui lancera l'ensemble des "briques" du projet simultanément.
+Les instructions pour "build" cette image, nommée "front" grâce au paramètre "-t", sont présentes dans le répertoire courant "." dans le dockerfile.
+
+Aucune commande non présente sur ce Readme.md n'est nécessaire au bon fonctionnement de l'application.
 
 ## Version de Node
 `node:16.17`
+# React README.md 
 
 ## Install npm
 
 In the project directory you can run :
-
 
 ### `npm install`
 
@@ -60,8 +67,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
